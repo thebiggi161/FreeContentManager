@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#111111">
+  <title>FreeContentManager</title>
+  <style>
+    :root{color-scheme:dark;--bg:#101010;--panel:#181818;--panel2:#202020;--line:#303030;--muted:#9b9b9b;--text:#f1f1f1;--accent:#c7c7c7}
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--text);font:14px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+    button,input{font:inherit}
+    button{cursor:pointer}
+    .app{min-height:100vh;display:grid;grid-template-rows:68px 1fr}
+    .topbar{display:flex;align-items:center;gap:28px;padding:0 26px;border-bottom:1px solid var(--line);background:#141414;position:sticky;top:0;z-index:5}
+    .brand{display:flex;align-items:center;gap:11px;font-weight:700;letter-spacing:-.3px;white-space:nowrap}
+    .logo{width:31px;height:31px;border:1px solid #555;border-radius:9px;display:grid;place-items:center;background:linear-gradient(145deg,#303030,#171717);font-size:15px}
+    .tabs{display:flex;align-items:center;gap:5px;flex:1;height:100%;overflow:auto}
+    .tab{height:100%;padding:0 15px;border:0;border-bottom:2px solid transparent;background:transparent;color:#969696;white-space:nowrap}
+    .tab:hover,.tab.active{color:#fff}.tab.active{border-bottom-color:#d0d0d0}
+    .top-actions{display:flex;align-items:center;gap:10px}
+    .status{font-size:12px;color:#aaa;white-space:nowrap}.status:before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:#aaa;margin:0 8px 1px 0}
+    .button{border:1px solid #414141;border-radius:8px;padding:9px 13px;background:#242424;color:#eee}
+    .button:hover{background:#303030}.button.primary{background:#e4e4e4;color:#151515;border-color:#e4e4e4;font-weight:650}.button.primary:hover{background:#fff}
+    .layout{display:grid;grid-template-columns:225px minmax(0,1fr);min-height:calc(100vh - 68px)}
+    aside{padding:23px 14px;border-right:1px solid var(--line);background:#141414}
+    .side-label{margin:0 10px 11px;color:#777;font-size:10px;font-weight:750;letter-spacing:1.3px;text-transform:uppercase}
+    .side-link{display:flex;align-items:center;gap:12px;width:100%;padding:11px 12px;margin:3px 0;border:0;border-radius:8px;text-align:left;background:transparent;color:#a6a6a6}
+    .side-link .ico{width:18px;text-align:center;color:#ccc;font-size:16px}.side-link:hover,.side-link.active{background:#272727;color:#fff}
+    .side-link.active{box-shadow:inset 2px 0 #d4d4d4}
+    .side-bottom{margin-top:35px;padding:14px;border:1px solid #303030;border-radius:10px;background:#1a1a1a}
+    .side-bottom strong{display:block;font-size:12px;margin-bottom:5px}.side-bottom p{margin:0;color:#888;font-size:12px}
+    main{padding:30px clamp(20px,4vw,52px) 50px;max-width:1500px;width:100%;margin:0 auto}
+    .eyebrow{font-size:11px;letter-spacing:1.6px;color:#888;text-transform:uppercase;font-weight:700}
+    h1{font-size:clamp(26px,3vw,36px);letter-spacing:-1.2px;margin:8px 0 8px;line-height:1.15}
+    .intro{color:#9c9c9c;margin:0;max-width:650px}
+    .heading-row{display:flex;justify-content:space-between;gap:18px;align-items:flex-end;margin-bottom:27px}
+    .section-title{font-size:15px;margin:0 0 14px;font-weight:650;letter-spacing:-.2px}
+    .tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-bottom:31px}
+    .tile{min-height:155px;text-align:left;padding:19px;border:1px solid var(--line);border-radius:12px;background:linear-gradient(145deg,#1d1d1d,#171717);color:var(--text);transition:border-color .15s,transform .15s}
+    .tile:hover{border-color:#626262;transform:translateY(-2px)}
+    .tile-icon{width:37px;height:37px;border:1px solid #393939;border-radius:10px;display:grid;place-items:center;background:#252525;color:#e3e3e3;font-size:17px;margin-bottom:15px}
+    .tile strong{display:block;font-size:14px;margin-bottom:4px}.tile span{color:#919191;font-size:12px}
+    .workspace{border:1px solid var(--line);border-radius:13px;background:#171717;overflow:hidden}
+    .workspace-head{display:flex;justify-content:space-between;align-items:center;padding:16px 19px;border-bottom:1px solid var(--line);gap:12px}
+    .workspace-head h2{font-size:14px;margin:0}.workspace-head p{font-size:12px;color:#888;margin:3px 0 0}
+    .editor{display:grid;grid-template-columns:minmax(0,1fr) 240px;min-height:280px}
+    .preview{display:flex;align-items:center;justify-content:center;padding:22px;min-height:280px;background:#131313}
+    .dropzone{width:100%;min-height:235px;border:1px dashed #444;border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:22px;color:#aaa}
+    .drop-icon{font-size:26px;color:#ddd;margin-bottom:9px}.dropzone strong{color:#eee;font-size:13px}.dropzone p{font-size:12px;margin:5px 0 15px;color:#888}
+    #imagePreview{display:none;max-width:100%;max-height:390px;object-fit:contain;border-radius:5px}
+    .controls{padding:19px;border-left:1px solid var(--line);background:#191919}
+    .controls h3{font-size:12px;margin:0 0 17px}.control{margin:0 0 18px}.control label{display:flex;justify-content:space-between;color:#aaa;font-size:12px;margin-bottom:8px}
+    input[type=range]{width:100%;accent-color:#d2d2d2}input[type=file]{display:none}
+    .small-note{font-size:11px;color:#747474;margin-top:17px;line-height:1.5}
+    .hidden{display:none!important}.empty-message{color:#999;font-size:13px;padding:30px 0}
+    footer{margin-top:25px;color:#666;font-size:11px;display:flex;justify-content:space-between;gap:12px}
+    @media(max-width:900px){.layout{grid-template-columns:70px minmax(0,1fr)}aside{padding:18px 8px}.side-label,.side-link .label,.side-bottom{display:none}.side-link{justify-content:center;padding:12px 0}.side-link .ico{font-size:18px}.tiles{grid-template-columns:repeat(2,minmax(0,1fr))}.topbar{gap:14px;padding:0 15px}.brand-name{display:none}.editor{grid-template-columns:minmax(0,1fr)}.controls{border-left:0;border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 18px}.controls h3,.small-note{grid-column:1/-1}}
+    @media(max-width:560px){.app{grid-template-rows:auto 1fr}.topbar{min-height:62px;flex-wrap:wrap;padding:10px 13px;gap:6px}.tabs{order:3;flex-basis:100%;height:38px}.tab{padding:0 10px;font-size:12px}.top-actions{margin-left:auto}.status{display:none}.layout{grid-template-columns:1fr}.layout aside{display:none}main{padding:24px 15px}.heading-row{align-items:flex-start;flex-direction:column}.tiles{grid-template-columns:1fr 1fr;gap:9px}.tile{padding:14px;min-height:140px}.tile-icon{margin-bottom:10px}.workspace-head{align-items:flex-start}.controls{padding:15px}.preview{padding:12px}}
+  </style>
+</head>
+<body>
+<div class="app">
+  <header class="topbar">
+    <div class="brand"><div class="logo">▧</div><span class="brand-name">FreeContentManager</span></div>
+    <nav class="tabs" aria-label="Apps">
+      <button class="tab active" data-page="overview">Übersicht</button>
+      <button class="tab" data-page="editor">Bildeditor</button>
+      <button class="tab" data-page="templates">Vorlagen</button>
+      <button class="tab" data-page="export">Export</button>
+    </nav>
+    <div class="top-actions"><span class="status">Lokaler Arbeitsbereich</span><button class="button" id="newProject">Neues Projekt +</button></div>
+  </header>
+  <div class="layout">
+    <aside>
+      <p class="side-label">Arbeitsbereich</p>
+      <button class="side-link active" data-page="overview"><span class="ico">▦</span><span class="label">Übersicht</span></button>
+      <button class="side-link" data-page="editor"><span class="ico">◩</span><span class="label">Bildbearbeitung</span></button>
+      <button class="side-link" data-page="templates"><span class="ico">▤</span><span class="label">Vorlagen</span></button>
+      <button class="side-link" data-page="export"><span class="ico">⇧</span><span class="label">Exportieren</span></button>
+      <p class="side-label" style="margin-top:30px">Demnächst</p>
+      <button class="side-link" disabled title="Für spätere Version geplant"><span class="ico">✧</span><span class="label">KI-Werkzeuge</span></button>
+      <div class="side-bottom"><strong>Schlicht starten.</strong><p>Ein übersichtlicher Platz für deine Content-Projekte.</p></div>
+    </aside>
+    <main>
+      <section id="overviewPage">
+        <div class="heading-row"><div><div class="eyebrow">Dein Arbeitsbereich</div><h1>Alles an einem Ort.</h1><p class="intro">Erstelle und bearbeite Gaming-Content in einer klaren, ablenkungsfreien Oberfläche.</p></div><button class="button primary" data-page="editor">Bild öffnen ↗</button></div>
+        <h2 class="section-title">Schnellzugriff</h2>
+        <div class="tiles">
+          <button class="tile" data-page="editor"><div class="tile-icon">◩</div><strong>Bild bearbeiten</strong><span>Bild laden, Helligkeit und Kontrast anpassen.</span></button>
+          <button class="tile" data-page="templates"><div class="tile-icon">▤</div><strong>Vorlagen</strong><span>Ein Startpunkt für zukünftige Designs.</span></button>
+          <button class="tile" data-page="export"><div class="tile-icon">⇧</div><strong>Export</strong><span>Dein bearbeitetes Bild speichern.</span></button>
+        </div>
+        <div class="workspace">
+          <div class="workspace-head"><div><h2>Schnellbearbeitung</h2><p>Ein Bild auswählen und direkt loslegen</p></div><span class="eyebrow">BETA</span></div>
+          <div class="editor">
+            <div class="preview"><div class="dropzone" id="dropzone"><div class="drop-icon">＋</div><strong>Bild hier ablegen</strong><p>oder wähle eine Datei von deinem Gerät</p><button class="button" id="chooseImage">Bild auswählen</button><input id="fileInput" type="file" accept="image/*"></div><img id="imagePreview" alt="Vorschau des ausgewählten Bildes"></div>
+            <div class="controls"><h3>Bildanpassungen</h3>
+              <div class="control"><label for="brightness">Helligkeit <span id="brightnessValue">100%</span></label><input id="brightness" type="range" min="50" max="150" value="100"></div>
+              <div class="control"><label for="contrast">Kontrast <span id="contrastValue">100%</span></label><input id="contrast" type="range" min="50" max="150" value="100"></div>
+              <div class="control"><label for="saturation">Sättigung <span id="saturationValue">100%</span></label><input id="saturation" type="range" min="0" max="180" value="100"></div>
+              <button class="button" id="resetFilters">Anpassungen zurücksetzen</button><p class="small-note">Dein Bild bleibt auf diesem Gerät. Es wird nicht hochgeladen.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section id="otherPage" class="hidden">
+        <div class="heading-row"><div><div class="eyebrow" id="pageEyebrow">Arbeitsbereich</div><h1 id="pageTitle">Bildeditor</h1><p class="intro" id="pageIntro">Bearbeite Bilder direkt in deinem Browser.</p></div></div>
+        <div class="workspace" id="otherWorkspace"></div>
+      </section>
+      <footer><span>FreeContentManager · Erste Version</span><span>Einfach. Lokal. Kostenlos.</span></footer>
+    </main>
+  </div>
+</div>
+<script>
+  const tabs=[...document.querySelectorAll('[data-page]')];
+  const overview=document.getElementById('overviewPage'),other=document.getElementById('otherPage');
+  const pageInfo={
+    editor:['Bildbearbeitung','Bildeditor','Lade ein Bild und passe es direkt im Browser an.'],
+    templates:['Deine Werkzeuge','Vorlagen','Die Vorlagen-Galerie ist für einen späteren Schritt vorbereitet.'],
+    export:['Dein Ergebnis','Export','Speichere dein bearbeitetes Bild auf deinem Gerät.']
+  };
+  function setPage(page){
+    tabs.forEach(el=>{const active=el.dataset.page===page; if(el.classList.contains('tab')||el.classList.contains('side-link'))el.classList.toggle('active',active)});
+    overview.classList.toggle('hidden',page!=='overview');other.classList.toggle('hidden',page==='overview');
+    if(page==='overview')return;
+    document.getElementById('pageEyebrow').textContent=pageInfo[page][0];
+    document.getElementById('pageTitle').textContent=pageInfo[page][1];
+    document.getElementById('pageIntro').textContent=pageInfo[page][2];
+    const workspace=document.getElementById('otherWorkspace');
+    if(page==='editor'){
+      workspace.innerHTML='<div style="padding:22px;color:#aaa">Der Bildeditor ist auf der Übersichtsseite bereits bereit. <button class="button" id="backToEditor" style="margin-left:8px">Zur Schnellbearbeitung</button></div>';
+      document.getElementById('backToEditor').onclick=()=>setPage('overview');
+    }else if(page==='templates'){
+      workspace.innerHTML='<div style="padding:28px"><div class="tile-icon">▤</div><h2 style="font-size:16px">Vorlagen kommen als Nächstes</h2><p style="color:#999;max-width:520px">Wir halten die erste Version bewusst schlank. Als Nächstes können hier zum Beispiel YouTube-Thumbnails, Banner und Social-Media-Layouts hinzukommen.</p></div>';
+    }else{
+      workspace.innerHTML='<div style="padding:28px"><div class="tile-icon">⇧</div><h2 style="font-size:16px">Bild exportieren</h2><p style="color:#999">Wähle zuerst ein Bild aus und speichere es anschließend als PNG.</p><button class="button primary" id="downloadImage">PNG speichern</button><p id="exportMessage" style="color:#999;font-size:12px"></p></div>';
+      document.getElementById('downloadImage').onclick=downloadImage;
+    }
+  }
+  tabs.forEach(el=>el.addEventListener('click',()=>setPage(el.dataset.page)));
+  const fileInput=document.getElementById('fileInput'),dropzone=document.getElementById('dropzone'),preview=document.getElementById('imagePreview');
+  let originalImage=null;
+  document.getElementById('chooseImage').onclick=()=>fileInput.click();
+  document.getElementById('newProject').onclick=()=>{fileInput.value='';originalImage=null;preview.src='';preview.style.display='none';dropzone.style.display='flex';resetFilters();setPage('overview')};
+  function loadFile(file){
+    if(!file||!file.type.startsWith('image/'))return;
+    const reader=new FileReader();reader.onload=()=>{originalImage=new Image();originalImage.onload=()=>{preview.src=reader.result;preview.style.display='block';dropzone.style.display='none';applyFilters()};originalImage.src=reader.result};reader.readAsDataURL(file);
+  }
+  fileInput.addEventListener('change',e=>loadFile(e.target.files[0]));
+  dropzone.addEventListener('dragover',e=>{e.preventDefault();dropzone.style.borderColor='#aaa'});
+  dropzone.addEventListener('dragleave',()=>dropzone.style.borderColor='#444');
+  dropzone.addEventListener('drop',e=>{e.preventDefault();dropzone.style.borderColor='#444';loadFile(e.dataTransfer.files[0])});
+  function applyFilters(){
+    const b=document.getElementById('brightness').value,c=document.getElementById('contrast').value,s=document.getElementById('saturation').value;
+    preview.style.filter='brightness('+b+'%) contrast('+c+'%) saturate('+s+'%)';
+    document.getElementById('brightnessValue').textContent=b+'%';document.getElementById('contrastValue').textContent=c+'%';document.getElementById('saturationValue').textContent=s+'%';
+  }
+  ['brightness','contrast','saturation'].forEach(id=>document.getElementById(id).addEventListener('input',applyFilters));
+  function resetFilters(){document.getElementById('brightness').value=100;document.getElementById('contrast').value=100;document.getElementById('saturation').value=100;applyFilters()}
+  document.getElementById('resetFilters').onclick=resetFilters;
+  function downloadImage(){
+    const message=document.getElementById('exportMessage');
+    if(!originalImage){message.textContent='Bitte zuerst ein Bild auswählen.';return}
+    const canvas=document.createElement('canvas');canvas.width=originalImage.naturalWidth;canvas.height=originalImage.naturalHeight;
+    const ctx=canvas.getContext('2d');ctx.filter='brightness('+document.getElementById('brightness').value+'%) contrast('+document.getElementById('contrast').value+'%) saturate('+document.getElementById('saturation').value+'%)';ctx.drawImage(originalImage,0,0);
+    const link=document.createElement('a');link.download='freecontentmanager-export.png';link.href=canvas.toDataURL('image/png');link.click();message.textContent='Export wurde gestartet.';
+  }
+</script>
+</body>
+</html>
