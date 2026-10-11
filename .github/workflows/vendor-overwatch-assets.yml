@@ -1,0 +1,98 @@
+name: Vendor Overwatch image assets
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main, master]
+    paths-ignore:
+      - "assets/overwatch/**"
+
+permissions:
+  contents: write
+
+jobs:
+  vendor-assets:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+      - name: Download hero portraits and map screenshots into the repository
+        run: |
+          python - <<'PY'
+          import json, os, re, urllib.request, urllib.error
+          from pathlib import Path
+          from urllib.parse import urlparse
+
+          ROOT = Path("assets/overwatch")
+          (ROOT / "heroes").mkdir(parents=True, exist_ok=True)
+          (ROOT / "maps").mkdir(parents=True, exist_ok=True)
+          HEADERS = {"User-Agent": "FreeContentManager-asset-vendor/1.0", "Accept": "application/json,image/*"}
+
+          def get_json(url):
+              req = urllib.request.Request(url, headers=HEADERS)
+              with urllib.request.urlopen(req, timeout=45) as r:
+                  return json.loads(r.read().decode("utf-8"))
+
+          def slug(value):
+              value = str(value or "").lower()
+              value = re.sub(r"[^a-z0-9]+", "-", value).strip("-")
+              return value or "asset"
+
+          def download(url, folder, stem):
+              req = urllib.request.Request(url, headers=HEADERS)
+              with urllib.request.urlopen(req, timeout=60) as r:
+                  data = r.read()
+                  ctype = r.headers.get("Content-Type", "").split(";")[0].lower()
+              ext = {"image/png": ".png", "image/jpeg": ".jpg", "image/webp": ".webp", "image/gif": ".gif", "image/avif": ".avif"}.get(ctype)
+              if not ext:
+                  path_ext = Path(urlparse(url).path).suffix.lower()
+                  ext = path_ext if path_ext in (".png", ".jpg", ".jpeg", ".webp", ".gif", ".avif") else ".png"
+              if ext == ".jpeg":
+                  ext = ".jpg"
+              path = folder / (stem + ext)
+              path.write_bytes(data)
+              return "./" + path.as_posix()
+
+          heroes_data = get_json("https://overfast-api.tekrop.fr/heroes?locale=en-us")
+          if not isinstance(heroes_data, list) or not heroes_data:
+              raise RuntimeError("OverFast returned no hero list")
+          heroes = []
+          for item in heroes_data:
+              name, image = item.get("name"), item.get("portrait")
+              if not name or not image:
+                  continue
+              key = item.get("key") or slug(name)
+              local = download(image, ROOT / "heroes", slug(key))
+              heroes.append({"name": name, "key": key, "role": item.get("role", ""), "image": local})
+          if not heroes:
+              raise RuntimeError("No hero portraits downloaded")
+          (ROOT / "heroes.json").write_text(json.dumps(heroes, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+          maps_data = get_json("https://overfast-api.tekrop.fr/maps")
+          if not isinstance(maps_data, list) or not maps_data:
+              raise RuntimeError("OverFast returned no map list")
+          maps = []
+          for item in maps_data:
+              name, image = item.get("name"), item.get("screenshot")
+              if not name or not image:
+                  continue
+              local = download(image, ROOT / "maps", slug(name))
+              maps.append({"name": name, "image": local})
+          if not maps:
+              raise RuntimeError("No map screenshots downloaded")
+          (ROOT / "maps.json").write_text(json.dumps(maps, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+          print(f"Vendored {len(heroes)} hero portraits and {len(maps)} map screenshots.")
+          PY
+      - name: Commit downloaded assets
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/overwatch
+          if git diff --cached --quiet; then
+            echo "Assets are already up to date."
+          else
+            git commit -m "Vendor Overwatch hero and map images"
+            git push
+          fi
