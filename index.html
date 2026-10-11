@@ -25,13 +25,13 @@ main{width:100%;max-width:1500px;margin:auto;padding:34px clamp(16px,4vw,52px) 2
 <body>
 <header>
   <div class="brand"><div class="logo">F</div><span>FreeContentManager</span></div>
-  <nav class="nav" aria-label="Hauptnavigation"><button data-page="counterstrike">Counter-Strike</button></nav>
+  <nav class="nav" aria-label="Hauptnavigation"><button data-page="counterstrike">Counter-Strike</button><button data-page="overwatch">Overwatch</button></nav>
   <div class="header-right"><span class="status"><i class="dot"></i>Kostenlos · lokal</span><button class="btn" id="newProject">Neu starten</button></div>
 </header>
 <div class="shell">
 <aside><div class="side"><p class="side-caption">Workspace</p><button class="active" data-page="start"><span class="ico">⌂</span><span class="label">Startseite</span></button><button data-page="home"><span class="ico">▦</span><span class="label">Übersicht</span></button><button data-page="templates"><span class="ico">▤</span><span class="label">Vorlagen</span></button></div><div class="privacy"><b>Deine Dateien bleiben privat.</b><p>Bilder werden nur in deinem Browser verarbeitet und nicht hochgeladen.</p></div></aside>
 <main>
-<section class="page hidden" id="counterstrikePage">
+<section class="page hidden" id="overwatchPage">\n  <div class="heading"><div><div class="eyebrow">Overwatch</div><h1>Overwatch Hub</h1><p class="intro">Ein leerer Bereich für neue Ideen. Hier planen wir später gemeinsam, was in den Overwatch-Hub gehört.</p></div></div>\n  <div class="panel"><div style="min-height:300px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:32px 20px"><div style="width:54px;height:54px;display:grid;place-items:center;border:1px solid var(--line);border-radius:16px;background:#17171a;color:var(--accent);font-size:25px;margin-bottom:16px">✦</div><b style="font-size:16px;margin-bottom:7px">Platz für Ideen</b><p style="max-width:420px;margin:0;color:var(--muted)">Der Overwatch-Hub bleibt vorerst bewusst leer. Wir bauen ihn erst aus, wenn die Ideen und Funktionen feststehen.</p></div></div>\n</section>\n<section class="page hidden" id="counterstrikePage">
   <div class="heading"><div><div class="eyebrow">Counter-Strike</div><h1>Counter-Strike Hub</h1><p class="intro">Ein leerer Bereich für neue Ideen. Hier sammeln und planen wir später gemeinsam, was in den Hub gehört.</p></div></div>
   <div class="panel">
     <div style="min-height:300px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:32px 20px">
@@ -79,8 +79,8 @@ main{width:100%;max-width:1500px;margin:auto;padding:34px clamp(16px,4vw,52px) 2
 <div class="toast hidden" id="toast" role="status" aria-live="polite"></div>
 <script>
 (()=>{'use strict';
-const pageNames=['start','home','templates','counterstrike'];
-const pageElements={start:document.getElementById('startPage'),home:document.getElementById('homePage'),templates:document.getElementById('templatesPage'),counterstrike:document.getElementById('counterstrikePage')};
+const pageNames=['start','home','templates','counterstrike','overwatch'];
+const pageElements={start:document.getElementById('startPage'),home:document.getElementById('homePage'),templates:document.getElementById('templatesPage'),counterstrike:document.getElementById('counterstrikePage'),overwatch:document.getElementById('overwatchPage')};
 function page(name){
   if(!pageElements[name])return;
   pageNames.forEach(n=>pageElements[n].classList.toggle('hidden',n!==name));
