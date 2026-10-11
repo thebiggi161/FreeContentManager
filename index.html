@@ -106,6 +106,7 @@ button.btn{border:1px solid #3a3a42;border-radius:9px;padding:9px 13px;backgroun
 <link rel="stylesheet" href="overwatch-ranked.css?v=3">
 <link rel="stylesheet" href="overwatch-counter.css?v=1">
 <link rel="stylesheet" href="workspace-clock.css?v=1">
+<link rel="stylesheet" href="workspace-search.css?v=1">
 </head>
 <body>
 <header>
@@ -191,6 +192,17 @@ button.btn{border:1px solid #3a3a42;border-radius:9px;padding:9px 13px;backgroun
   </div>
 </section>
 <section class="page" id="startPage"><div class="heading"><div><div class="eyebrow">Startseite · PhotoCraft</div><h1>Dein kreativer Workspace.</h1><p class="intro">Bearbeite deine Bilder direkt hier mit PhotoCraft.</p></div></div><div class="start-actions"><a class="btn primary photocraft-button" href="https://photocraft.im/app/" target="_blank" rel="noopener noreferrer">PhotoCraft öffnen ↗</a></div>
+<section class="ws-search-panel" id="wsSearchPanel" aria-label="Schnellsuche">
+  <h2>Schnellsuche</h2>
+  <p>Suche direkt auf YouTube, Twitch oder Google. Ohne Suchbegriff öffnest du die jeweilige Startseite.</p>
+  <input id="wsQuickSearch" class="ws-search-input" type="search" autocomplete="off" enterkeyhint="search" placeholder="Was möchtest du suchen?" aria-label="Suchbegriff für YouTube, Twitch oder Google">
+  <div class="ws-search-button-row" role="group" aria-label="Suchplattform wählen">
+    <button class="ws-search-button" type="button" data-search-engine="youtube"><span class="ws-search-mark" aria-hidden="true">▶</span>YouTube</button>
+    <button class="ws-search-button" type="button" data-search-engine="twitch"><span class="ws-search-mark" aria-hidden="true">◆</span>Twitch</button>
+    <button class="ws-search-button" type="button" data-search-engine="google"><span class="ws-search-mark" aria-hidden="true">G</span>Google</button>
+  </div>
+  <span class="ws-search-hint">Enter startet die Google-Suche · Ergebnisse öffnen in einem neuen Tab</span>
+</section>
 <div class="ws-timeboard" id="wsTimeboard">
     <section class="ws-time-card" aria-label="Lokale Digitaluhr">
       <div class="ws-time-eyebrow">Deine lokale Uhrzeit</div>
@@ -350,5 +362,6 @@ page('start');
 <script src="overwatch-ranked.js?v=3" defer></script>
 <script src="overwatch-counter.js?v=1" defer></script>
 <script src="workspace-clock.js?v=1" defer></script>
+<script src="workspace-search.js?v=1" defer></script>
 </body>
 </html>
