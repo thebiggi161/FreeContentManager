@@ -99,16 +99,6 @@ function page(name){
 }
 document.querySelectorAll('[data-page]').forEach(b=>b.addEventListener('click',()=>page(b.dataset.page)));
 document.querySelectorAll('[data-category]').forEach(b=>b.addEventListener('click',()=>{
-  const gameNav=b.closest('.game-subnav');
-  gameNav.querySelectorAll('[data-category]').forEach(item=>item.classList.toggle('active',item===b));
-  const toast=document.getElementById('toast');
-      toast.textContent='Team & Taktiken wird später ausgebaut.';
-      toast.classList.remove('hidden');
-      setTimeout(()=>toast.classList.add('hidden'),2200);
-      document.getElementById('owHeroesContent').classList.remove('hidden');
-    }
-    return;
-  }
   const toast=document.getElementById('toast');
   toast.textContent='Kategorie „'+b.querySelector('.label').textContent+'“ ist vorbereitet und kann später ausgebaut werden.';
   toast.classList.remove('hidden');
