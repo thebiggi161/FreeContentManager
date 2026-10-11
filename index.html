@@ -37,14 +37,10 @@ button.btn{border:1px solid #3a3a42;border-radius:9px;padding:9px 13px;backgroun
   <div class="header-right"><span class="status"><i class="dot"></i>Kostenlos · lokal</span><button class="btn" id="newProject">Neu starten</button></div>
 </header>
 <div class="shell">
-<aside><div class="side-track"><div class="side side-main"><p class="side-caption">Workspace</p><button class="active" data-page="start"><span class="ico">⌂</span><span class="label">Startseite</span></button><button data-page="home"><span class="ico">▦</span><span class="label">Übersicht</span></button><button data-page="templates"><span class="ico">▤</span><span class="label">Vorlagen</span></button></div><div class="side game-subnav" id="counterstrikeSubnav"><p class="side-caption"><span>COUNTER-STRIKE</span></p><button class="back-link" data-page="start"><span class="ico">←</span><span class="label">Zur Startseite</span></button><button class="active" data-category="cs-overview" style="--i:0"><span class="ico">⌂</span><span class="label">Übersicht</span></button><button data-category="cs-loadouts" style="--i:1"><span class="ico">⚒</span><span class="label">Loadouts</span></button><button data-category="cs-maps" style="--i:2"><span class="ico">▧</span><span class="label">Maps & Smokes</span></button><button data-category="cs-clips" style="--i:3"><span class="ico">▷</span><span class="label">Clips</span></button><button data-category="cs-strats" style="--i:4"><span class="ico">☷</span><span class="label">Strategien</span></button></div><div class="side game-subnav" id="overwatchSubnav"><p class="side-caption"><span>OVERWATCH</span></p><button class="back-link" data-page="start"><span class="ico">←</span><span class="label">Zur Startseite</span></button><button data-category="ow-heroes" style="--i:1"><span class="ico">✦</span><span class="label">Helden</span></button><button data-category="ow-maps" style="--i:2"><span class="ico">▧</span><span class="label">Maps</span></button><button data-category="ow-guides" style="--i:3"><span class="ico">▷</span><span class="label">Guides</span></button><button data-category="ow-team" style="--i:4"><span class="ico">☷</span><span class="label">Team & Taktiken</span></button></div></div></aside>
+<aside><div class="side-track"><div class="side side-main"><p class="side-caption">Workspace</p><button class="active" data-page="start"><span class="ico">⌂</span><span class="label">Startseite</span></button><button data-page="home"><span class="ico">▦</span><span class="label">Übersicht</span></button><button data-page="templates"><span class="ico">▤</span><span class="label">Vorlagen</span></button></div><div class="side game-subnav" id="counterstrikeSubnav"><p class="side-caption"><span>COUNTER-STRIKE</span></p><button class="back-link" data-page="start"><span class="ico">←</span><span class="label">Zur Startseite</span></button><button class="active" data-category="cs-overview" style="--i:0"><span class="ico">⌂</span><span class="label">Übersicht</span></button><button data-category="cs-loadouts" style="--i:1"><span class="ico">⚒</span><span class="label">Loadouts</span></button><button data-category="cs-maps" style="--i:2"><span class="ico">▧</span><span class="label">Maps & Smokes</span></button><button data-category="cs-clips" style="--i:3"><span class="ico">▷</span><span class="label">Clips</span></button><button data-category="cs-strats" style="--i:4"><span class="ico">☷</span><span class="label">Strategien</span></button></div><div class="side game-subnav" id="overwatchSubnav"><p class="side-caption"><span>OVERWATCH</span></p><button class="back-link" data-page="start"><span class="ico">←</span><span class="label">Zur Startseite</span></button><button data-category="ow-guides" style="--i:3"><span class="ico">▷</span><span class="label">Guides</span></button><button data-category="ow-team" style="--i:4"><span class="ico">☷</span><span class="label">Team & Taktiken</span></button></div></div></aside>
 <main>
 <section class="page hidden" id="overwatchPage">
   <div class="heading"><div><div class="eyebrow">Overwatch</div><h1>Overwatch Hub</h1></div></div>
-  <div id="owHeroesContent" class="ow-content-panel">
-  <div class="hero-tools"><input id="heroSearch" type="search" placeholder="Held suchen …" aria-label="Helden suchen"><select id="heroRole" aria-label="Rolle filtern"><option value="all">Alle Rollen</option><option value="Tank">Tank</option><option value="Damage">Damage</option><option value="Support">Support</option></select><select id="heroSort" aria-label="Helden sortieren"><option value="name">Name A–Z</option><option value="win">Siegesrate</option><option value="pick">Pick-Rate</option></select><span id="heroCount" class="hero-count">Helden werden geladen …</span></div>
-  <div id="heroGrid" class="hero-grid" aria-live="polite"><div class="panel hero-loading">Heldenübersicht wird geladen …</div></div>
-  </div>
   <div id="owGuidesContent" class="ow-content-panel hidden">
     <div class="heading"><div><div class="eyebrow">Overwatch Lernbereich</div><h1>Map Guides</h1><p class="intro">Videos, Lineups, Shortcuts und Callouts nach Map und Modus filtern.</p></div></div>
     <div class="hero-tools" style="margin-bottom:16px">
@@ -55,33 +51,7 @@ button.btn{border:1px solid #3a3a42;border-radius:9px;padding:9px 13px;backgroun
     <div id="guideMapResults" class="guide-map-grid" aria-live="polite"></div>
     <p class="map-data-note">Video-Einbettungen nutzen YouTube-Suchergebnisse für die gewählte Map und den Modus. Prüfe vor dem Match Patch-Version und Aktualität des jeweiligen Guides.</p>
   </div>
-  <div id="owMapsContent" class="ow-content-panel hidden">
-    <div class="map-layout">
-      <div class="map-main">
-        <div class="heading"><div><div class="eyebrow">Map Meta</div><h1>Maps & Helden-Picks</h1><p class="intro">Map auswählen und empfohlene Picks vergleichen.</p></div></div>
-        <div class="map-selector"><select id="owMapSelect" aria-label="Map auswählen">
-          <optgroup label="Kontrolle"><option value="antarctic-peninsula">Antarctic Peninsula</option><option value="busan">Busan</option><option value="ilios">Ilios</option><option value="lijiang-tower">Lijiang Tower</option><option value="nepal">Nepal</option><option value="oasis">Oasis</option><option value="samoa">Samoa</option></optgroup>
-          <optgroup label="Eskorte"><option value="circuit-royal">Circuit Royal</option><option value="dorado">Dorado</option><option value="havana">Havana</option><option value="junkertown">Junkertown</option><option value="rialto">Rialto</option><option value="route-66">Route 66</option><option value="shambali-monastery">Shambali Monastery</option><option value="watchpoint-gibraltar">Watchpoint: Gibraltar</option><option value="paraiso-escort">Aatlis / Paraíso (Eskorte)</option></optgroup>
-          <optgroup label="Hybrid"><option value="blizzard-world">Blizzard World</option><option value="eichenwalde">Eichenwalde</option><option value="hollywood">Hollywood</option><option value="kings-row">King's Row</option><option value="midtown">Midtown</option><option value="numbani">Numbani</option><option value="paraiso">Paraíso</option><option value="redwood">Redwood</option></optgroup>
-          <optgroup label="Push"><option value="colosseo">Colosseo</option><option value="esperanca">Esperança</option><option value="new-queen-street">New Queen Street</option><option value="runasapi">Runasapi</option></optgroup>
-          <optgroup label="Flashpoint"><option value="new-junk-city">New Junk City</option><option value="suravasa">Suravasa</option><option value="aatlis">Aatlis</option></optgroup>
-          <optgroup label="Clash / weitere"><option value="hanaoka">Hanaoka</option><option value="throne-of-anubis">Throne of Anubis</option><option value="grims-votn">Grímsvötn</option></optgroup>
-        </select></div>
-        <div id="mapBanner" class="map-banner"><h2>Ilios</h2><p>Wähle eine Map für Vorschau, Callouts und strategische Helden-Picks.</p></div>
-        <section class="map-preview-panel" aria-label="Map Vorschau und Callouts">
-          <div class="map-preview-head"><div><strong id="mapPreviewTitle">Ilios · Map-Übersicht</strong><small id="mapPreviewMode">Kontrolle</small></div><button class="btn" id="toggleCallouts" type="button" aria-pressed="true">Callouts ausblenden</button></div>
-          <div class="map-preview-frame" id="mapPreviewFrame"><img id="mapPreviewImage" alt="Kartenübersicht von Ilios" loading="lazy"><div class="map-preview-fallback hidden" id="mapPreviewFallback">Map-Vorschau nicht verfügbar<br><small>Die Callout-Liste bleibt nutzbar.</small></div><div class="map-overlay" id="mapOverlay"></div></div>
-          <div class="map-attribution">Top-down-Karten: StatBanana Community-Map-Atlas, soweit verfügbar. Overwatch-Karten und Namen gehören Blizzard Entertainment. <a href="https://overwatch.statbanana.com/images" target="_blank" rel="noopener noreferrer">Quelle / Atlas ↗</a></div>
-          <div class="map-callout-list"><div class="map-callout-list-head"><strong>Callouts dieser Map</strong><span id="mapCalloutCount">0 Bereiche</span></div><div id="mapCalloutChips" class="map-callout-chips"></div></div>
-        </section>
-        <div class="map-legend"><span><i></i>Gute strategische Passung</span><span><i class="red"></i>Situativ / eher schwach</span></div>
-        <div id="mapPicks" class="map-pick-list"></div>
-      </div>
-      <aside class="map-drawer"><div class="map-drawer-head"><h3>Player Picks</h3><span class="role-pill">5er-Komposition</span></div><div class="map-drawer-body"><p style="font-size:11px;color:var(--muted);margin:0">Empfohlene Team-Komposition für die ausgewählte Map</p><div id="mapPlayerPicks"></div><p class="map-data-note">Map-spezifische Pick-Prozentwerte sind derzeit nicht über eine verifizierte öffentliche Datenquelle verfügbar. Die Anzeige wird nicht mit erfundenen Prozentzahlen gefüllt. Aktuelle allgemeine Werte findest du in den <a style="color:#ffad70" href="https://overwatch.blizzard.com/en-us/rates/" target="_blank" rel="noopener noreferrer">offiziellen Blizzard-Statistiken ↗</a>.</p></div></aside>
-    </div>
-  </div>
-  <div class="hero-footnote">Competitive-Werte werden aus einer öffentlichen Statistikquelle geladen. Spielwerte und Fähigkeiten werden auf der Detailansicht ergänzt, soweit die Datenquelle sie bereitstellt. <a href="https://overwatch.blizzard.com/en-us/rates/" target="_blank" rel="noopener noreferrer">Offizielle Blizzard-Statistiken ↗</a></div>
-  <div id="heroDetail" class="hero-detail hidden" role="dialog" aria-modal="true" aria-labelledby="heroDetailName"></div>
+
 </section>
 <section class="page hidden" id="counterstrikePage">
   <div class="heading"><div><div class="eyebrow">Counter-Strike</div><h1>Counter-Strike Hub</h1><p class="intro">Ein leerer Bereich für neue Ideen. Hier sammeln und planen wir später gemeinsam, was in den Hub gehört.</p></div></div>
@@ -141,7 +111,7 @@ function page(name){
   shell.classList.toggle('game-active',name==='counterstrike'||name==='overwatch');
   shell.classList.toggle('cs-active',name==='counterstrike');
   shell.classList.toggle('ow-active',name==='overwatch');
-  document.querySelectorAll('[data-category]').forEach(b=>b.classList.toggle('active',b.dataset.category===(name==='counterstrike'?'cs-overview':'ow-heroes')));
+  document.querySelectorAll('[data-category]').forEach(b=>b.classList.toggle('active',b.dataset.category===(name==='counterstrike'?'cs-overview':'ow-guides')));
 }
 document.querySelectorAll('[data-page]').forEach(b=>b.addEventListener('click',()=>page(b.dataset.page)));
 document.querySelectorAll('[data-category]').forEach(b=>b.addEventListener('click',()=>{
@@ -149,7 +119,7 @@ document.querySelectorAll('[data-category]').forEach(b=>b.addEventListener('clic
   gameNav.querySelectorAll('[data-category]').forEach(item=>item.classList.toggle('active',item===b));
   if(b.dataset.category.startsWith('ow-')){
     const section=b.dataset.category;
-    const target={'ow-heroes':'owHeroesContent','ow-maps':'owMapsContent','ow-guides':'owGuidesContent'}[section];
+    const target={'ow-guides':'owGuidesContent'}[section];
     const panels=['owHeroesContent','owMapsContent','owGuidesContent'];
     const owPage=document.getElementById('overwatchPage');
     if(owPage)owPage.classList.remove('hidden');
@@ -160,14 +130,7 @@ document.querySelectorAll('[data-category]').forEach(b=>b.addEventListener('clic
         panel.style.display=id===target?'block':'none';
       }
     });
-    if(section==='ow-heroes'){
-      const grid=document.getElementById('heroGrid');
-      if(grid && !grid.children.length)grid.innerHTML='<div class="panel hero-loading">Helden werden geladen …</div>';
-      try{renderHeroes()}catch(error){const count=document.getElementById('heroCount');if(count)count.textContent='Helden konnten nicht geladen werden';}
-    }else if(section==='ow-maps'){
-      renderMapPreview();
-      renderMapPicks();
-    }else if(section==='ow-guides'){
+    if(section==='ow-guides'){
       renderGuideMaps();
     }else if(section==='ow-team'){
       const toast=document.getElementById('toast');
