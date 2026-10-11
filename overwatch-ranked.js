@@ -79,7 +79,7 @@ rankedMapPool.sort((a,b)=>a.mode.localeCompare(b.mode)||a.name.localeCompare(b.n
 function mapImageUrl(map){
  const fromGallery=window.owMapData?.find(item=>item.name===map.name);
  if(fromGallery?.image&&/^https:\/\//.test(fromGallery.image))return fromGallery.image;
- const slug=window.owMapSlug?.(map.name)||map.name.toLowerCase().normalize('NFD').replace(/[\\u0300-\\u036f]/g,'').replace(/[^a-z0-9]+/g,'_').replace(/^_|_$/g,'');
+ const slug=window.owMapSlug?.(map.name)||map.name.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'_').replace(/^_|_$/g,'');
  return 'https://overfast-api.tekrop.fr/static/maps/'+slug+'.jpg';
 }
 function renderMapGallery(){
