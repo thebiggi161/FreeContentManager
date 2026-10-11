@@ -143,7 +143,14 @@ button.btn{border:1px solid #3a3a42;border-radius:9px;padding:9px 13px;backgroun
    <p class="ow-rank-help">Die Ziffer 5 bezeichnet die niedrigste Division eines Rangs, 1 die höchste. Die Rang-Buttons springen jeweils zur Division 5.</p>
   </div>
   <div class="ow-rank-filter" role="group" aria-label="Hero-Rolle auswählen"><button type="button" class="ow-rank-role" aria-pressed="true" data-ow-rank-role="all">Alle Rollen</button><button type="button" class="ow-rank-role" aria-pressed="false" data-ow-rank-role="Tank">Tank</button><button type="button" class="ow-rank-role" aria-pressed="false" data-ow-rank-role="Damage">Damage</button><button type="button" class="ow-rank-role" aria-pressed="false" data-ow-rank-role="Support">Support</button></div>
-  <h2 class="section-title">Hero-Picks für deinen Rang</h2>
+  <div class="ow-rank-map-panel">
+   <div class="ow-rank-map-controls">
+    <div><label for="owRankMapSelect">Competitive-Map auswählen</label><select id="owRankMapSelect" aria-label="Ranked Map auswählen"><option value="">Alle Competitive-Maps · allgemeine Picks</option></select></div>
+    <div class="ow-rank-map-tags"><span id="owRankMapMode">Alle Modi</span><span id="owRankMapStyle">Elo-basierte Empfehlungen</span></div>
+   </div>
+   <p id="owRankMapExplain" class="ow-rank-map-explain">Wähle eine Ranked-Map aus. Die Picks passen sich danach an die Map-Struktur und deinen Rang an.</p>
+  </div>
+  <h2 class="section-title">Hero-Picks für deinen Rang und deine Map</h2>
   <div id="owRankPicks" class="ow-rank-recos" aria-live="polite"></div>
   <div class="ow-rank-advice" id="owRankAdvice"></div>
   <p class="ow-rank-disclaimer">Redaktionelle Beispiel-Empfehlungen für verschiedene Spielniveaus – keine automatisch aktualisierten Pickrates, Winrates oder offizielle Rangliste der aktuell besten Helden. Eignung hängt von Patch, Team, Map und persönlichem Skill ab.</p>
