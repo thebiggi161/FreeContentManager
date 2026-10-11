@@ -500,15 +500,10 @@ function renderMapPicks(){
  });
  players.append(tabs,roleTabs,list);renderList();
 }
-document.getElementById('owMapSelect').addEventListener('change',()=>{renderMapPreview();renderMapPicks()});
 
-document.getElementById('toggleCallouts').addEventListener('click',()=>{const overlay=document.getElementById('mapOverlay'),btn=document.getElementById('toggleCallouts'),visible=btn.dataset.visible!=='false';btn.dataset.visible=visible?'false':'true';btn.setAttribute('aria-pressed',String(!visible));btn.textContent=visible?'Callouts einblenden':'Callouts ausblenden';overlay.classList.toggle('hidden',visible)});
 
 function loadHeroes(){
  heroes=heroFallbacks.map(name=>({name,role:roleFor(name),image:heroImage(name),win:null,pick:null,ban:null}));
- renderHeroes();
- renderMapPreview();
- renderMapPicks();
  heroCount.textContent=heroes.length+' Helden · lokale Übersicht';
 }
 
@@ -546,11 +541,9 @@ async function refreshHeroAssets(){
  }
 }
 
-heroSearch.addEventListener('input',renderHeroes);heroRole.addEventListener('change',renderHeroes);heroSort.addEventListener('change',renderHeroes);
 heroDetail.addEventListener('click',e=>{if(e.target===heroDetail)heroDetail.classList.add('hidden')});
 document.addEventListener('keydown',e=>{if(e.key==='Escape')heroDetail.classList.add('hidden')});
 loadHeroes();
-refreshHeroAssets();
 refreshMapAssets();
 document.querySelectorAll('[data-template]').forEach(b=>b.addEventListener('click',()=>{
   const toast=document.getElementById('toast');
