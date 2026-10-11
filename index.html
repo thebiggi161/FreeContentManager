@@ -100,6 +100,7 @@ button.btn{border:1px solid #3a3a42;border-radius:9px;padding:9px 13px;backgroun
 @media(min-width:601px) and (max-width:980px){.ow-twitch{max-width:690px;padding:12px}}
 @media(max-width:600px){.ow-twitch{max-width:100%;padding:8px;border-radius:11px}.ow-twitch-top{gap:7px;margin-bottom:9px}.ow-twitch-link{font-size:11px;padding:7px 9px}.ow-twitch-stage{aspect-ratio:16/9}.ow-twitch-note{font-size:10px;margin-top:8px}}
 
+.ow-hero-portrait.ow-portrait-anran img{object-fit:cover;object-position:center 8%}
 </style>
 <link rel="stylesheet" href="overwatch-map-detail.css?v=20261011-3">
 </head>
@@ -234,8 +235,10 @@ function renderOwHeroes(){
  document.getElementById('owHeroCount').textContent=all.length+' von '+owHeroes.length+' Helden · Bildquelle extern, Namen und Werte lokal gespeichert.';
  grid.innerHTML=all.map(h=>{
  const slug=owRoleForImage(h.name), initials=h.name.split(/\s+/).map(w=>w[0]).join('').slice(0,2);
+ const portrait=h.name==='Anran'?'https://overwatch.fandom.com/wiki/Special:Redirect/file/OW2_Anran.png':'https://d1u1mce87gyfbn.cloudfront.net/hero/'+slug+'/hero-select-portrait.png';
+ const portraitClass=h.name==='Anran'?' ow-portrait-anran':'';
  const stats=owStatDefs.map(([label,key])=>'<div class="ow-stat"><span>'+label+'</span><div class="ow-stat-track"><div class="ow-stat-fill" style="width:'+h[key]+'%"></div></div><span class="ow-stat-value">'+h[key]+'</span></div>').join('');
- return '<article class="ow-hero-card"><div class="ow-hero-portrait"><span class="ow-hero-fallback">'+initials+'</span><img loading="lazy" decoding="async" alt="'+h.name+'" src="https://d1u1mce87gyfbn.cloudfront.net/hero/'+slug+'/hero-select-portrait.png" onerror="this.remove()"></div><div class="ow-hero-info"><div class="ow-hero-role">'+h.role+'</div><h3>'+h.name+'</h3>'+stats+'</div></article>';
+ return '<article class="ow-hero-card"><div class="ow-hero-portrait'+portraitClass+'"><span class="ow-hero-fallback">'+initials+'</span><img loading="lazy" decoding="async" alt="'+h.name+'" src="'+portrait+'" onerror="this.remove()"></div><div class="ow-hero-info"><div class="ow-hero-role">'+h.role+'</div><h3>'+h.name+'</h3>'+stats+'</div></article>';
  }).join('');
 }
 ['owHeroSearch','owHeroRole','owHeroSort'].forEach(id=>document.getElementById(id).addEventListener(id==='owHeroSearch'?'input':'change',renderOwHeroes));
