@@ -2,10 +2,10 @@
 const grid=document.getElementById('owMapGrid');if(!grid)return;
 const annotatedOverlays={"Blizzard World":"1cS_lsov7DDUTs-9nSmvswGVF8UHy9cBB","Busan":"1yw_kd6vKjX1GLsCSsDoxQBWlw_7wz9OW","Dorado":"1Bvm5o0HgTMlSj1owbHnl_zKiLfFzfbt8","Eichenwalde":"1A4OmlwHcUDgkxSSu8T3NWYpn2WnaKnMt","Hanamura":"1SYJ27oSEFQAJMRIsvYO0Cl5lmqn34OZp","Hollywood":"1HnxJwohJDNIBrzKHl1rg3w_hNhutJN1B","Horizon Lunar Colony":"1E8vvo5ieeCEkbCHIu3EhNiWwVm9qobGw","Ilios":"1uVCt2Ca1jN66fxPLFepB1uiZyHDCph-4","Junkertown":"1e8YQs_xvw-vd7Hqb31C0_u-j0u8-Po0r","King’s Row":"1qPwiAqEIASVYw_IYFvQQVh3V4SY5kFSi","Lijiang Tower":"1CTyxkuRunbTaZdIoZDrsvIvy-fV9Gu2s","Nepal":"1IWsiUNOosuzSzykxewR9xALDGL_W8b7d","Numbani":"1ijNOop_eg5rEfNI4XVpFfpDTQ8BvzaMf","Oasis":"1UhY0KZnOtFohma4waOxlQ71L93hCx-Pm","Paris":"1aC_3IXKel5pmrpvCSM8xdmIzNa4wTXD-","Rialto":"1VXgJ6CIVT7WM8HCxoajXLWHo_Bs37UJP","Route 66":"1QkWzk6St0u9IBl58Z5bGm7-poVIaBFkq","Temple of Anubis":"11TQDaVuBdOchR_jTvEW3tpW254-oGCVN","Volskaya Industries":"1qhKYXPb1WoKNpZ1uw4d0oQiRFE_Rdt-4","Watchpoint: Gibraltar":"17mTCjFlJnsgevWDWMO0gxav3gEPc-Hng"};
 const el=document.createElement('div');el.className='ow-detail';el.hidden=true;
-el.innerHTML='<section class="ow-detail-box" role="dialog" aria-modal="true" aria-labelledby="ow-detail-title"><div class="ow-detail-head"><div><div class="eyebrow">OVERWATCH · MAP GUIDE</div><h2 id="ow-detail-title"></h2></div><button type="button" class="ow-detail-close" id="ow-detail-close" aria-label="Schließen">✕ Schließen</button></div><div class="ow-detail-inner"><div><div class="ow-detail-map" id="ow-detail-map" aria-label="Draufsicht mit eingezeichneten Kartenpunkten"><img id="ow-detail-image" alt="" hidden><iframe id="ow-detail-frame" title="Annotierte Overwatch-Kartendraufsicht" loading="lazy" referrerpolicy="no-referrer" allowfullscreen hidden></iframe><div id="ow-detail-empty" class="ow-detail-empty" hidden></div></div><p class="ow-detail-help" id="ow-detail-image-note"></p><p class="ow-detail-credit" id="ow-detail-credit"></p><div class="ow-detail-bar"><a id="ow-detail-fullmap" target="_blank" rel="noopener noreferrer" hidden>Overlay in voller Größe ansehen ↗</a></div></div><div class="ow-detail-side"><section class="ow-detail-card"><h3>Team-Auswahl · 5v5</h3><label for="ow-detail-tier">Spielstil</label><select id="ow-detail-tier"><option value="casual">Casual · zugängliche Komposition</option><option value="pro">Pro · koordinierte Beispiel-Komposition</option></select><div class="ow-team" id="ow-detail-team"></div><p class="ow-map-statsnote">Strategische Beispiel-Picks – keine verifizierte Live-Meta.</p></section><section class="ow-detail-card"><h3>Spielweise und Kartenwege</h3><p id="ow-detail-tips"></p><p>Die verfügbaren annotierten Draufsichten zeigen bereits wichtige Ziele und Kartenpunkte. Zusätzliche Team-Callouts können von Szene zu Szene abweichen.</p></section></div></div></section>';
+el.innerHTML='<section class="ow-detail-box" role="dialog" aria-modal="true" aria-labelledby="ow-detail-title"><div class="ow-detail-head"><div><div class="eyebrow">OVERWATCH · MAP GUIDE</div><h2 id="ow-detail-title"></h2></div><button type="button" class="ow-detail-close" id="ow-detail-close" aria-label="Schließen">✕ Schließen</button></div><div class="ow-detail-inner"><div><div class="ow-detail-map" id="ow-detail-map" aria-label="Draufsicht mit eingezeichneten Kartenpunkten"><img id="ow-detail-image" alt="" hidden><div id="ow-detail-empty" class="ow-detail-empty" hidden></div></div><p class="ow-detail-help" id="ow-detail-image-note"></p><p class="ow-detail-credit" id="ow-detail-credit"></p><div class="ow-detail-bar"><a id="ow-detail-fullmap" target="_blank" rel="noopener noreferrer" hidden>Overlay in voller Größe ansehen ↗</a></div></div><div class="ow-detail-side"><section class="ow-detail-card"><h3>Team-Auswahl · 5v5</h3><label for="ow-detail-tier">Spielstil</label><select id="ow-detail-tier"><option value="casual">Casual · zugängliche Komposition</option><option value="pro">Pro · koordinierte Beispiel-Komposition</option></select><div class="ow-team" id="ow-detail-team"></div><p class="ow-map-statsnote">Strategische Beispiel-Picks – keine verifizierte Live-Meta.</p></section><section class="ow-detail-card"><h3>Spielweise und Kartenwege</h3><p id="ow-detail-tips"></p><p>Die verfügbaren annotierten Draufsichten zeigen bereits wichtige Ziele und Kartenpunkte. Zusätzliche Team-Callouts können von Szene zu Szene abweichen.</p></section></div></div></section>';
 document.body.append(el);
 const $=id=>document.getElementById(id);
-const modalTitle=$('ow-detail-title'), board=$('ow-detail-map'), mapImage=$('ow-detail-image'), frame=$('ow-detail-frame'), empty=$('ow-detail-empty'), help=$('ow-detail-image-note'), credit=$('ow-detail-credit'), fullmap=$('ow-detail-fullmap');
+const modalTitle=$('ow-detail-title'), board=$('ow-detail-map'), mapImage=$('ow-detail-image'), empty=$('ow-detail-empty'), help=$('ow-detail-image-note'), credit=$('ow-detail-credit'), fullmap=$('ow-detail-fullmap');
 let current=null,returnFocus=null;
 const compositions={
 control:{casual:['Reinhardt','Soldier: 76','Mei','Moira','Lúcio'],pro:['Winston','Tracer','Genji','Ana','Lúcio'],tips:'Punktzugang, Rotationen und Kontrolle von Highground priorisieren. Die Unterkarten können sehr unterschiedliche Wege besitzen.'},
@@ -45,16 +45,20 @@ function openMap(name,focus){
  current=data;returnFocus=focus;modalTitle.textContent=data.name+' · '+data.mode;
  const id=annotatedOverlays[data.name];
  mapImage.hidden=true;mapImage.removeAttribute('src');
- frame.hidden=true;frame.removeAttribute('src');
+ mapImage.onerror=null;
  empty.hidden=true;fullmap.hidden=true;
  if(id){
-  board.style.aspectRatio='1 / 1';
-  frame.src='https://drive.google.com/file/d/'+encodeURIComponent(id)+'/preview';
-  frame.hidden=false;
-  fullmap.href='https://drive.google.com/file/d/'+encodeURIComponent(id)+'/view';
-  fullmap.hidden=false;fullmap.textContent='Annotiertes Overlay in voller Größe öffnen ↗';
-  help.textContent='Original-Draufsicht mit eingezeichneten Bereichen, Zielen und weiteren Kartenmarkierungen. Je nach Karte umfasst das Bild mehrere Teilkarten.';
-  credit.textContent='Overhead map courtesy of StatBanana / Coggle · ältere Overwatch-Kartenstände. Externe Anzeige über Google Drive.';
+  board.style.aspectRatio=(['Busan','Ilios','Lijiang Tower','Nepal','Oasis'].includes(data.name))?'2 / 1':'1 / 1';
+  const file='https://drive.google.com/file/d/'+encodeURIComponent(id)+'/view';
+  fullmap.href=file;
+  fullmap.hidden=false;fullmap.textContent='Original-Overlay öffnen ↗';
+  empty.hidden=false;empty.textContent='Overlay-Bild wird geladen …';
+  mapImage.alt='Beschriftete Draufsicht: '+data.name;
+  mapImage.onload=()=>{if(current?.name!==data.name)return;empty.hidden=true;mapImage.hidden=false;};
+  mapImage.onerror=()=>{if(current?.name!==data.name)return;mapImage.hidden=true;empty.hidden=false;empty.textContent='Das externe Bild kann hier nicht angezeigt werden. Mit „Original-Overlay öffnen“ kannst du die Datei direkt aufrufen.';};
+  mapImage.src='https://drive.google.com/thumbnail?id='+encodeURIComponent(id)+'&sz=w1600';
+  help.textContent='Bereits annotierte Draufsicht mit Zielen und Kartenmarkierungen (älterer Kartenstand). Die Ansicht kann je nach Google-Drive-Freigabe eingeschränkt sein.';
+  credit.textContent='Overhead map courtesy of StatBanana / Coggle · Originalbild extern bei Google Drive.';
  }else{
   board.style.aspectRatio='16 / 9';
   empty.hidden=false;
@@ -68,7 +72,7 @@ function openMap(name,focus){
 }
 function close(){
  el.hidden=true;current=null;document.body.style.overflow='';
- frame.removeAttribute('src');
+ mapImage.onload=null;mapImage.onerror=null;mapImage.removeAttribute('src');
  if(returnFocus&&returnFocus.isConnected)returnFocus.focus();
 }
 grid.addEventListener('click',e=>{const card=e.target.closest('.ow-map-card');if(!card)return;const name=card.querySelector('h3')?.textContent;if(name)openMap(name,card)});
