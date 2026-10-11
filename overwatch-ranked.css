@@ -1,0 +1,31 @@
+/* Overwatch Competitive / Ranked Tool */
+.ow-ranked{--rank-tone:#cd7d45;max-width:1200px}
+.ow-ranked-panel{background:linear-gradient(140deg,#1b1b22,#111115);border:1px solid #37343a;border-radius:15px;padding:clamp(15px,3vw,25px);margin-bottom:18px}
+.ow-ranked-top{display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap}
+.ow-ranked-identity{display:flex;align-items:center;gap:15px;min-width:0}
+.ow-rank-emblem{height:78px;width:78px;display:grid;place-items:center;flex-shrink:0;border:2px solid var(--rank-tone);background:radial-gradient(circle,#ff7a1a24,transparent 72%);border-radius:20px;color:var(--rank-tone);font-weight:1000;font-size:28px;box-shadow:0 0 25px color-mix(in srgb,var(--rank-tone) 24%,transparent)}
+.ow-rank-tier{margin:2px 0;font-size:clamp(23px,3.3vw,36px);line-height:1.15;letter-spacing:-.5px}
+.ow-rank-subtitle{color:#a9a7b3;font-size:12px;margin:4px 0}
+.ow-rank-scope{color:#ffba80;font-size:11px;text-align:right}
+.ow-ranked-slider{width:100%;accent-color:var(--accent);cursor:pointer;min-height:32px;margin:15px 0 2px}
+.ow-rank-endpoints{display:flex;justify-content:space-between;color:#a9a7b3;font-size:11px}
+.ow-rank-grid{display:grid;grid-template-columns:repeat(9,minmax(0,1fr));gap:6px;margin:20px 0 0}
+.ow-rank-tab{border:1px solid #34343c;border-radius:9px;background:#222229;color:#a4a3ad;padding:11px 4px;display:flex;gap:4px;flex-direction:column;align-items:center;justify-content:center;min-height:66px;min-width:0}
+.ow-rank-tab strong{font-size:11px;overflow-wrap:anywhere}.ow-rank-tab small{font-size:10px;opacity:.78}
+.ow-rank-tab[aria-pressed=true]{border-color:var(--rank-tone);background:#ff7a1a13;color:#fff;box-shadow:inset 0 -3px var(--rank-tone)}
+.ow-rank-help{font-size:12px;color:#b6b3bc;line-height:1.6;margin:14px 0 0}
+.ow-rank-filter{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:14px}
+.ow-rank-role{padding:10px 14px;border:1px solid #3b3940;color:#d3d0d8;background:#19191d;border-radius:9px;min-height:43px}
+.ow-rank-role[aria-pressed=true]{background:#ff7a1a19;border-color:var(--accent);color:#fff}
+.ow-rank-recos{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.ow-rank-role-group{min-width:0;border:1px solid #33323a;background:#16161b;border-radius:12px;padding:15px}
+.ow-rank-role-group h3{font-size:13px;margin:0 0 10px;color:#ffa260;text-transform:uppercase;letter-spacing:1px}
+.ow-rank-hero{display:flex;align-items:center;gap:10px;border-bottom:1px solid #303039;padding:10px 0}
+.ow-rank-hero:last-child{border-bottom:0}
+.ow-rank-hero-index{flex-shrink:0;display:grid;place-items:center;width:30px;height:30px;border-radius:9px;color:#ffb477;background:#3a2a23;font-weight:900}
+.ow-rank-hero b{display:block;font-size:13px}
+.ow-rank-hero span{font-size:11px;color:#aaa8b4;line-height:1.4;display:block}
+.ow-rank-advice{border-left:3px solid var(--rank-tone);padding:12px 14px;background:#ff7a1a09;margin-top:18px;color:#d2ced8;border-radius:0 8px 8px 0;font-size:12px}
+.ow-rank-disclaimer{color:#8f8c99;font-size:11px;margin-top:16px;line-height:1.6}
+@media(max-width:1100px){.ow-rank-grid{grid-template-columns:repeat(5,minmax(0,1fr))}}
+@media(max-width:680px){.ow-rank-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.ow-rank-recos{grid-template-columns:1fr}.ow-rank-panel{padding:14px}.ow-rank-emblem{width:62px;height:62px;font-size:24px}.ow-rank-scope{text-align:left}.ow-rank-role{flex:1;min-width:85px;padding:9px}}
