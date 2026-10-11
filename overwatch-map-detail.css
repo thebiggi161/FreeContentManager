@@ -1,0 +1,22 @@
+/* Interactive Overwatch maps inspector */
+.ow-map-card{cursor:pointer}.ow-map-card:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.ow-detail[hidden]{display:none!important}.ow-detail{position:fixed;inset:0;z-index:80;background:#000c;padding:clamp(10px,2vw,24px);overflow:auto;display:flex;align-items:flex-start;justify-content:center}
+.ow-detail-box{width:min(1120px,100%);margin:auto;background:#121216;border:1px solid #44434a;border-radius:16px;box-shadow:0 22px 80px #000c;overflow:hidden}
+.ow-detail-head{display:flex;align-items:center;gap:10px;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--line)}.ow-detail-head h2{font-size:23px;line-height:1.2;margin:0}.ow-detail-close{border:1px solid #444;background:#29292f;color:white;border-radius:8px;padding:7px 12px}
+.ow-detail-inner{padding:18px;display:grid;grid-template-columns:minmax(0,1.7fr) minmax(255px,1fr);gap:17px}
+.ow-detail-map{position:relative;aspect-ratio:16/9;background:#25252e;overflow:hidden;border-radius:11px;border:1px solid #444;cursor:crosshair;touch-action:manipulation}
+.ow-detail-map img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
+.ow-pin{position:absolute;transform:translate(-50%,-100%);border:1px solid white;border-radius:7px;padding:3px 6px;font-size:11px;font-weight:700;background:#e27823;color:#141414;cursor:pointer;max-width:150px;white-space:nowrap;text-overflow:ellipsis;overflow:hidden}
+.ow-pin.shortcut{background:#58d6bd}.ow-detail-bar{display:flex;flex-wrap:wrap;gap:9px;margin:12px 0}
+.ow-detail-bar button,.ow-upload-label{display:inline-flex;align-items:center;gap:5px;border:1px solid #444;border-radius:8px;padding:8px 11px;background:#25252d;color:#eee;font-size:12px;cursor:pointer}
+.ow-upload-label input{display:none}
+.ow-detail-help,.ow-detail-tip{color:var(--muted);font-size:12px;line-height:1.5;margin:7px 0}
+.ow-detail-side{display:grid;gap:13px;align-content:start}.ow-detail-card{padding:13px;border:1px solid var(--line);border-radius:10px;background:#1c1c21}
+.ow-detail-card h3{font-size:14px;margin:0 0 7px}.ow-detail-card p{margin:5px 0;font-size:12px;color:var(--muted)}
+.ow-detail-card select,.ow-detail-card input{width:100%;padding:8px;border-radius:7px;border:1px solid #444;background:#111115;color:#eee;margin:6px 0}
+.ow-team{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:5px;margin-top:8px}
+.ow-team-unit{min-width:0;text-align:center;padding:7px 2px;background:#2a2a31;border-radius:7px;border:1px solid #3a3a45}
+.ow-team-unit strong{display:block;font-size:10px;overflow-wrap:anywhere}.ow-team-unit span{font-size:9px;color:#f7a15b}
+.ow-notes{padding:0;margin:4px 0 0 18px;color:#c9c9d0;font-size:12px}
+.ow-map-statsnote{font-size:11px;color:#aaa}
+@media(max-width:780px){.ow-detail-inner{grid-template-columns:1fr}.ow-detail-box{margin:0}.ow-team-unit strong{font-size:10px}}
