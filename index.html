@@ -105,6 +105,7 @@ button.btn{border:1px solid #3a3a42;border-radius:9px;padding:9px 13px;backgroun
 <link rel="stylesheet" href="overwatch-map-detail.css?v=20261011-3">
 <link rel="stylesheet" href="overwatch-ranked.css?v=3">
 <link rel="stylesheet" href="overwatch-counter.css?v=1">
+<link rel="stylesheet" href="workspace-clock.css?v=1">
 </head>
 <body>
 <header>
@@ -197,6 +198,24 @@ button.btn{border:1px solid #3a3a42;border-radius:9px;padding:9px 13px;backgroun
       <h1>Mach Content. Nicht kompliziert.</h1>
       <p class="intro">Die Oberfläche steht. Der neue Workspace wird jetzt von Grund auf neu aufgebaut.</p>
     </div>
+  </div>
+  <div class="ws-timeboard" id="wsTimeboard">
+    <section class="ws-time-card" aria-label="Lokale Digitaluhr">
+      <div class="ws-time-eyebrow">Deine lokale Uhrzeit</div>
+      <div class="ws-clock-display" role="timer" aria-label="Aktuelle Uhrzeit"><span id="wsDigitalClock">--:--</span><span id="wsDigitalSeconds" class="ws-clock-seconds">:--</span></div>
+      <p class="ws-clock-date" id="wsClockDate">Datum wird geladen …</p>
+      <div class="ws-clock-zone"><span class="ws-clock-led" aria-hidden="true"></span><span id="wsClockZone">Lokale Zeitzone wird erkannt …</span></div>
+      <p class="ws-clock-hint">Automatisch nach der eingestellten Zeitzone deines Geräts · 24-Stunden-Anzeige</p>
+    </section>
+    <section class="ws-time-card" aria-label="Monatskalender">
+      <div class="ws-calendar-head">
+        <div><div class="ws-time-eyebrow">Kalender</div><h2 id="wsCalendarHeading">Aktueller Monat</h2></div>
+        <div class="ws-calendar-nav" aria-label="Kalendernavigation"><button id="wsCalendarPrev" type="button" aria-label="Vorheriger Monat">‹</button><button id="wsCalendarToday" class="ws-calendar-today" type="button">Heute</button><button id="wsCalendarNext" type="button" aria-label="Nächster Monat">›</button></div>
+      </div>
+      <div class="ws-calendar-weekdays" aria-hidden="true"><span>Mo</span><span>Di</span><span>Mi</span><span>Do</span><span>Fr</span><span>Sa</span><span>So</span></div>
+      <div id="wsCalendarDays" class="ws-calendar-days" role="group" aria-label="Kalendertage"></div>
+      <div class="ws-calendar-foot"><span class="ws-calendar-foot-dot" aria-hidden="true"></span><span id="wsCalendarLegend">Heute ist orange markiert</span></div>
+    </section>
   </div>
   <h2 class="section-title">Bereiche</h2>
   <div class="tiles">
@@ -355,5 +374,6 @@ page('start');
 <script src="overwatch-map-detail.js?v=20261011-3" defer></script>
 <script src="overwatch-ranked.js?v=3" defer></script>
 <script src="overwatch-counter.js?v=1" defer></script>
+<script src="workspace-clock.js?v=1" defer></script>
 </body>
 </html>
