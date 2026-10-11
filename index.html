@@ -463,6 +463,35 @@ function loadHeroes(){
  heroCount.textContent=heroes.length+' Helden · lokale Übersicht';
 }
 
+// Aktualisiert die lokale Fallback-Liste mit aktuellen Heldenporträts und Rollen.
+// Die API liefert gehashte Bild-URLs statt veralteter, aus Namens-Slugs gebauter URLs.
+async function refreshHeroAssets(){
+ const count= document.getElementById('heroCount');
+ try{
+  const response=await fetch('https://overfast-api.tekrop.fr/heroes?locale=en-us',{headers:{'Accept':'application/json'},cache:'no-cache'});
+  if(!response.ok)throw new Error('Hero API HTTP '+response.status);
+  const data=await response.json();
+  if(!Array.isArray(data)||!data.length)throw new Error('Leere Heldenliste');
+  const roleNames={tank:'Tank',damage:'Damage',support:'Support'};
+  const liveHeroes=data.filter(h=>h&&h.name&&h.portrait).map(h=>({
+   name:h.name,
+   role:roleNames[String(h.role||'').toLowerCase()]||roleFor(h.name),
+   image:h.portrait,
+   key:h.key||slugifyHero(h.name),
+   win:null,pick:null,ban:null
+  }));
+  if(!liveHeroes.length)throw new Error('Keine verwendbaren Heldenporträts');
+  heroes=liveHeroes;
+  renderHeroes();
+  renderMapPicks();
+  if(count)count.textContent=heroes.length+' Helden · Porträts aktualisiert';
+ }catch(error){
+  // Die lokale Liste bleibt sichtbar, falls der externe Dienst nicht erreichbar ist.
+  if(count)count.textContent=heroes.length+' Helden · Offline-Fallback';
+  console.warn('Overwatch-Porträts konnten nicht aktualisiert werden:',error);
+ }
+}
+
 heroSearch.addEventListener('input',renderHeroes);heroRole.addEventListener('change',renderHeroes);heroSort.addEventListener('change',renderHeroes);
 heroDetail.addEventListener('click',e=>{if(e.target===heroDetail)heroDetail.classList.add('hidden')});
 document.addEventListener('keydown',e=>{if(e.key==='Escape')heroDetail.classList.add('hidden')});
