@@ -51,6 +51,7 @@ button.btn{border:1px solid #3a3a42;border-radius:9px;padding:9px 13px;backgroun
 .ow-hero-note{font-size:11px;color:var(--muted);margin:0 0 16px}
 @media(max-width:600px){.ow-hero-grid{grid-template-columns:1fr}.ow-hero-card{grid-template-columns:105px minmax(0,1fr)}}
 
+.ow-map-tools{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}.ow-map-tools input,.ow-map-tools select{padding:11px;border:1px solid var(--line);border-radius:8px;background:#18181c;color:white}.ow-map-tools input{flex:1;min-width:160px}.ow-map-count{color:var(--muted);font-size:12px;margin-bottom:14px}.ow-map-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}.ow-map-card{background:#19191d;border:1px solid var(--line);border-radius:12px;overflow:hidden}.ow-map-card:hover{border-color:var(--accent)}.ow-map-image{position:relative;aspect-ratio:16/9;background:linear-gradient(135deg,#333,#111);display:grid;place-items:center;color:var(--accent);font-size:35px}.ow-map-image img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.ow-map-body{padding:14px}.ow-map-body h3{font-size:16px;margin:0 0 8px}.ow-map-body small{color:var(--accent)}@media(max-width:600px){.ow-map-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -60,7 +61,7 @@ button.btn{border:1px solid #3a3a42;border-radius:9px;padding:9px 13px;backgroun
   <div class="header-right"><span class="status"><i class="dot"></i>Kostenlos · lokal</span><button class="btn" id="newProject">Neu starten</button></div>
 </header>
 <div class="shell">
-<aside><div class="side-track"><div class="side side-main"><p class="side-caption">Workspace</p><button class="active" data-page="start"><span class="ico">⌂</span><span class="label">Startseite</span></button><button data-page="home"><span class="ico">▦</span><span class="label">Übersicht</span></button><button data-page="templates"><span class="ico">▤</span><span class="label">Vorlagen</span></button></div><div class="side game-subnav" id="counterstrikeSubnav"><p class="side-caption"><span>COUNTER-STRIKE</span></p><button class="back-link" data-page="start"><span class="ico">←</span><span class="label">Zur Startseite</span></button><button class="active" data-category="cs-overview" style="--i:0"><span class="ico">⌂</span><span class="label">Übersicht</span></button><button data-category="cs-loadouts" style="--i:1"><span class="ico">⚒</span><span class="label">Loadouts</span></button><button data-category="cs-maps" style="--i:2"><span class="ico">▧</span><span class="label">Maps & Smokes</span></button><button data-category="cs-clips" style="--i:3"><span class="ico">▷</span><span class="label">Clips</span></button><button data-category="cs-strats" style="--i:4"><span class="ico">☷</span><span class="label">Strategien</span></button></div><div class="side game-subnav" id="overwatchSubnav"><p class="side-caption"><span>OVERWATCH</span></p><button class="back-link" data-page="start"><span class="ico">←</span><span class="label">Zur Startseite</span></button><button data-category="ow-overview" style="--i:0"><span class="ico">⌂</span><span class="label">Übersicht</span></button><button class="active" data-category="ow-heros" style="--i:1"><span class="ico">♙</span><span class="label">Heros</span></button></div></div></aside>
+<aside><div class="side-track"><div class="side side-main"><p class="side-caption">Workspace</p><button class="active" data-page="start"><span class="ico">⌂</span><span class="label">Startseite</span></button><button data-page="home"><span class="ico">▦</span><span class="label">Übersicht</span></button><button data-page="templates"><span class="ico">▤</span><span class="label">Vorlagen</span></button></div><div class="side game-subnav" id="counterstrikeSubnav"><p class="side-caption"><span>COUNTER-STRIKE</span></p><button class="back-link" data-page="start"><span class="ico">←</span><span class="label">Zur Startseite</span></button><button class="active" data-category="cs-overview" style="--i:0"><span class="ico">⌂</span><span class="label">Übersicht</span></button><button data-category="cs-loadouts" style="--i:1"><span class="ico">⚒</span><span class="label">Loadouts</span></button><button data-category="cs-maps" style="--i:2"><span class="ico">▧</span><span class="label">Maps & Smokes</span></button><button data-category="cs-clips" style="--i:3"><span class="ico">▷</span><span class="label">Clips</span></button><button data-category="cs-strats" style="--i:4"><span class="ico">☷</span><span class="label">Strategien</span></button></div><div class="side game-subnav" id="overwatchSubnav"><p class="side-caption"><span>OVERWATCH</span></p><button class="back-link" data-page="start"><span class="ico">←</span><span class="label">Zur Startseite</span></button><button data-category="ow-overview" style="--i:0"><span class="ico">⌂</span><span class="label">Übersicht</span></button><button class="active" data-category="ow-heros" style="--i:1"><span class="ico">♙</span><span class="label">Heros</span></button><button data-category="ow-maps" style="--i:2"><span class="ico">▧</span><span class="label">Maps</span></button></div></div></aside>
 <main>
 <section class="page hidden" id="overwatchPage">
   <div class="heading"><div><div class="eyebrow">Overwatch</div><h1>Overwatch Hub</h1></div></div>
@@ -72,7 +73,7 @@ button.btn{border:1px solid #3a3a42;border-radius:9px;padding:9px 13px;backgroun
   <p class="ow-hero-note" id="owHeroCount" aria-live="polite">Helden werden geladen …</p>
   <div class="ow-hero-grid" id="owHeroGrid"></div>
 </section>
-<section class="page hidden" id="counterstrikePage">
+<section class="page hidden" id="overwatchMapsPage"><div class="heading"><div><div class="eyebrow">Overwatch · Karten</div><h1>Maps</h1><p class="intro">Overwatch-Karten mit Bildern und Spielmodi.</p></div></div><div class="ow-map-tools"><input id="owMapSearch" type="search" placeholder="Karte suchen …" aria-label="Karte suchen"><select id="owMapMode" aria-label="Spielmodus"><option value="all">Alle Modi</option></select></div><p class="ow-map-count" id="owMapCount"></p><div class="ow-map-grid" id="owMapGrid"></div></section><section class="page hidden" id="counterstrikePage">
   <div class="heading"><div><div class="eyebrow">Counter-Strike</div><h1>Counter-Strike Hub</h1><p class="intro">Ein leerer Bereich für neue Ideen. Hier sammeln und planen wir später gemeinsam, was in den Hub gehört.</p></div></div>
   <div class="panel">
     <div style="min-height:300px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:32px 20px">
@@ -120,21 +121,22 @@ button.btn{border:1px solid #3a3a42;border-radius:9px;padding:9px 13px;backgroun
 <div class="toast hidden" id="toast" role="status" aria-live="polite"></div>
 <script>
 (()=>{'use strict';
-const pageNames=['start','home','templates','counterstrike','overwatch','overwatchHeros'];
-const pageElements={start:document.getElementById('startPage'),home:document.getElementById('homePage'),templates:document.getElementById('templatesPage'),counterstrike:document.getElementById('counterstrikePage'),overwatch:document.getElementById('overwatchPage'),overwatchHeros:document.getElementById('overwatchHerosPage')};
+const pageNames=['start','home','templates','counterstrike','overwatch','overwatchHeros','overwatchMaps'];
+const pageElements={start:document.getElementById('startPage'),home:document.getElementById('homePage'),templates:document.getElementById('templatesPage'),counterstrike:document.getElementById('counterstrikePage'),overwatch:document.getElementById('overwatchPage'),overwatchHeros:document.getElementById('overwatchHerosPage'),overwatchMaps:document.getElementById('overwatchMapsPage')};
 function page(name){
   if(!pageElements[name])return;
   pageNames.forEach(n=>pageElements[n].classList.toggle('hidden',n!==name));
   document.querySelectorAll('[data-page]').forEach(b=>b.classList.toggle('active',b.dataset.page===name));
   const shell=document.querySelector('.shell');
-  shell.classList.toggle('game-active',name==='counterstrike'||name==='overwatch'||name==='overwatchHeros');
+  shell.classList.toggle('game-active',name==='counterstrike'||name==='overwatch'||name==='overwatchHeros'||name==='overwatchMaps');
   shell.classList.toggle('cs-active',name==='counterstrike');
   shell.classList.toggle('ow-active',name==='overwatch'||name==='overwatchHeros');
-  document.querySelectorAll('[data-category]').forEach(b=>b.classList.toggle('active',(name==='counterstrike'&&b.dataset.category==='cs-overview')||(name==='overwatch'&&b.dataset.category==='ow-overview')||(name==='overwatchHeros'&&b.dataset.category==='ow-heros')));
+  document.querySelectorAll('[data-category]').forEach(b=>b.classList.toggle('active',(name==='counterstrike'&&b.dataset.category==='cs-overview')||(name==='overwatch'&&b.dataset.category==='ow-overview')||(name==='overwatchHeros'&&b.dataset.category==='ow-heros')||(name==='overwatchMaps'&&b.dataset.category==='ow-maps')));
 }
 document.querySelectorAll('[data-page]').forEach(b=>b.addEventListener('click',()=>page(b.dataset.page)));
 document.querySelectorAll('[data-category]').forEach(b=>b.addEventListener('click',()=>{
   if(b.dataset.category==='ow-heros'){page('overwatchHeros');return;}
+  if(b.dataset.category==='ow-maps'){page('overwatchMaps');return;}
   if(b.dataset.category==='ow-overview'){page('overwatch');return;}
   if(b.dataset.category==='cs-overview'){page('counterstrike');return;}
   const toast=document.getElementById('toast');
