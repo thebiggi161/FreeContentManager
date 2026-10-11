@@ -216,6 +216,42 @@ let heroes=[];
 const slugifyHero=name=>name.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
 function roleFor(name){return Object.keys(heroRoleMap).find(role=>heroRoleMap[role].includes(name))||'Damage'}
 function heroImage(name){return 'https://d1u1mce87gyfbn.cloudfront.net/hero/'+slugifyHero(name)+'/hero-select-portrait.png'}
+
+const heroImageKeys={
+ 'D.Va':'dva','Jetpack Cat':'jetpack-cat','Junker Queen':'junker-queen',
+ 'Lifeweaver':'lifeweaver','Lúcio':'lucio','Mauga':'mauga','Ramattra':'ramattra',
+ 'Soldier: 76':'soldier-76','Torbjörn':'torbjorn','Wrecking Ball':'wrecking-ball',
+ 'Anran':'anran','Domina':'domina','Emre':'emre','Freja':'freja','Hazard':'hazard',
+ 'Illari':'illari','Juno':'juno','Kiriko':'kiriko','Mizuki':'mizuki',
+ 'Sierra':'sierra','Sojourn':'sojourn','Vendetta':'vendetta','Venture':'venture','Wuyang':'wuyang'
+};
+function heroKeyFor(h){
+ return h.key || heroImageKeys[h.name] || slugifyHero(h.name);
+}
+function setHeroImageWithFallback(img,h,portrait){
+ const key=heroKeyFor(h), candidates=[];
+ if(h.image)candidates.push(h.image);
+ candidates.push('https://overfast-api.tekrop.fr/heroes/'+encodeURIComponent(key)+'?locale=en-us');
+ candidates.push('https://d1u1mce87gyfbn.cloudfront.net/hero/'+key+'/hero-select-portrait.png');
+ let index=0;
+ function tryNext(){
+  if(index>=candidates.length){
+   const fallback=document.createElement('span');
+   fallback.className='hero-fallback';
+   fallback.textContent=(h.name||'?').slice(0,1);
+   portrait.replaceChildren(fallback);
+   return;
+  }
+  const candidate=candidates[index++];
+  if(candidate.includes('/heroes/') && candidate.includes('?locale=')){
+   fetch(candidate,{headers:{'Accept':'application/json'}}).then(r=>r.ok?r.json():Promise.reject()).then(data=>{
+    if(data&&data.portrait){img.onerror=tryNext;img.src=data.portrait;}else tryNext();
+   }).catch(tryNext);
+  }else{img.onerror=tryNext;img.src=candidate;}
+ }
+ img.onerror=tryNext;
+ if(h.image){img.src=h.image;}else tryNext();
+}
 function renderHeroes(){
  const q=heroSearch.value.trim().toLowerCase(), role=heroRole.value, sort=heroSort.value;
  let shown=heroes.filter(h=>(!q||h.name.toLowerCase().includes(q))&&(role==='all'||h.role===role));
@@ -226,7 +262,7 @@ function renderHeroes(){
  shown.forEach(h=>{
   const card=document.createElement('button');card.className='hero-card';card.type='button';
   const portrait=document.createElement('div');portrait.className='hero-portrait';
-  const img=document.createElement('img');img.loading='lazy';img.alt=h.name;img.src=h.image;img.onerror=()=>{portrait.innerHTML='<span class="hero-fallback">'+h.name.slice(0,1)+'</span>'};portrait.appendChild(img);
+  const img=document.createElement('img');img.loading='lazy';img.alt=h.name+' Porträt';portrait.appendChild(img);setHeroImageWithFallback(img,h,portrait);
   const body=document.createElement('div');body.className='hero-card-body';
   const top=document.createElement('div');top.className='hero-card-top';
   const name=document.createElement('h3');name.textContent=h.name;const pill=document.createElement('span');pill.className='role-pill';pill.textContent=h.role;top.append(name,pill);
@@ -429,7 +465,7 @@ function renderMapPicks(){
   visible.forEach((item,index)=>{
    const role=roleFor(item.name),hero=heroes.find(h=>h.name===item.name);
    const card=document.createElement('article');card.style.cssText='display:flex;align-items:flex-start;gap:9px;padding:10px;border:1px solid var(--line);border-radius:9px;background:#202025';
-   const img=document.createElement('img');img.alt=item.name;img.loading='lazy';img.src=hero?hero.image:heroImage(item.name);img.style.cssText='width:50px;height:58px;object-fit:contain;flex:none';img.onerror=()=>img.style.visibility='hidden';
+   const img=document.createElement('img');img.alt=item.name+' Porträt';img.loading='lazy';img.style.cssText='width:50px;height:58px;object-fit:contain;flex:none';setHeroImageWithFallback(img,hero||{name:item.name,image:heroImage(item.name)},img.parentElement||card);
    const info=document.createElement('div');info.style.cssText='min-width:0;flex:1';
    const title=document.createElement('div');title.style.cssText='display:flex;justify-content:space-between;gap:5px;align-items:center;flex-wrap:wrap';
    const name=document.createElement('strong');name.style.cssText='font-size:12px';name.textContent=item.name;
