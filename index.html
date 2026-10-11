@@ -229,28 +229,44 @@ function heroKeyFor(h){
  return h.key || heroImageKeys[h.name] || slugifyHero(h.name);
 }
 function setHeroImageWithFallback(img,h,portrait){
- const key=heroKeyFor(h), candidates=[];
- if(h.image)candidates.push(h.image);
- candidates.push('https://overfast-api.tekrop.fr/heroes/'+encodeURIComponent(key)+'?locale=en-us');
- candidates.push('https://d1u1mce87gyfbn.cloudfront.net/hero/'+key+'/hero-select-portrait.png');
- let index=0;
+ const key=heroKeyFor(h);
+ const fallbacks=[
+  'https://overfast-api.tekrop.fr/heroes/'+encodeURIComponent(key)+'?locale=en-us',
+  'https://d1u1mce87gyfbn.cloudfront.net/hero/'+key+'/hero-select-portrait.png'
+ ];
+ let index=0, finished=false;
+ function showFallback(){
+  if(finished)return;
+  finished=true;
+  const span=document.createElement('span');
+  span.className='hero-fallback';
+  span.textContent=(h.name||'?').slice(0,1);
+  portrait.replaceChildren(span);
+ }
  function tryNext(){
-  if(index>=candidates.length){
-   const fallback=document.createElement('span');
-   fallback.className='hero-fallback';
-   fallback.textContent=(h.name||'?').slice(0,1);
-   portrait.replaceChildren(fallback);
-   return;
+  if(finished)return;
+  if(index>=fallbacks.length){showFallback();return;}
+  const candidate=fallbacks[index++];
+  if(candidate.includes('overfast-api.tekrop.fr/heroes/')){
+   fetch(candidate,{headers:{'Accept':'application/json'}})
+    .then(response=>response.ok?response.json():Promise.reject(new Error('Portrait API unavailable')))
+    .then(data=>{
+     if(data&&data.portrait){
+      img.onerror=tryNext;
+      img.src=data.portrait;
+     }else tryNext();
+    }).catch(tryNext);
+  }else{
+   img.onerror=tryNext;
+   img.src=candidate;
   }
-  const candidate=candidates[index++];
-  if(candidate.includes('/heroes/') && candidate.includes('?locale=')){
-   fetch(candidate,{headers:{'Accept':'application/json'}}).then(r=>r.ok?r.json():Promise.reject()).then(data=>{
-    if(data&&data.portrait){img.onerror=tryNext;img.src=data.portrait;}else tryNext();
-   }).catch(tryNext);
-  }else{img.onerror=tryNext;img.src=candidate;}
  }
  img.onerror=tryNext;
- if(h.image){img.src=h.image;}else tryNext();
+ if(h.image){
+  img.src=h.image;
+ }else{
+  tryNext();
+ }
 }
 function renderHeroes(){
  const q=heroSearch.value.trim().toLowerCase(), role=heroRole.value, sort=heroSort.value;
