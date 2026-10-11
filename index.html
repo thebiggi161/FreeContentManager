@@ -101,6 +101,16 @@ button.btn{border:1px solid #3a3a42;border-radius:9px;padding:9px 13px;backgroun
 @media(max-width:600px){.ow-twitch{max-width:100%;padding:8px;border-radius:11px}.ow-twitch-top{gap:7px;margin-bottom:9px}.ow-twitch-link{font-size:11px;padding:7px 9px}.ow-twitch-stage{aspect-ratio:16/9}.ow-twitch-note{font-size:10px;margin-top:8px}}
 
 .ow-hero-portrait.ow-portrait-anran img{object-fit:cover;object-position:center 8%}
+
+/* Compact sponsor shoutout in the global header */
+.spacebowl-sponsor{display:flex;align-items:center;justify-content:center;gap:10px;padding:6px 10px;border:1px solid #574136;border-radius:10px;background:linear-gradient(110deg,#261e1b,#191719);white-space:nowrap}
+.spacebowl-sponsor-label{font-size:11px;letter-spacing:.1px;color:#bdb4b2}
+.spacebowl-sponsor-label strong{font-size:12px;color:#ffb77e;font-weight:850}
+.spacebowl-shoutout{color:#ffbf91;font-size:11px;font-weight:750;text-decoration:none;border-left:1px solid #665044;padding-left:10px}
+.spacebowl-shoutout:hover,.spacebowl-shoutout:focus-visible{color:#fff;text-decoration:underline}
+@media(max-width:760px){header{gap:10px;padding-left:12px;padding-right:12px}.header-right{gap:6px}.spacebowl-sponsor{gap:6px;padding:6px 7px;flex-wrap:wrap;max-width:155px}.spacebowl-sponsor-label{font-size:10px}.spacebowl-sponsor-label strong{font-size:11px}.spacebowl-shoutout{padding-left:0;border-left:0;font-size:10px}.header-right .status{display:none}}
+@media(max-width:460px){header{gap:5px}.brand{min-width:0}.brand span{font-size:11px}.spacebowl-sponsor{max-width:112px}.spacebowl-sponsor-label{text-align:center}.spacebowl-shoutout{width:100%;text-align:center}.nav{gap:3px}.nav button{font-size:11px;padding:6px}}
+
 </style>
 <link rel="stylesheet" href="overwatch-map-detail.css?v=20261011-3">
 <link rel="stylesheet" href="overwatch-ranked.css?v=3">
@@ -113,7 +123,7 @@ button.btn{border:1px solid #3a3a42;border-radius:9px;padding:9px 13px;backgroun
 <header>
   <div class="brand"><div class="logo">F</div><span>FreeContentManager</span></div>
   <nav class="nav" aria-label="Hauptnavigation"><button data-page="counterstrike">Counter-Strike</button><button data-page="overwatch">Overwatch</button></nav>
-  <div class="header-right"><span class="status"><i class="dot"></i>Kostenlos · lokal</span><button class="btn" id="newProject">Neu starten</button></div>
+  <div class="header-right"><span class="status"><i class="dot"></i>Kostenlos · lokal</span><div class="spacebowl-sponsor" aria-label="Sponsor SpaceBowl"><span class="spacebowl-sponsor-label">Sponsored by <strong>SpaceBowl</strong></span><a class="spacebowl-shoutout" href="https://www.space-bowl.com/" target="_blank" rel="noopener noreferrer" aria-label="Shoutout: SpaceBowl Website besuchen">Shoutout ↗</a></div></div>
 </header>
 <div class="shell">
 <aside><div class="side-track"><div class="side side-main"><p class="side-caption">Workspace</p><button class="active" data-page="start"><span class="ico">⌂</span><span class="label">Startseite</span></button></div><div class="side game-subnav" id="counterstrikeSubnav"><p class="side-caption"><span>COUNTER-STRIKE</span></p><button class="back-link" data-page="start"><span class="ico">←</span><span class="label">Zur Startseite</span></button><button class="active" data-category="cs-overview" style="--i:0"><span class="ico">⌂</span><span class="label">Übersicht</span></button><button data-category="cs-loadouts" style="--i:1"><span class="ico">⚒</span><span class="label">Loadouts</span></button><button data-category="cs-maps" style="--i:2"><span class="ico">▧</span><span class="label">Maps & Smokes</span></button><button data-category="cs-clips" style="--i:3"><span class="ico">▷</span><span class="label">Clips</span></button><button data-category="cs-strats" style="--i:4"><span class="ico">☷</span><span class="label">Strategien</span></button></div><div class="side game-subnav" id="overwatchSubnav"><p class="side-caption"><span>OVERWATCH</span></p><button class="back-link" data-page="start"><span class="ico">←</span><span class="label">Zur Startseite</span></button><button data-category="ow-overview" style="--i:0"><span class="ico">⌂</span><span class="label">Übersicht</span></button><button class="active" data-category="ow-heros" style="--i:1"><span class="ico">♙</span><span class="label">Heros</span></button><button data-category="ow-maps" style="--i:2"><span class="ico">▧</span><span class="label">Maps</span></button><button data-category="ow-ranked" style="--i:3"><span class="ico">♛</span><span class="label">Ranked Tool</span></button><button data-category="ow-counter" style="--i:4"><span class="ico">⇄</span><span class="label">Hero Counter Pick</span></button></div></div></aside>
