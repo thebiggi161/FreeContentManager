@@ -455,26 +455,14 @@ document.getElementById('owMapSelect').addEventListener('change',()=>{renderMapP
 
 document.getElementById('toggleCallouts').addEventListener('click',()=>{const overlay=document.getElementById('mapOverlay'),btn=document.getElementById('toggleCallouts'),visible=btn.dataset.visible!=='false';btn.dataset.visible=visible?'false':'true';btn.setAttribute('aria-pressed',String(!visible));btn.textContent=visible?'Callouts einblenden':'Callouts ausblenden';overlay.classList.toggle('hidden',visible)});
 
-async function loadHeroes(){
+function loadHeroes(){
  heroes=heroFallbacks.map(name=>({name,role:roleFor(name),image:heroImage(name),win:null,pick:null,ban:null}));
- renderHeroes();renderMapPreview();renderMapPicks();
- try{
-  const response=await fetch('https://overfast-api.tekrop.fr/heroes?locale=en-us',{cache:'no-store'});
-  if(response.ok){const details=await response.json();details.forEach(item=>{const h=heroes.find(x=>x.name.toLowerCase()===String(item.name||'').toLowerCase());if(h){h.image=item.portrait||h.image;h.hitpoints=item.hitpoints;h.abilities=item.abilities;}});renderHeroes()}
- }catch(error){}
- try{
-  const response=await fetch('https://cycalo.github.io/ow-stats-data/ow_rates.json',{cache:'no-store'});
-  if(!response.ok)throw new Error('Stats unavailable');
-  const data=await response.json();
-  const region=data.regions&&data.regions.Europe?data.regions.Europe:data;
-  const roles=region.roles||data.roles||{};
-  Object.values(roles).flat().forEach(stat=>{
-   const hero=heroes.find(h=>h.name.toLowerCase()===String(stat.name).toLowerCase()||h.name.toLowerCase().replace(/[^a-z0-9]/g,'')===String(stat.name).toLowerCase().replace(/[^a-z0-9]/g,''));
-   if(hero){hero.win=parseFloat(String(stat.winRate||'').replace('%',''));hero.pick=parseFloat(String(stat.pickRate||'').replace('%',''));hero.ban=parseFloat(String(stat.banRate||'').replace('%',''))}
-  });
-  renderHeroes();
- }catch(error){heroCount.textContent=heroes.length+' Helden · Competitive-Daten gerade nicht erreichbar';}
+ renderHeroes();
+ renderMapPreview();
+ renderMapPicks();
+ heroCount.textContent=heroes.length+' Helden · lokale Übersicht';
 }
+
 heroSearch.addEventListener('input',renderHeroes);heroRole.addEventListener('change',renderHeroes);heroSort.addEventListener('change',renderHeroes);
 heroDetail.addEventListener('click',e=>{if(e.target===heroDetail)heroDetail.classList.add('hidden')});
 document.addEventListener('keydown',e=>{if(e.key==='Escape')heroDetail.classList.add('hidden')});
