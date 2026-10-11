@@ -20,3 +20,14 @@
 .ow-notes{padding:0;margin:4px 0 0 18px;color:#c9c9d0;font-size:12px}
 .ow-map-statsnote{font-size:11px;color:#aaa}
 @media(max-width:780px){.ow-detail-inner{grid-template-columns:1fr}.ow-detail-box{margin:0}.ow-team-unit strong{font-size:10px}}
+
+/* Read-only, already annotated overhead map viewer */
+.ow-detail-map{cursor:default;touch-action:auto;min-height:340px;background:#17171c}
+.ow-detail-map iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:#18181c}
+.ow-detail-map [hidden]{display:none!important}
+.ow-detail-empty{display:flex;align-items:center;justify-content:center;text-align:center;padding:24px;height:100%;color:#babac5;font-size:14px;line-height:1.6}
+.ow-detail-credit{font-size:11px;color:#94949f;line-height:1.5}
+.ow-detail-bar a{display:inline-flex;align-items:center;border:1px solid #ff7a1a;border-radius:8px;padding:9px 12px;color:#ffaf79;font-size:12px;text-decoration:none}
+.ow-detail-bar a[hidden]{display:none}
+.ow-detail-bar a:hover{background:#ff7a1a1a}
+@media(max-width:780px){.ow-detail-map{min-height:310px;max-height:72vh}}
