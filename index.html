@@ -355,12 +355,41 @@ const mapCallouts={
 'grims-votn':['Landing pad','Ice tunnel','Research hall','Upper platform','Objective','Side passage'],
 'paraiso-escort':['A point','Café','Main street','Upper balcony','B point','Bridge','C point','Final courtyard']
 };
-const annotatedMaps={
-'dorado':'https://drive.google.com/uc?export=view&id=1Bvm5o0HgTMlSj1owbHnl_zKiLfFzfbt8',
-'ilios':'https://drive.google.com/uc?export=view&id=1uVCt2Ca1jN66fxPLFepB1uiZyHDCph-4',
-'kings-row':'https://drive.google.com/uc?export=view&id=1qPwiAqEIASVYw_IYFvQQVh3V4SY5kFSi',
-
+const annotatedMaps={};
+const mapAssetAliases={
+ 'kings-row':['kings row','king’s row','kings row'],
+ 'watchpoint-gibraltar':['watchpoint: gibraltar','watchpoint gibraltar'],
+ 'route-66':['route 66'],
+ 'lijiang-tower':['lijiang tower'],
+ 'new-junk-city':['new junk city'],
+ 'antarctic-peninsula':['antarctic peninsula'],
+ 'new-queen-street':['new queen street'],
+ 'midtown':['midtown'],
+ 'circuit-royal':['circuit royal'],
+ 'shambali-monastery':['shambali monastery'],
+ 'samoa':['samoa'],
+ 'suravasa':['suravasa'],
+ 'esperanca':['esperança','esperanca'],
+ 'colosseo':['colosseo'],
+ 'paraiso':['paraíso','paraiso'],
+ 'hanaoka':['hanaoka'],
+ 'throne-of-anubis':['throne of anubis']
 };
+function normalizeMapName(value){return String(value||'').normalize('NFD').replace(/[\\u0300-\\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim()}
+async function refreshMapAssets(){
+ try{
+  const response=await fetch('https://overfast-api.tekrop.fr/maps',{headers:{'Accept':'application/json'},cache:'no-cache'});
+  if(!response.ok)throw new Error('Map API HTTP '+response.status);
+  const data=await response.json();
+  if(!Array.isArray(data))throw new Error('Map list unavailable');
+  Object.keys(mapNames).forEach(key=>{
+   const wanted=[mapNames[key],...(mapAssetAliases[key]||[])].map(normalizeMapName);
+   const found=data.find(item=>wanted.includes(normalizeMapName(item.name))&&item.screenshot);
+   if(found)annotatedMaps[key]=found.screenshot;
+  });
+  renderMapPreview();
+ }catch(error){console.warn('Overwatch map embeds unavailable:',error)}
+}
 const mapGood={'ilios':['Lúcio','Winston','D.Va','Pharah','Junkrat','Brigitte','Wrecking Ball'],'kings-row':['Reinhardt','Mei','Lúcio','Cassidy','Baptiste','Reaper'],'lijiang-tower':['Lúcio','D.Va','Winston','Symmetra','Pharah','Brigitte'],'nepal':['Winston','D.Va','Lúcio','Mei','Reaper','Brigitte'],'oasis':['D.Va','Winston','Lúcio','Pharah','Tracer','Brigitte'],'route-66':['Ashe','Widowmaker','Sigma','Baptiste','Ana','Winston'],'watchpoint-gibraltar':['Winston','D.Va','Tracer','Genji','Ana','Lúcio'],'dorado':['Widowmaker','Ashe','Sigma','Baptiste','Kiriko','Winston'],'esperanca':['Wrecking Ball','Tracer','Sombra','Lúcio','Kiriko','Winston'],'new-junk-city':['Junker Queen','Tracer','Sojourn','Lúcio','Kiriko','Winston'],'suravasa':['Winston','D.Va','Tracer','Lúcio','Kiriko','Genji'],'circuit-royal':['Widowmaker','Ashe','Sigma','Baptiste','Ana','Hanzo'],'colosseo':['Winston','Tracer','Sojourn','Lúcio','Kiriko','D.Va'],'midtown':['Ashe','Sojourn','Sigma','Baptiste','Kiriko','Tracer'],'paraiso':['Winston','D.Va','Tracer','Lúcio','Ana','Genji'],'samoa':['D.Va','Winston','Lúcio','Pharah','Tracer','Brigitte'],'antarctic-peninsula':['Mei','Junkrat','Winston','Lúcio','Kiriko','Reaper']};
 const mapSituational={'ilios':['Widowmaker','Sigma','Bastion'],'kings-row':['Widowmaker','Pharah','Wrecking Ball'],'lijiang-tower':['Widowmaker','Bastion','Sigma'],'nepal':['Widowmaker','Pharah','Bastion'],'oasis':['Widowmaker','Bastion','Sigma'],'route-66':['Reinhardt','Junkrat','Symmetra'],'watchpoint-gibraltar':['Reinhardt','Junkrat','Mei'],'dorado':['Reinhardt','Junkrat','Mei'],'esperanca':['Reinhardt','Junkrat','Bastion'],'new-junk-city':['Widowmaker','Pharah','Reinhardt'],'suravasa':['Widowmaker','Reinhardt','Bastion'],'circuit-royal':['Reinhardt','Junkrat','Symmetra'],'colosseo':['Widowmaker','Reinhardt','Junkrat'],'midtown':['Reinhardt','Junkrat','Symmetra'],'paraiso':['Widowmaker','Junkrat','Reinhardt'],'samoa':['Widowmaker','Junkrat','Bastion'],'antarctic-peninsula':['Widowmaker','Pharah','Sigma']};
 const calloutPositions=[[14,22],[36,20],[60,24],[81,28],[24,49],[50,52],[75,50],[18,76],[43,78],[68,75],[88,80]];
@@ -549,6 +578,7 @@ heroDetail.addEventListener('click',e=>{if(e.target===heroDetail)heroDetail.clas
 document.addEventListener('keydown',e=>{if(e.key==='Escape')heroDetail.classList.add('hidden')});
 loadHeroes();
 refreshHeroAssets();
+refreshMapAssets();
 document.querySelectorAll('[data-template]').forEach(b=>b.addEventListener('click',()=>{
   const toast=document.getElementById('toast');
   toast.textContent='Der neue Workspace kommt als nächster Schritt.';
