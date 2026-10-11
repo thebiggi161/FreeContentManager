@@ -96,29 +96,13 @@ function page(name){
   shell.classList.toggle('game-active',name==='counterstrike'||name==='overwatch');
   shell.classList.toggle('cs-active',name==='counterstrike');
   shell.classList.toggle('ow-active',name==='overwatch');
-  document.querySelectorAll('[data-category]').forEach(b=>b.classList.toggle('active',b.dataset.category===(name==='counterstrike'?'cs-overview':'ow-guides')));
+  document.querySelectorAll('[data-category]').forEach(b=>b.classList.toggle('active',name==='counterstrike'&&b.dataset.category==='cs-overview'));
 }
 document.querySelectorAll('[data-page]').forEach(b=>b.addEventListener('click',()=>page(b.dataset.page)));
 document.querySelectorAll('[data-category]').forEach(b=>b.addEventListener('click',()=>{
   const gameNav=b.closest('.game-subnav');
   gameNav.querySelectorAll('[data-category]').forEach(item=>item.classList.toggle('active',item===b));
-  if(b.dataset.category.startsWith('ow-')){
-    const section=b.dataset.category;
-    const target={'ow-guides':'owGuidesContent'}[section];
-    const panels=['owHeroesContent','owMapsContent','owGuidesContent'];
-    const owPage=document.getElementById('overwatchPage');
-    if(owPage)owPage.classList.remove('hidden');
-    panels.forEach(id=>{
-      const panel=document.getElementById(id);
-      if(panel){
-        panel.classList.toggle('hidden',id!==target);
-        panel.style.display=id===target?'block':'none';
-      }
-    });
-    if(section==='ow-guides'){
-      renderGuideMaps();
-    }else if(section==='ow-team'){
-      const toast=document.getElementById('toast');
+  const toast=document.getElementById('toast');
       toast.textContent='Team & Taktiken wird später ausgebaut.';
       toast.classList.remove('hidden');
       setTimeout(()=>toast.classList.add('hidden'),2200);
