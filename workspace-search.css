@@ -1,0 +1,19 @@
+/* Search across YouTube, Twitch and Google from the start page */
+.ws-search-panel{max-width:920px;margin:22px 0 24px;padding:17px 19px;border:1px solid #39343a;border-radius:15px;background:linear-gradient(140deg,#201c21,#121216)}
+.ws-search-panel h2{font-size:18px;margin:0 0 4px}
+.ws-search-panel p{font-size:12px;color:#a8a3ad;margin:0 0 13px}
+.ws-search-row{display:flex;gap:9px;align-items:stretch}
+.ws-search-input{flex:1;min-width:0;min-height:48px;border:1px solid #51434a;border-radius:10px;background:#111115;color:#fff;padding:11px 14px;font-size:14px}
+.ws-search-input::placeholder{color:#89848e}
+.ws-search-button-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:11px}
+.ws-search-button{min-height:43px;display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid #514047;border-radius:9px;padding:10px 15px;background:#252028;color:#fff;font-size:13px;font-weight:700}
+.ws-search-button:hover{background:#332832;transform:translateY(-1px)}
+.ws-search-button[data-search-engine="youtube"]{border-color:#bb4545}
+.ws-search-button[data-search-engine="twitch"]{border-color:#865ac6}
+.ws-search-button[data-search-engine="google"]{border-color:#547bb6}
+.ws-search-button .ws-search-mark{font-weight:900;color:#ffaa7b}
+.ws-search-button[data-search-engine="youtube"] .ws-search-mark{color:#ff6565}
+.ws-search-button[data-search-engine="twitch"] .ws-search-mark{color:#b58cff}
+.ws-search-button[data-search-engine="google"] .ws-search-mark{color:#8ebaff}
+.ws-search-hint{display:block;color:#8e8993;font-size:11px;margin-top:10px}
+@media(max-width:600px){.ws-search-panel{padding:12px;margin:16px 0 18px}.ws-search-button-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}.ws-search-button{padding:9px 5px;font-size:12px}.ws-search-input{width:100%}}
