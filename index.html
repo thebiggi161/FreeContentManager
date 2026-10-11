@@ -151,12 +151,19 @@ document.querySelectorAll('[data-category]').forEach(b=>b.addEventListener('clic
     const section=b.dataset.category;
     const target={'ow-heroes':'owHeroesContent','ow-maps':'owMapsContent','ow-guides':'owGuidesContent'}[section];
     const panels=['owHeroesContent','owMapsContent','owGuidesContent'];
+    const owPage=document.getElementById('overwatchPage');
+    if(owPage)owPage.classList.remove('hidden');
     panels.forEach(id=>{
       const panel=document.getElementById(id);
-      if(panel)panel.classList.toggle('hidden',id!==target);
+      if(panel){
+        panel.classList.toggle('hidden',id!==target);
+        panel.style.display=id===target?'block':'none';
+      }
     });
     if(section==='ow-heroes'){
-      renderHeroes();
+      const grid=document.getElementById('heroGrid');
+      if(grid && !grid.children.length)grid.innerHTML='<div class="panel hero-loading">Helden werden geladen …</div>';
+      try{renderHeroes()}catch(error){const count=document.getElementById('heroCount');if(count)count.textContent='Helden konnten nicht geladen werden';}
     }else if(section==='ow-maps'){
       renderMapPreview();
       renderMapPicks();
