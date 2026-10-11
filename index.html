@@ -87,16 +87,18 @@ button.btn{border:1px solid #3a3a42;border-radius:9px;padding:9px 13px;backgroun
 }
 
 
-/* Stream player is visually integrated but Twitch video controls remain unobstructed. */
-.ow-twitch{background:transparent;border:1px solid #ff7a1a55;border-radius:16px;padding:clamp(12px,2vw,20px);box-shadow:0 0 26px #ff7a1a0e}
-.ow-twitch-top{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:15px}
-.ow-twitch-top h2{font-size:clamp(17px,2.5vw,22px);margin:3px 0 0}
-.ow-twitch-link{font-size:12px;padding:9px 12px;border:1px solid #ff7a1a77;border-radius:9px;color:#ffae75;text-decoration:none}
+/* Compact, centered Twitch player with fluid device scaling. */
+.ow-twitch{width:100%;max-width:820px;margin:0 auto;background:transparent;border:1px solid #ff7a1a55;border-radius:14px;padding:14px;box-shadow:0 0 20px #ff7a1a0e}
+.ow-twitch-top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+.ow-twitch-top h2{font-size:clamp(16px,2vw,20px);margin:3px 0 0}
+.ow-twitch-link{font-size:12px;padding:8px 11px;border:1px solid #ff7a1a77;border-radius:9px;color:#ffae75;text-decoration:none}
 .ow-twitch-link:hover{background:#ff7a1a1a}
-.ow-twitch-stage{width:100%;aspect-ratio:16/9;min-height:300px;border-radius:10px;overflow:hidden;background:#0b0b0da8}
-.ow-twitch-stage iframe{display:block;width:100%;height:100%;min-height:300px;border:0;background:transparent}
-.ow-twitch-note{color:var(--muted);font-size:11px;margin:12px 0 0}
-@media(max-width:600px){.ow-twitch{padding:10px}.ow-twitch-stage{aspect-ratio:auto;height:300px}.ow-twitch-link{width:100%;text-align:center}.ow-twitch-top{gap:10px}}
+.ow-twitch-stage{position:relative;width:100%;aspect-ratio:16/9;border-radius:9px;overflow:hidden;background:#0b0b0da8}
+.ow-twitch-stage iframe{position:absolute;inset:0;display:block;width:100%;height:100%;border:0;background:transparent}
+.ow-twitch-note{color:var(--muted);font-size:11px;margin:10px 0 0}
+@media(min-width:1200px){.ow-twitch{max-width:760px}}
+@media(min-width:601px) and (max-width:980px){.ow-twitch{max-width:690px;padding:12px}}
+@media(max-width:600px){.ow-twitch{max-width:100%;padding:8px;border-radius:11px}.ow-twitch-top{gap:7px;margin-bottom:9px}.ow-twitch-link{font-size:11px;padding:7px 9px}.ow-twitch-stage{aspect-ratio:16/9}.ow-twitch-note{font-size:10px;margin-top:8px}}
 
 </style>
 <link rel="stylesheet" href="overwatch-map-detail.css?v=20261011-3">
