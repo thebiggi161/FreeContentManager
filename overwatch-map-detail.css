@@ -31,3 +31,7 @@
 .ow-detail-bar a[hidden]{display:none}
 .ow-detail-bar a:hover{background:#ff7a1a1a}
 @media(max-width:780px){.ow-detail-map{min-height:310px;max-height:72vh}}
+
+/* Orange outline only on cards with a registered map overlay. */
+.ow-map-card.ow-has-overlay{border:2px solid var(--accent,#ff7a1a);box-shadow:0 0 0 1px #ff7a1a33,0 0 18px #ff7a1a1a}
+.ow-map-card.ow-has-overlay:hover,.ow-map-card.ow-has-overlay:focus-visible{box-shadow:0 0 0 2px #ff7a1a55,0 0 24px #ff7a1a4d}
