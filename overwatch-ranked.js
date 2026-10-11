@@ -56,7 +56,7 @@ function render(){
  document.getElementById('owRankBadge').textContent=rank.code;
  document.getElementById('owRankName').textContent=rank.name+' '+division;
  document.getElementById('owRankSubtitle').textContent='Division '+division+' von 5 · '+(step+1)+' / 45';
- document.getElementById('owRankRange').setAttribute('aria-valuetext',rank.name+' Division '+division);
+ rankSlider.setAttribute('aria-valuetext',rank.name+' Division '+division);
  rankButtons.querySelectorAll('button').forEach((b,i)=>b.setAttribute('aria-pressed',String(i===rankIndex)));
  const picks=recommendations(rankIndex,division);
  pickContainer.replaceChildren();
