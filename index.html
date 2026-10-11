@@ -131,7 +131,7 @@ function page(name){
   const shell=document.querySelector('.shell');
   shell.classList.toggle('game-active',name==='counterstrike'||name==='overwatch'||name==='overwatchHeros'||name==='overwatchMaps');
   shell.classList.toggle('cs-active',name==='counterstrike');
-  shell.classList.toggle('ow-active',name==='overwatch'||name==='overwatchHeros');
+  shell.classList.toggle('ow-active',name==='overwatch'||name==='overwatchHeros'||name==='overwatchMaps');
   document.querySelectorAll('[data-category]').forEach(b=>b.classList.toggle('active',(name==='counterstrike'&&b.dataset.category==='cs-overview')||(name==='overwatch'&&b.dataset.category==='ow-overview')||(name==='overwatchHeros'&&b.dataset.category==='ow-heros')||(name==='overwatchMaps'&&b.dataset.category==='ow-maps')));
 }
 document.querySelectorAll('[data-page]').forEach(b=>b.addEventListener('click',()=>page(b.dataset.page)));
