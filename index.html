@@ -275,7 +275,20 @@ function renderMapPicks(){
   const info=document.createElement('div');info.style.minWidth='0';const name=document.createElement('strong');name.textContent=item.name;const note=document.createElement('small');note.textContent=item.good?'Gute Passung für diese Map':'Eher situativ – Team/Matchup beachten';info.append(name,note);
   const rating=document.createElement('span');rating.className='rating';rating.textContent=item.good?'GUT':'SITUATIV';card.append(img,info,rating);picks.appendChild(card);
  });
- const players=document.getElementById('mapPlayerPicks');players.innerHTML='<p style="color:var(--muted);font-size:12px">Keine verifizierten map-spezifischen Prozentdaten verfügbar.</p>';
+ const players=document.getElementById('mapPlayerPicks');players.innerHTML='';
+ const pickTitle=document.createElement('p');pickTitle.style.cssText='font-size:10px;color:var(--muted);margin:12px 0 7px';pickTitle.textContent='EMPFOHLENE PICKS';players.appendChild(pickTitle);
+ const pickSelect=document.createElement('select');pickSelect.id='playerPickSelect';pickSelect.setAttribute('aria-label','Empfohlenen Helden auswählen');pickSelect.style.cssText='width:100%;min-height:40px;background:#202025;color:var(--text);border:1px solid var(--line);border-radius:8px;padding:9px;margin-bottom:10px';
+ const selectable=entries.filter(item=>item.good);
+ if(!selectable.length){const opt=document.createElement('option');opt.textContent='Keine Picks für diese Rolle';opt.value='';pickSelect.appendChild(opt);pickSelect.disabled=true}
+ else selectable.forEach(item=>{const opt=document.createElement('option');opt.value=item.name;opt.textContent=item.name;pickSelect.appendChild(opt)});
+ const featured=document.createElement('div');featured.style.cssText='display:flex;align-items:center;gap:10px;padding:10px;border:1px solid var(--line);border-radius:9px;background:#202025';
+ const featuredImg=document.createElement('img');featuredImg.alt='';featuredImg.style.cssText='width:54px;height:62px;object-fit:contain;flex:none';
+ const featuredInfo=document.createElement('div');featuredInfo.style.minWidth='0';
+ const featuredName=document.createElement('strong');featuredName.style.cssText='display:block;font-size:13px';
+ const featuredNote=document.createElement('small');featuredNote.style.cssText='display:block;color:var(--muted);font-size:10px;margin-top:4px';featuredNote.textContent='Empfohlener Pick für diese Map';
+ featuredInfo.append(featuredName,featuredNote);featured.append(featuredImg,featuredInfo);
+ function updateFeaturedPick(){const chosen=selectable.find(item=>item.name===pickSelect.value)||selectable[0];if(!chosen){featured.hidden=true;return}featured.hidden=false;const hero=heroes.find(x=>x.name===chosen.name);featuredName.textContent=chosen.name;featuredImg.src=hero?hero.image:heroImage(chosen.name);featuredImg.onerror=()=>featuredImg.style.visibility='hidden';featuredImg.style.visibility='visible'}
+ pickSelect.addEventListener('change',updateFeaturedPick);players.append(pickSelect,featured);updateFeaturedPick();
 }
 document.getElementById('owMapSelect').addEventListener('change',()=>{renderMapPreview();renderMapPicks()});
 document.getElementById('mapRoleSelect').addEventListener('change',renderMapPicks);
