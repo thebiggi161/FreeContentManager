@@ -77,8 +77,10 @@ function close(){
 }
 grid.addEventListener('click',e=>{const card=e.target.closest('.ow-map-card');if(!card)return;const name=card.querySelector('h3')?.textContent;if(name)openMap(name,card)});
 grid.addEventListener('keydown',e=>{if(e.key!=='Enter'&&e.key!==' ')return;const card=e.target.closest('.ow-map-card');if(!card)return;e.preventDefault();const name=card.querySelector('h3')?.textContent;if(name)openMap(name,card)});
-const obs=new MutationObserver(()=>grid.querySelectorAll('.ow-map-card').forEach(card=>{card.tabIndex=0;card.setAttribute('role','button');card.setAttribute('aria-label','Details zu '+(card.querySelector('h3')?.textContent||'Karte')+' öffnen')}));
+const labelMapCards=()=>grid.querySelectorAll('.ow-map-card').forEach(card=>{const name=card.querySelector('h3')?.textContent||'';card.tabIndex=0;card.setAttribute('role','button');card.classList.toggle('ow-has-overlay',Object.prototype.hasOwnProperty.call(annotatedOverlays,name));card.setAttribute('aria-label','Details zu '+name+(Object.prototype.hasOwnProperty.call(annotatedOverlays,name)?' · Overlay hinterlegt':' · kein Overlay hinterlegt')+' öffnen')});
+const obs=new MutationObserver(labelMapCards);
 obs.observe(grid,{childList:true});
+labelMapCards();
 $('ow-detail-close').addEventListener('click',close);
 el.addEventListener('click',e=>{if(e.target===el)close()});
 document.addEventListener('keydown',e=>{if(el.hidden)return;if(e.key==='Escape')close()});
