@@ -23,6 +23,27 @@ button.btn{border:1px solid #3a3a42;border-radius:9px;padding:9px 13px;backgroun
 
 .guide-video{width:100%;aspect-ratio:16/9;border:0;border-radius:9px;background:#080809}
 
+
+/* Overwatch Heros gallery: data/stats are local; only portraits use a remote image host. */
+.ow-hero-toolbar{display:flex;gap:10px;flex-wrap:wrap;margin:0 0 18px}
+.ow-hero-toolbar input,.ow-hero-toolbar select{min-width:0;padding:11px 12px;border:1px solid var(--line);border-radius:9px;background:#141417;color:var(--text)}
+.ow-hero-toolbar input{flex:1;min-width:180px}
+.ow-hero-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(225px,1fr));gap:14px}
+.ow-hero-card{display:grid;grid-template-columns:94px minmax(0,1fr);min-height:190px;overflow:hidden;border:1px solid #33333a;border-radius:13px;background:linear-gradient(145deg,#1b1b20,#101012);transition:border-color .15s,transform .15s}
+.ow-hero-card:hover{border-color:var(--accent);transform:translateY(-2px)}
+.ow-hero-portrait{position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden;background:radial-gradient(ellipse at 50% 30%,#41414b,#19191e 70%);min-height:190px}
+.ow-hero-portrait img{width:100%;height:100%;position:absolute;inset:0;object-fit:cover;object-position:top center}
+.ow-hero-fallback{font-size:28px;font-weight:900;color:#ff9a4b;letter-spacing:-1px}
+.ow-hero-info{padding:12px 11px;min-width:0}
+.ow-hero-role{font-size:9px;text-transform:uppercase;letter-spacing:1.3px;color:var(--accent);font-weight:800}
+.ow-hero-info h3{margin:3px 0 9px;font-size:15px;line-height:1.15;overflow-wrap:anywhere}
+.ow-stat{display:grid;grid-template-columns:68px minmax(0,1fr) 24px;align-items:center;gap:5px;margin:7px 0;font-size:10px;color:#b9b9c2}
+.ow-stat-track{height:5px;border-radius:99px;background:#303037;overflow:hidden}
+.ow-stat-fill{height:100%;background:linear-gradient(90deg,#ff7a1a,#ffc078);border-radius:99px}
+.ow-stat-value{text-align:right;color:#fff;font-variant-numeric:tabular-nums}
+.ow-hero-note{font-size:11px;color:var(--muted);margin:0 0 16px}
+@media(max-width:600px){.ow-hero-grid{grid-template-columns:1fr}.ow-hero-card{grid-template-columns:105px minmax(0,1fr)}}
+
 </style>
 </head>
 <body>
@@ -32,10 +53,17 @@ button.btn{border:1px solid #3a3a42;border-radius:9px;padding:9px 13px;backgroun
   <div class="header-right"><span class="status"><i class="dot"></i>Kostenlos · lokal</span><button class="btn" id="newProject">Neu starten</button></div>
 </header>
 <div class="shell">
-<aside><div class="side-track"><div class="side side-main"><p class="side-caption">Workspace</p><button class="active" data-page="start"><span class="ico">⌂</span><span class="label">Startseite</span></button><button data-page="home"><span class="ico">▦</span><span class="label">Übersicht</span></button><button data-page="templates"><span class="ico">▤</span><span class="label">Vorlagen</span></button></div><div class="side game-subnav" id="counterstrikeSubnav"><p class="side-caption"><span>COUNTER-STRIKE</span></p><button class="back-link" data-page="start"><span class="ico">←</span><span class="label">Zur Startseite</span></button><button class="active" data-category="cs-overview" style="--i:0"><span class="ico">⌂</span><span class="label">Übersicht</span></button><button data-category="cs-loadouts" style="--i:1"><span class="ico">⚒</span><span class="label">Loadouts</span></button><button data-category="cs-maps" style="--i:2"><span class="ico">▧</span><span class="label">Maps & Smokes</span></button><button data-category="cs-clips" style="--i:3"><span class="ico">▷</span><span class="label">Clips</span></button><button data-category="cs-strats" style="--i:4"><span class="ico">☷</span><span class="label">Strategien</span></button></div><div class="side game-subnav" id="overwatchSubnav"><p class="side-caption"><span>OVERWATCH</span></p><button class="back-link" data-page="start"><span class="ico">←</span><span class="label">Zur Startseite</span></button></div></div></aside>
+<aside><div class="side-track"><div class="side side-main"><p class="side-caption">Workspace</p><button class="active" data-page="start"><span class="ico">⌂</span><span class="label">Startseite</span></button><button data-page="home"><span class="ico">▦</span><span class="label">Übersicht</span></button><button data-page="templates"><span class="ico">▤</span><span class="label">Vorlagen</span></button></div><div class="side game-subnav" id="counterstrikeSubnav"><p class="side-caption"><span>COUNTER-STRIKE</span></p><button class="back-link" data-page="start"><span class="ico">←</span><span class="label">Zur Startseite</span></button><button class="active" data-category="cs-overview" style="--i:0"><span class="ico">⌂</span><span class="label">Übersicht</span></button><button data-category="cs-loadouts" style="--i:1"><span class="ico">⚒</span><span class="label">Loadouts</span></button><button data-category="cs-maps" style="--i:2"><span class="ico">▧</span><span class="label">Maps & Smokes</span></button><button data-category="cs-clips" style="--i:3"><span class="ico">▷</span><span class="label">Clips</span></button><button data-category="cs-strats" style="--i:4"><span class="ico">☷</span><span class="label">Strategien</span></button></div><div class="side game-subnav" id="overwatchSubnav"><p class="side-caption"><span>OVERWATCH</span></p><button class="back-link" data-page="start"><span class="ico">←</span><span class="label">Zur Startseite</span></button><button data-category="ow-overview" style="--i:0"><span class="ico">⌂</span><span class="label">Übersicht</span></button><button class="active" data-category="ow-heros" style="--i:1"><span class="ico">♙</span><span class="label">Heros</span></button></div></div></aside>
 <main>
 <section class="page hidden" id="overwatchPage">
   <div class="heading"><div><div class="eyebrow">Overwatch</div><h1>Overwatch Hub</h1></div></div>
+</section>
+
+<section class="page hidden" id="overwatchHerosPage">
+  <div class="heading"><div><div class="eyebrow">Overwatch · Roster</div><h1>Heros</h1><p class="intro">Alle Helden in kompakten Infofenstern. Die Werte sind lokale, frei anpassbare Einschätzungen – keine offiziellen Ingame-Attribute.</p></div></div>
+  <div class="ow-hero-toolbar"><input id="owHeroSearch" type="search" placeholder="Held suchen …" aria-label="Held suchen"><select id="owHeroRole" aria-label="Rolle filtern"><option value="all">Alle Rollen</option><option value="Tank">Tank</option><option value="Damage">Damage</option><option value="Support">Support</option></select><select id="owHeroSort" aria-label="Sortierung"><option value="name">Name A–Z</option><option value="strength">Stärke</option><option value="speed">Geschwindigkeit</option><option value="tankiness">Tankiness</option><option value="fireRate">Feuerrate</option><option value="armor">Rüstung</option></select></div>
+  <p class="ow-hero-note" id="owHeroCount" aria-live="polite">Helden werden geladen …</p>
+  <div class="ow-hero-grid" id="owHeroGrid"></div>
 </section>
 <section class="page hidden" id="counterstrikePage">
   <div class="heading"><div><div class="eyebrow">Counter-Strike</div><h1>Counter-Strike Hub</h1><p class="intro">Ein leerer Bereich für neue Ideen. Hier sammeln und planen wir später gemeinsam, was in den Hub gehört.</p></div></div>
@@ -85,8 +113,8 @@ button.btn{border:1px solid #3a3a42;border-radius:9px;padding:9px 13px;backgroun
 <div class="toast hidden" id="toast" role="status" aria-live="polite"></div>
 <script>
 (()=>{'use strict';
-const pageNames=['start','home','templates','counterstrike','overwatch'];
-const pageElements={start:document.getElementById('startPage'),home:document.getElementById('homePage'),templates:document.getElementById('templatesPage'),counterstrike:document.getElementById('counterstrikePage'),overwatch:document.getElementById('overwatchPage')};
+const pageNames=['start','home','templates','counterstrike','overwatch','overwatchHeros'];
+const pageElements={start:document.getElementById('startPage'),home:document.getElementById('homePage'),templates:document.getElementById('templatesPage'),counterstrike:document.getElementById('counterstrikePage'),overwatch:document.getElementById('overwatchPage'),overwatchHeros:document.getElementById('overwatchHerosPage')};
 function page(name){
   if(!pageElements[name])return;
   pageNames.forEach(n=>pageElements[n].classList.toggle('hidden',n!==name));
@@ -94,11 +122,14 @@ function page(name){
   const shell=document.querySelector('.shell');
   shell.classList.toggle('game-active',name==='counterstrike'||name==='overwatch');
   shell.classList.toggle('cs-active',name==='counterstrike');
-  shell.classList.toggle('ow-active',name==='overwatch');
-  document.querySelectorAll('[data-category]').forEach(b=>b.classList.toggle('active',name==='counterstrike'&&b.dataset.category==='cs-overview'));
+  shell.classList.toggle('ow-active',name==='overwatch'||name==='overwatchHeros');
+  document.querySelectorAll('[data-category]').forEach(b=>b.classList.toggle('active',(name==='counterstrike'&&b.dataset.category==='cs-overview')||(name==='overwatch'&&b.dataset.category==='ow-overview')||(name==='overwatchHeros'&&b.dataset.category==='ow-heros')));
 }
 document.querySelectorAll('[data-page]').forEach(b=>b.addEventListener('click',()=>page(b.dataset.page)));
 document.querySelectorAll('[data-category]').forEach(b=>b.addEventListener('click',()=>{
+  if(b.dataset.category==='ow-heros'){page('overwatchHeros');return;}
+  if(b.dataset.category==='ow-overview'){page('overwatch');return;}
+  if(b.dataset.category==='cs-overview'){page('counterstrike');return;}
   const toast=document.getElementById('toast');
   toast.textContent='Kategorie „'+b.querySelector('.label').textContent+'“ ist vorbereitet und kann später ausgebaut werden.';
   toast.classList.remove('hidden');
@@ -110,6 +141,30 @@ document.querySelectorAll('[data-template]').forEach(b=>b.addEventListener('clic
   toast.classList.remove('hidden');
   setTimeout(()=>toast.classList.add('hidden'),2500);
 }));
+
+/* Locally stored hero roster and editable estimate values; portraits are the only external dependency. */
+const owHeroes=[
+["Ana","Support",35,35,25,30,10],["Anran","Damage",65,75,20,70,10],["Ashe","Damage",75,50,20,65,10],["Baptiste","Support",55,45,35,65,20],["Bastion","Damage",85,25,25,85,20],["Brigitte","Support",45,40,55,40,35],["Cassidy","Damage",75,40,25,55,10],["D.Va","Tank",70,75,85,65,35],["D.Mon","Tank",65,70,80,55,30],["Domina","Tank",65,35,80,55,45],["Doomfist","Tank",80,75,70,35,20],["Echo","Damage",75,70,25,65,10],["Emre","Damage",70,55,25,65,15],["Freja","Damage",75,70,20,70,10],["Genji","Damage",70,90,20,60,10],["Hanzo","Damage",85,45,20,35,10],["Hazard","Tank",70,65,75,45,35],["Illari","Support",65,45,30,55,15],["Jetpack Cat","Support",35,85,20,35,10],["Junker Queen","Tank",65,55,70,55,25],["Junkrat","Damage",75,45,25,60,10],["Juno","Support",45,80,25,55,10],["Kiriko","Support",50,80,25,45,10],["Lifeweaver","Support",35,45,25,35,10],["Lúcio","Support",40,90,30,45,10],["Mauga","Tank",80,40,85,85,35],["Mei","Damage",55,35,50,45,15],["Mercy","Support",20,70,20,15,10],["Mizuki","Support",45,50,30,45,15],["Moira","Support",45,55,30,65,10],["Orisa","Tank",65,30,90,55,45],["Pharah","Damage",75,65,20,45,10],["Ramattra","Tank",75,35,80,60,40],["Reaper","Damage",80,45,35,45,10],["Reinhardt","Tank",65,35,95,20,55],["Roadhog","Tank",75,35,90,40,35],["Sierra","Damage",65,60,20,65,10],["Shion","Damage",60,65,20,60,10],["Sigma","Tank",70,35,90,50,45],["Sojourn","Damage",75,65,25,70,10],["Soldier: 76","Damage",65,55,25,80,10],["Sombra","Damage",60,85,20,55,10],["Symmetra","Damage",60,40,25,65,10],["Torbjörn","Damage",70,30,40,65,25],["Tracer","Damage",65,95,15,80,10],["Vendetta","Damage",75,75,30,45,15],["Venture","Damage",70,65,35,45,15],["Widowmaker","Damage",90,45,15,25,10],["Winston","Tank",60,65,85,35,35],["Wrecking Ball","Tank",65,90,80,35,30],["Wuyang","Support",45,70,25,50,10],["Zarya","Tank",75,35,85,65,45],["Zenyatta","Support",60,30,20,55,10],["Doctrine","Support",55,45,30,60,15]
+];
+const owRoleForImage=n=>({'D.Va':'dva','D.Mon':'dmon','Doomfist':'doomfist','Junker Queen':'junker-queen','Junkrat':'junkrat','Lúcio':'lucio','Soldier: 76':'soldier-76','Torbjörn':'torbjorn','Wrecking Ball':'wrecking-ball','Jetpack Cat':'jetpack-cat','Lifeweaver':'lifeweaver','Roadhog':'roadhog','Widowmaker':'widowmaker'}[n]||n.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,''));
+const owStatDefs=[['Stärke','strength'],['Geschw.','speed'],['Tankiness','tankiness'],['Feuerrate','fireRate'],['Rüstung','armor']];
+function renderOwHeroes(){
+ const grid=document.getElementById('owHeroGrid'); if(!grid)return;
+ const query=(document.getElementById('owHeroSearch').value||'').trim().toLowerCase();
+ const role=document.getElementById('owHeroRole').value, sort=document.getElementById('owHeroSort').value;
+ const all=owHeroes.map(h=>({name:h[0],role:h[1],strength:h[2],speed:h[3],tankiness:h[4],fireRate:h[5],armor:h[6]}))
+ .filter(h=>(!query||h.name.toLowerCase().includes(query))&&(role==='all'||h.role===role));
+ all.sort((a,b)=>sort==='name'?a.name.localeCompare(b.name):b[sort]-a[sort]);
+ document.getElementById('owHeroCount').textContent=all.length+' von '+owHeroes.length+' Helden · Bildquelle extern, Namen und Werte lokal gespeichert.';
+ grid.innerHTML=all.map(h=>{
+ const slug=owRoleForImage(h.name), initials=h.name.split(/\s+/).map(w=>w[0]).join('').slice(0,2);
+ const stats=owStatDefs.map(([label,key])=>'<div class="ow-stat"><span>'+label+'</span><div class="ow-stat-track"><div class="ow-stat-fill" style="width:'+h[key]+'%"></div></div><span class="ow-stat-value">'+h[key]+'</span></div>').join('');
+ return '<article class="ow-hero-card"><div class="ow-hero-portrait"><span class="ow-hero-fallback">'+initials+'</span><img loading="lazy" decoding="async" alt="'+h.name+'" src="https://d1u1mce87gyfbn.cloudfront.net/hero/'+slug+'/hero-select-portrait.png" onerror="this.remove()"></div><div class="ow-hero-info"><div class="ow-hero-role">'+h.role+'</div><h3>'+h.name+'</h3>'+stats+'</div></article>';
+ }).join('');
+}
+['owHeroSearch','owHeroRole','owHeroSort'].forEach(id=>document.getElementById(id).addEventListener(id==='owHeroSearch'?'input':'change',renderOwHeroes));
+renderOwHeroes();
+
 page('start');
 })();
 </script>
