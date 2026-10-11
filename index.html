@@ -25,11 +25,30 @@ main{width:100%;max-width:1500px;margin:auto;padding:34px clamp(16px,4vw,52px) 2
 <body>
 <header>
   <div class="brand"><div class="logo">F</div><span>FreeContentManager</span></div>
+  <nav class="nav" aria-label="Hauptnavigation"><button data-page="counterstrike">Counter-Strike</button></nav>
   <div class="header-right"><span class="status"><i class="dot"></i>Kostenlos · lokal</span><button class="btn" id="newProject">Neu starten</button></div>
 </header>
 <div class="shell">
 <aside><div class="side"><p class="side-caption">Workspace</p><button class="active" data-page="start"><span class="ico">⌂</span><span class="label">Startseite</span></button><button data-page="home"><span class="ico">▦</span><span class="label">Übersicht</span></button><button data-page="templates"><span class="ico">▤</span><span class="label">Vorlagen</span></button></div><div class="privacy"><b>Deine Dateien bleiben privat.</b><p>Bilder werden nur in deinem Browser verarbeitet und nicht hochgeladen.</p></div></aside>
 <main>
+<section class="page hidden" id="counterstrikePage">
+  <div class="heading"><div><div class="eyebrow">Gaming Hub · CS2</div><h1>Counter-Strike</h1><p class="intro">Dein Bereich für Counter-Strike-Content: plane Thumbnails, Clip-Cover und Posts für deine nächsten Highlights.</p></div></div>
+  <div class="tiles">
+    <div class="tile"><div class="icon">▣</div><b>YouTube-Thumbnail</b><span>Für Highlights, Fragmovies und Match-Recaps im 16:9-Format.</span></div>
+    <div class="tile"><div class="icon">▶</div><b>Clip & Shorts-Cover</b><span>Hochformat für Clutches, Aces und kurze Gameplay-Momente.</span></div>
+    <div class="tile"><div class="icon">✦</div><b>Matchday-Post</b><span>Quadratisches Design für Team-Updates und Spielankündigungen.</span></div>
+  </div>
+  <div class="panel">
+    <div class="panel-head"><div><b>Dein CS-Content-Workflow</b><p>Einfacher Start für deine Gaming-Inhalte</p></div><span class="badge">CS2</span></div>
+    <div style="padding:20px">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px">
+        <div style="padding:16px;border:1px solid var(--line);border-radius:10px;background:#17171a"><div style="color:var(--accent);font-weight:800;margin-bottom:7px">01 · AUSWÄHLEN</div><b>Wähle deinen Content-Typ</b><p style="color:var(--muted);font-size:12px;margin-bottom:0">Highlight, Turnier, Team-Post oder Clip.</p></div>
+        <div style="padding:16px;border:1px solid var(--line);border-radius:10px;background:#17171a"><div style="color:var(--accent);font-weight:800;margin-bottom:7px">02 · GESTALTEN</div><b>Öffne PhotoCraft</b><p style="color:var(--muted);font-size:12px;margin-bottom:12px">Erstelle dein Motiv im Bildeditor.</p><a class="btn primary" href="https://photocraft.im/app/" target="_blank" rel="noopener noreferrer" style="display:inline-block;text-decoration:none">PhotoCraft öffnen ↗</a></div>
+        <div style="padding:16px;border:1px solid var(--line);border-radius:10px;background:#17171a"><div style="color:var(--accent);font-weight:800;margin-bottom:7px">03 · VERÖFFENTLICHEN</div><b>Für deine Plattform exportieren</b><p style="color:var(--muted);font-size:12px;margin-bottom:0">Passe das Format an YouTube, TikTok oder Social Media an.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
 <section class="page" id="startPage"><div class="heading"><div><div class="eyebrow">Startseite · PhotoCraft</div><h1>Dein kreativer Workspace.</h1><p class="intro">Bearbeite deine Bilder direkt hier mit PhotoCraft.</p></div></div><div class="start-actions"><a class="btn primary photocraft-button" href="https://photocraft.im/app/" target="_blank" rel="noopener noreferrer">PhotoCraft öffnen ↗</a></div></section>
 <section class="page hidden" id="homePage">
   <div class="heading">
@@ -68,8 +87,8 @@ main{width:100%;max-width:1500px;margin:auto;padding:34px clamp(16px,4vw,52px) 2
 <div class="toast hidden" id="toast" role="status" aria-live="polite"></div>
 <script>
 (()=>{'use strict';
-const pageNames=['start','home','templates'];
-const pageElements={start:document.getElementById('startPage'),home:document.getElementById('homePage'),templates:document.getElementById('templatesPage')};
+const pageNames=['start','home','templates','counterstrike'];
+const pageElements={start:document.getElementById('startPage'),home:document.getElementById('homePage'),templates:document.getElementById('templatesPage'),counterstrike:document.getElementById('counterstrikePage')};
 function page(name){
   if(!pageElements[name])return;
   pageNames.forEach(n=>pageElements[n].classList.toggle('hidden',n!==name));
