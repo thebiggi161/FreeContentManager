@@ -149,16 +149,25 @@ function openHero(h){
  const content=document.createElement('div');content.className='hero-detail-content';const img=document.createElement('img');img.alt=h.name;img.src=imgUrl;img.onerror=()=>img.style.display='none';
  const data=document.createElement('div');
  const stats=document.createElement('div');stats.className='hero-stat-grid';
+ const hp=h.hitpoints||{};
+ [['Leben',hp.health],['Rüstung',hp.armor],['Schilde',hp.shields]].forEach(([label,value])=>{if(value!==undefined&&value!==null){const box=document.createElement('div');box.className='hero-stat';const l=document.createElement('span');l.textContent=label;const v=document.createElement('b');v.textContent=value;box.append(l,v);stats.appendChild(box)}});
+
  [['Siegesrate',h.win],['Pick-Rate',h.pick],['Ban-Rate',h.ban]].forEach(([label,value])=>{const box=document.createElement('div');box.className='hero-stat';const l=document.createElement('span');l.textContent=label;const v=document.createElement('b');v.textContent=value==null?'—':value.toFixed(1)+'%';box.append(l,v);stats.appendChild(box)});
- const title2=document.createElement('h3');title2.textContent='Spielwerte & Fähigkeiten';
- const desc=document.createElement('p');desc.style.color='var(--muted)';desc.textContent='Rolle: '+h.role+'. Die aktuellen numerischen Werte für Lebenspunkte, Rüstung, Schaden und Abklingzeiten sind in dieser Statistikquelle nicht enthalten. Die offizielle Heldenübersicht enthält die jeweiligen Fähigkeiten und Beschreibungen.';
- const links=document.createElement('div');links.className='hero-ability';const b=document.createElement('b');b.textContent='Offizielle Heldeninfos';const p=document.createElement('p');p.textContent='Fähigkeiten, Waffen und Spielmechaniken auf der Blizzard-Website ansehen.';const a=document.createElement('a');a.href='https://overwatch.blizzard.com/en-us/heroes/'+slugifyHero(h.name)+'/';a.target='_blank';a.rel='noopener noreferrer';a.textContent='Held auf Blizzard öffnen ↗';a.style.color='#ffad70';links.append(b,p,a);
+ const title2=document.createElement('h3');title2.textContent='Fähigkeiten';
+ const abilityList=document.createElement('div');
+ if(Array.isArray(h.abilities)&&h.abilities.length){h.abilities.forEach(ab=>{const item=document.createElement('div');item.className='hero-ability';const b=document.createElement('b');b.textContent=ab.name||'Fähigkeit';const p=document.createElement('p');p.textContent=ab.description||'';item.append(b,p);abilityList.appendChild(item)})}
+ else {const desc=document.createElement('p');desc.style.color='var(--muted)';desc.textContent='Fähigkeitsdetails sind derzeit nicht erreichbar.';abilityList.appendChild(desc)}
+ const links=document.createElement('div');links.className='hero-ability';const b=document.createElement('b');b.textContent='Offizielle Heldeninfos';const p=document.createElement('p');p.textContent='Weitere Waffen- und Spielmechaniken auf der Blizzard-Website ansehen.';const a=document.createElement('a');a.href='https://overwatch.blizzard.com/en-us/heroes/'+slugifyHero(h.name)+'/';a.target='_blank';a.rel='noopener noreferrer';a.textContent='Held auf Blizzard öffnen ↗';a.style.color='#ffad70';links.append(b,p,a);
  const note=document.createElement('p');note.className='hero-detail-note';note.textContent='Competitive-Daten: Europa · PC · alle Ränge · Competitive. Quelle: ';const source=document.createElement('a');source.href='https://overwatch.blizzard.com/en-us/rates/';source.target='_blank';source.rel='noopener noreferrer';source.textContent='offizielle Blizzard-Statistiken';note.appendChild(source);
- data.append(stats,title2,desc,links,note);content.append(img,data);card.append(head,content);heroDetail.appendChild(card);heroDetail.classList.remove('hidden');
+ if(stats.children.length)data.append(stats);data.append(title2,abilityList,links,note);content.append(img,data);card.append(head,content);heroDetail.appendChild(card);heroDetail.classList.remove('hidden');
 }
 async function loadHeroes(){
  heroes=heroFallbacks.map(name=>({name,role:roleFor(name),image:heroImage(name),win:null,pick:null,ban:null}));
  renderHeroes();
+ try{
+  const response=await fetch('https://overfast-api.tekrop.fr/heroes?locale=en-us',{cache:'no-store'});
+  if(response.ok){const details=await response.json();details.forEach(item=>{const h=heroes.find(x=>x.name.toLowerCase()===String(item.name||'').toLowerCase());if(h){h.image=item.portrait||h.image;h.hitpoints=item.hitpoints;h.abilities=item.abilities;}});renderHeroes()}
+ }catch(error){}
  try{
   const response=await fetch('https://cycalo.github.io/ow-stats-data/ow_rates.json',{cache:'no-store'});
   if(!response.ok)throw new Error('Stats unavailable');
