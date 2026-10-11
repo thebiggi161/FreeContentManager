@@ -103,7 +103,7 @@ button.btn{border:1px solid #3a3a42;border-radius:9px;padding:9px 13px;backgroun
 .ow-hero-portrait.ow-portrait-anran img{object-fit:cover;object-position:center 8%}
 </style>
 <link rel="stylesheet" href="overwatch-map-detail.css?v=20261011-3">
-<link rel="stylesheet" href="overwatch-ranked.css?v=2">
+<link rel="stylesheet" href="overwatch-ranked.css?v=3">
 </head>
 <body>
 <header>
@@ -144,10 +144,16 @@ button.btn{border:1px solid #3a3a42;border-radius:9px;padding:9px 13px;backgroun
   </div>
   <div class="ow-rank-filter" role="group" aria-label="Hero-Rolle auswählen"><button type="button" class="ow-rank-role" aria-pressed="true" data-ow-rank-role="all">Alle Rollen</button><button type="button" class="ow-rank-role" aria-pressed="false" data-ow-rank-role="Tank">Tank</button><button type="button" class="ow-rank-role" aria-pressed="false" data-ow-rank-role="Damage">Damage</button><button type="button" class="ow-rank-role" aria-pressed="false" data-ow-rank-role="Support">Support</button></div>
   <div class="ow-rank-map-panel">
-   <div class="ow-rank-map-controls">
-    <div><label for="owRankMapSelect">Competitive-Map auswählen</label><select id="owRankMapSelect" aria-label="Ranked Map auswählen"><option value="">Alle Competitive-Maps · allgemeine Picks</option></select></div>
-    <div class="ow-rank-map-tags"><span id="owRankMapMode">Alle Modi</span><span id="owRankMapStyle">Elo-basierte Empfehlungen</span></div>
-   </div>
+   <details class="ow-rank-map-drawer" id="owRankMapDrawer">
+    <summary class="ow-rank-map-toggle"><span class="ow-rank-map-toggle-icon">▧</span><span><b>Ranked-Map auswählen</b><small id="owRankChosenMap">Alle Maps · allgemeine Picks</small></span><span class="ow-rank-map-chevron" aria-hidden="true">⌄</span></summary>
+    <div class="ow-rank-map-drawer-content">
+     <label for="owRankMapSearch">Map schnell finden</label>
+     <input id="owRankMapSearch" type="search" autocomplete="off" placeholder="Mapname eingeben …" aria-label="Ranked-Map suchen">
+     <p id="owRankMapCount" class="ow-rank-map-count" aria-live="polite"></p>
+     <div id="owRankMapGallery" class="ow-rank-map-gallery"></div>
+    </div>
+   </details>
+   <div class="ow-rank-map-tags"><span id="owRankMapMode">Alle Modi</span><span id="owRankMapStyle">Elo-basierte Empfehlungen</span></div>
    <p id="owRankMapExplain" class="ow-rank-map-explain">Wähle eine Ranked-Map aus. Die Picks passen sich danach an die Map-Struktur und deinen Rang an.</p>
   </div>
   <h2 class="section-title">Hero-Picks für deinen Rang und deine Map</h2>
@@ -328,6 +334,6 @@ page('start');
 
 
 <script src="overwatch-map-detail.js?v=20261011-3" defer></script>
-<script src="overwatch-ranked.js?v=2" defer></script>
+<script src="overwatch-ranked.js?v=3" defer></script>
 </body>
 </html>
