@@ -183,12 +183,6 @@ document.querySelectorAll('[data-category]').forEach(b=>b.addEventListener('clic
   toast.classList.remove('hidden');
   setTimeout(()=>toast.classList.add('hidden'),2200);
 }));
-const guideMapSearch=document.getElementById('guideMapSearch');
-const guideModeFilter=document.getElementById('guideModeFilter');
-const guideMapFilter=document.getElementById('guideMapFilter');
-const guideMapResults=document.getElementById('guideMapResults');
-const guideMaps=Object.keys(mapNames).map(key=>({key,name:mapNames[key],mode:mapModes[key]||'Weitere Modi'}));
-guideMaps.forEach(m=>{const option=document.createElement('option');option.value=m.key;option.textContent=m.name;guideMapFilter.appendChild(option)});
 function renderGuideMaps(){
  if(!guideMapResults)return;
  const query=(guideMapSearch.value||'').trim().toLowerCase(),mode=guideModeFilter.value,selected=guideMapFilter.value;
@@ -264,6 +258,12 @@ function openHero(h){
  if(stats.children.length)data.append(stats);data.append(title2,abilityList,links,note);content.append(img,data);card.append(head,content);heroDetail.appendChild(card);heroDetail.classList.remove('hidden');
 }
 const mapNames={'antarctic-peninsula':'Antarctic Peninsula','busan':'Busan','ilios':'Ilios','lijiang-tower':'Lijiang Tower','nepal':'Nepal','oasis':'Oasis','samoa':'Samoa','circuit-royal':'Circuit Royal','dorado':'Dorado','havana':'Havana','junkertown':'Junkertown','rialto':'Rialto','route-66':'Route 66','shambali-monastery':'Shambali Monastery','watchpoint-gibraltar':'Watchpoint: Gibraltar','paraiso-escort':'Paraíso','blizzard-world':'Blizzard World','eichenwalde':'Eichenwalde','hollywood':'Hollywood','kings-row':"King's Row",'midtown':'Midtown','numbani':'Numbani','paraiso':'Paraíso','redwood':'Redwood','colosseo':'Colosseo','esperanca':'Esperança','new-queen-street':'New Queen Street','runasapi':'Runasapi','new-junk-city':'New Junk City','suravasa':'Suravasa','aatlis':'Aatlis','hanaoka':'Hanaoka','throne-of-anubis':'Throne of Anubis','grims-votn':'Grímsvötn'};
+const guideMapSearch=document.getElementById('guideMapSearch');
+const guideModeFilter=document.getElementById('guideModeFilter');
+const guideMapFilter=document.getElementById('guideMapFilter');
+const guideMapResults=document.getElementById('guideMapResults');
+const guideMaps=Object.keys(mapNames).map(key=>({key,name:mapNames[key],mode:mapModes[key]||'Weitere Modi'}));
+guideMaps.forEach(m=>{const option=document.createElement('option');option.value=m.key;option.textContent=m.name;guideMapFilter.appendChild(option)});
 const mapModes={'antarctic-peninsula':'Kontrolle','busan':'Kontrolle','ilios':'Kontrolle','lijiang-tower':'Kontrolle','nepal':'Kontrolle','oasis':'Kontrolle','samoa':'Kontrolle','circuit-royal':'Eskorte','dorado':'Eskorte','havana':'Eskorte','junkertown':'Eskorte','rialto':'Eskorte','route-66':'Eskorte','shambali-monastery':'Eskorte','watchpoint-gibraltar':'Eskorte','paraiso-escort':'Eskorte','blizzard-world':'Hybrid','eichenwalde':'Hybrid','hollywood':'Hybrid','kings-row':'Hybrid','midtown':'Hybrid','numbani':'Hybrid','paraiso':'Hybrid','redwood':'Hybrid','colosseo':'Push','esperanca':'Push','new-queen-street':'Push','runasapi':'Push','new-junk-city':'Flashpoint','suravasa':'Flashpoint','aatlis':'Flashpoint','hanaoka':'Clash / Stadium','throne-of-anubis':'Clash / Stadium','grims-votn':'Kontrolle'};
 const mapCallouts={
 'ilios':['Ruins','Well','Lighthouse','Market','Ruins high ground','Well pit','Lighthouse balcony'],
