@@ -48,7 +48,7 @@ button.btn{border:1px solid #3a3a42;border-radius:9px;padding:9px 13px;backgroun
           <optgroup label="Push"><option value="colosseo">Colosseo</option><option value="esperanca">Esperança</option><option value="new-queen-street">New Queen Street</option><option value="runasapi">Runasapi</option></optgroup>
           <optgroup label="Flashpoint"><option value="new-junk-city">New Junk City</option><option value="suravasa">Suravasa</option><option value="aatlis">Aatlis</option></optgroup>
           <optgroup label="Clash / weitere"><option value="hanaoka">Hanaoka</option><option value="throne-of-anubis">Throne of Anubis</option><option value="grims-votn">Grímsvötn</option></optgroup>
-        </select><select id="mapRoleSelect" aria-label="Rolle auswählen"><option value="all">Alle Rollen</option><option value="Tank">Tank</option><option value="Damage">Damage</option><option value="Support">Support</option></select></div>
+        </select></div>
         <div id="mapBanner" class="map-banner"><h2>Ilios</h2><p>Wähle eine Map für Vorschau, Callouts und strategische Helden-Picks.</p></div>
         <section class="map-preview-panel" aria-label="Map Vorschau und Callouts">
           <div class="map-preview-head"><div><strong id="mapPreviewTitle">Ilios · Map-Übersicht</strong><small id="mapPreviewMode">Kontrolle</small></div><button class="btn" id="toggleCallouts" type="button" aria-pressed="true">Callouts ausblenden</button></div>
@@ -59,7 +59,7 @@ button.btn{border:1px solid #3a3a42;border-radius:9px;padding:9px 13px;backgroun
         <div class="map-legend"><span><i></i>Gute strategische Passung</span><span><i class="red"></i>Situativ / eher schwach</span></div>
         <div id="mapPicks" class="map-pick-list"></div>
       </div>
-      <aside class="map-drawer"><div class="map-drawer-head"><h3>Player Picks</h3><span class="role-pill">Auswahl in %</span></div><div class="map-drawer-body"><p style="font-size:11px;color:var(--muted);margin:0">Beliebteste Helden für die gewählte Map</p><div id="mapPlayerPicks"></div><p class="map-data-note">Map-spezifische Pick-Prozentwerte sind derzeit nicht über eine verifizierte öffentliche Datenquelle verfügbar. Die Anzeige wird nicht mit erfundenen Prozentzahlen gefüllt. Aktuelle allgemeine Werte findest du in den <a style="color:#ffad70" href="https://overwatch.blizzard.com/en-us/rates/" target="_blank" rel="noopener noreferrer">offiziellen Blizzard-Statistiken ↗</a>.</p></div></aside>
+      <aside class="map-drawer"><div class="map-drawer-head"><h3>Player Picks</h3><span class="role-pill">5er-Komposition</span></div><div class="map-drawer-body"><p style="font-size:11px;color:var(--muted);margin:0">Empfohlene Team-Komposition für die ausgewählte Map</p><div id="mapPlayerPicks"></div><p class="map-data-note">Map-spezifische Pick-Prozentwerte sind derzeit nicht über eine verifizierte öffentliche Datenquelle verfügbar. Die Anzeige wird nicht mit erfundenen Prozentzahlen gefüllt. Aktuelle allgemeine Werte findest du in den <a style="color:#ffad70" href="https://overwatch.blizzard.com/en-us/rates/" target="_blank" rel="noopener noreferrer">offiziellen Blizzard-Statistiken ↗</a>.</p></div></aside>
     </div>
   </div>
   <div class="hero-footnote">Competitive-Werte werden aus einer öffentlichen Statistikquelle geladen. Spielwerte und Fähigkeiten werden auf der Detailansicht ergänzt, soweit die Datenquelle sie bereitstellt. <a href="https://overwatch.blizzard.com/en-us/rates/" target="_blank" rel="noopener noreferrer">Offizielle Blizzard-Statistiken ↗</a></div>
@@ -264,80 +264,95 @@ function renderMapPreview(){
  const btn=document.getElementById('toggleCallouts');btn.dataset.visible='true';btn.setAttribute('aria-pressed','true');btn.textContent='Callouts ausblenden';overlay.classList.remove('hidden');
 }
 function renderMapPicks(){
- const key=document.getElementById('owMapSelect').value, role=document.getElementById('mapRoleSelect').value;
+ const key=document.getElementById('owMapSelect').value;
  const good=mapGood[key]||mapGood['ilios'], situational=mapSituational[key]||[];
  document.querySelector('#mapBanner h2').textContent=mapNames[key]||key;
- const picks=document.getElementById('mapPicks');picks.innerHTML='';
- const entries=[...good.map(name=>({name,good:true})),...situational.map(name=>({name,good:false}))].filter((h,i,a)=>a.findIndex(x=>x.name===h.name)===i).filter(h=>role==='all'||roleFor(h.name)===role);
- entries.forEach(item=>{
-  const h=heroes.find(x=>x.name===item.name);const card=document.createElement('div');card.className='map-pick'+(item.good?'':' bad');
-  const img=document.createElement('img');img.alt=item.name;img.loading='lazy';img.src=h?h.image:heroImage(item.name);img.onerror=()=>img.style.visibility='hidden';
-  const info=document.createElement('div');info.style.minWidth='0';const name=document.createElement('strong');name.textContent=item.name;const note=document.createElement('small');note.textContent=item.good?'Gute Passung für diese Map':'Eher situativ – Team/Matchup beachten';info.append(name,note);
-  const rating=document.createElement('span');rating.className='rating';rating.textContent=item.good?'GUT':'SITUATIV';card.append(img,info,rating);picks.appendChild(card);
- });
  const players=document.getElementById('mapPlayerPicks');players.innerHTML='';
- const pickTitle=document.createElement('p');pickTitle.style.cssText='font-size:10px;color:var(--muted);margin:12px 0 7px';pickTitle.textContent='PLAYER PICKS · NACH ROLLE';players.appendChild(pickTitle);
- const roleTabs=document.createElement('div');roleTabs.style.cssText='display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;margin-bottom:10px';
- const pickSelect=document.createElement('select');pickSelect.id='playerPickSelect';pickSelect.setAttribute('aria-label','Empfohlenen Helden auswählen');pickSelect.style.cssText='width:100%;min-height:40px;background:#202025;color:var(--text);border:1px solid var(--line);border-radius:8px;padding:9px;margin-bottom:10px';
- const featured=document.createElement('div');featured.style.cssText='display:flex;align-items:flex-start;gap:10px;padding:10px;border:1px solid var(--line);border-radius:9px;background:#202025';
- const featuredImg=document.createElement('img');featuredImg.alt='';featuredImg.style.cssText='width:62px;height:72px;object-fit:contain;flex:none';
- const featuredInfo=document.createElement('div');featuredInfo.style.minWidth='0';
- const featuredName=document.createElement('strong');featuredName.style.cssText='display:block;font-size:13px';
- const featuredTag=document.createElement('small');featuredTag.style.cssText='display:block;color:#ffad70;font-size:10px;margin-top:3px';
- const featuredNote=document.createElement('p');featuredNote.style.cssText='font-size:11px;line-height:1.5;color:#d4d4dc;margin:7px 0 0';
- featuredInfo.append(featuredName,featuredTag,featuredNote);featured.append(featuredImg,featuredInfo);
- const roleNames=['Tank','Damage','Support'];let activePickRole=role==='all'?'Tank':role;
- function reasonForPick(name,modeKey,isGood){
-  const reasons={
-   'D.Va':'Mobilität hilft beim Wechsel auf Höhenlagen und gegnerische Backline; Defense Matrix fängt Projektil-Burst ab.',
-   'Winston':'Springt auf isolierte Ziele und setzt mit seiner Kuppel auf engem Raum kontrollierten Druck.',
-   'Wrecking Ball':'Lenkt Gegner ab, verdrängt sie vom Ziel und contestet durch hohe Mobilität.',
-   'Reinhardt':'Schild und Nahkampfdruck helfen, das Team durch enge Korridore und Chokes zu führen.',
-   'Sigma':'Kontrolliert lange Sichtlinien mit Schild, Absorption und konstantem Distanzdruck.',
-   'Junker Queen':'Stark in Kämpfen um Ecken und Objectives, wenn sie nah an Gegner herankommt.',
-   'Pharah':'Nutzt offene Winkel und vertikale Routen, um Gegner aus schwer erreichbaren Positionen zu bedrohen.',
-   'Widowmaker':'Bestraft lange, offene Sichtlinien und kann Gegner bereits vor dem Objective aus dem Winkel nehmen.',
-   'Ashe':'Guter Druck auf mittlere bis lange Distanz; Dynamit zwingt Gegner an Chokes auseinander.',
-   'Cassidy':'Verlässlicher Schaden auf mittlere Distanz und gute Antwort auf flankende Gegner.',
-   'Tracer':'Nutzt Flanken und schnelle Rotationen, bindet Supports und verfolgt geschwächte Ziele.',
-   'Genji':'Kommt über Höhenunterschiede an Ziele heran und kann geschwächte Gegner verfolgen.',
-   'Sojourn':'Profitiert von Sichtlinien und Rotationen; Railgun-Druck bestraft exponierte Gegner.',
-   'Sombra':'Kann isolierte Gegner stören und wichtige Fähigkeiten vor dem Teamfight unterbrechen.',
-   'Junkrat':'Flächenschaden ist in engen Wegen stark; Minen helfen bei Höhenunterschieden und beim Verdrängen.',
-   'Mei':'Eiswand trennt Gegner oder sperrt Laufwege; Slow und Flächendruck helfen bei Objective-Kämpfen.',
-   'Bastion':'Hoher anhaltender Schaden, wenn Gegner durch Engstellen oder vorhersehbare Routen müssen.',
-   'Symmetra':'Turrets kontrollieren enge Bereiche und der Teleporter kann Team-Rotationen beschleunigen.',
-   'Lúcio':'Speed-Boost hilft dem Team, gemeinsam einzusteigen oder sich aus ungünstigen Kämpfen zu lösen.',
-   'Brigitte':'Schützt anfällige Supports vor Dive und ist stark, wenn Kämpfe auf kurze Distanz stattfinden.',
-   'Ana':'Reichweiten-Heilung plus Schlaf und Biotic Grenade können gegnerische Einstiege stoppen.',
-   'Baptiste':'Flächenheilung und Immortality Field stabilisieren gebündelte Pushes und enge Teamfights.',
-   'Kiriko':'Suzu kann wichtige Debuffs abfangen; Teleport hilft, bedrängte Verbündete schnell zu erreichen.',
-   'Mercy':'Verstärkt einen starken Damage-Helden und hält ihn durch Mobilität und Heilung im Kampf.',
-   'Moira':'Hohe Überlebensfähigkeit und Flächenheilung helfen in dichten, bewegungsintensiven Teamfights.',
-   'Zenyatta':'Discord verstärkt Fokusfeuer; Reichweite hilft, sichtbare Ziele unter Druck zu setzen.'
-  };
-  let reason=reasons[name]||'Bietet nützlichen Druck oder Utility. Spiele um Deckung und stimme Einstiege mit dem Team ab.';
-  const mode=(mapModes[modeKey]||'').toLowerCase();
-  if(/kontrolle|flashpoint/i.test(mode))reason+=' Auf dieser Map sind schnelle Rotationen und gemeinsames Halten des Objectives wichtig.';
-  else if(/eskorte|hybrid|push/i.test(mode))reason+=' Nutze Deckung und passe deinen Winkel an Angriffs- oder Verteidigungsseite an.';
-  if(!isGood)reason+=' Situativer Pick: vor allem sinnvoll, wenn Teamkomposition und gegnerisches Matchup dazu passen.';
-  return reason;
+ const roleNames=['Alle','Tank','Damage','Support'];let activeRole='Alle';
+ const tabs=document.createElement('div');tabs.style.cssText='display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px;margin:12px 0';
+ const list=document.createElement('div');list.style.cssText='display:flex;flex-direction:column;gap:9px';
+ const notes={
+  'D.Va':'Mobilität für Highground und Backline; Defense Matrix kann Projektil-Burst abfangen.',
+  'Winston':'Springt auf isolierte Ziele und setzt mit seiner Kuppel kontrollierten Druck auf engem Raum.',
+  'Wrecking Ball':'Lenkt Gegner ab, verdrängt sie vom Objective und kann mit hoher Mobilität contesten.',
+  'Reinhardt':'Schild und Nahkampfdruck helfen, das Team durch Chokes und enge Korridore zu führen.',
+  'Sigma':'Kontrolliert lange Sichtlinien mit Schild und Absorption; gut für methodische Raumkontrolle.',
+  'Junker Queen':'Stark in nahen Kämpfen um Ecken und Objectives, wenn das Team geschlossen pusht.',
+  'Pharah':'Nutzt offene Winkel und vertikale Routen, um Gegner aus schwer erreichbaren Positionen zu bedrohen.',
+  'Widowmaker':'Bestraft lange Sichtlinien und kann Gegner schon vor dem Objective aus wichtigen Winkeln nehmen.',
+  'Ashe':'Reichweite und Dynamit setzen Gegner an Chokes unter Druck.',
+  'Cassidy':'Verlässlicher Druck auf mittlere Distanz und gute Antwort auf flankende Gegner.',
+  'Tracer':'Schnelle Flanken binden Supports und helfen, isolierte Ziele zu erledigen.',
+  'Genji':'Nutzt Höhenunterschiede, um geschwächte Ziele zu verfolgen und schnell zu rotieren.',
+  'Sojourn':'Sichtlinien und Rotationen ermöglichen Railgun-Druck auf exponierte Gegner.',
+  'Sombra':'Stört isolierte Ziele und kann wichtige Fähigkeiten vor dem Teamfight unterbrechen.',
+  'Junkrat':'Flächenschaden ist in engen Wegen stark; Minen helfen bei Höhenunterschieden und beim Verdrängen.',
+  'Mei':'Eiswand trennt Gegner oder sperrt Wege; Slow und Flächendruck helfen am Objective.',
+  'Bastion':'Hoher anhaltender Schaden, wenn Gegner durch Engstellen oder vorhersehbare Routen müssen.',
+  'Symmetra':'Turrets kontrollieren enge Bereiche; der Teleporter beschleunigt Team-Rotationen.',
+  'Lúcio':'Speed-Boost hilft dem Team, gemeinsam einzusteigen oder sich sicher zurückzuziehen.',
+  'Brigitte':'Schützt anfällige Supports vor Dive und ist stark in kurzen, gedrängten Kämpfen.',
+  'Ana':'Reichweiten-Heilung, Schlaf und Biotic Grenade können gegnerische Einstiege stoppen.',
+  'Baptiste':'Flächenheilung und Immortality Field stabilisieren gebündelte Pushes.',
+  'Kiriko':'Suzu kann Debuffs abfangen; Teleport hilft, bedrängte Verbündete schnell zu erreichen.',
+  'Mercy':'Verstärkt einen starken Damage-Helden und hält ihn mit Heilung und Mobilität im Kampf.',
+  'Moira':'Hohe Überlebensfähigkeit und Flächenheilung helfen in dichten Teamfights.',
+  'Zenyatta':'Discord verstärkt Fokusfeuer; Reichweite hilft, sichtbare Ziele unter Druck zu setzen.',
+  'Illari':'Kann mit Pylon konstant heilen und mit Präzisionsschaden offene Winkel kontrollieren.',
+  'Lifeweaver':'Kann Verbündete aus gefährlichen Positionen ziehen und sichere Winkel mit Petal schaffen.',
+  'Juno':'Mobilität und Team-Speed helfen bei Rotationen und koordinierten Einstiegen.',
+  'Ramattra':'Kann mit Barriere und Nemesis-Form Raum gewinnen, besonders bei kontrollierten Pushes.',
+  'Orisa':'Kann Chokes halten und Gegner mit Speer sowie Überlebensfähigkeiten aus dem Rhythmus bringen.',
+  'Zarya':'Blasen schützen aggressive Teammitglieder und Energie belohnt gut abgestimmte Pushes.',
+  'Doomfist':'Hohe Mobilität stört die Backline und eröffnet schnelle Einstiege, braucht aber Team-Follow-up.',
+  'Mauga':'Dauerfeuer und Selbstheilung sind stark, wenn er mit Support durch eine klare Lane drücken kann.',
+  'Roadhog':'Kann Gegner an Engstellen bestrafen und mit Hook einzelne Ziele aus der Formation ziehen.',
+  'Hazard':'Kann mit Mobilität und Wänden Wege blockieren und gegnerische Positionen aufbrechen.',
+  'Echo':'Flug und Burst-Schaden erlauben Druck auf isolierte Ziele und schwer erreichbare Winkel.',
+  'Reaper':'Starker Nahkampfschaden gegen große Ziele und nützlich in engen Innenbereichen.',
+  'Torbjörn':'Turret deckt Flanken ab und zusätzlicher Druck hilft beim Halten enger Bereiche.',
+  'Venture':'Kann über unterirdische Bewegung einsteigen und Gegner in engen Bereichen überraschen.',
+  'Freja':'Hoher Burst und Beweglichkeit helfen, exponierte Ziele aus mittlerer Distanz zu bestrafen.'
+ };
+ function why(name,role,isCore){
+  let text=notes[name]||'Bringt teamdienlichen Druck oder Utility. Nutze Deckung und stimme den Einstieg mit dem Team ab.';
+  const mode=(mapModes[key]||'').toLowerCase();
+  if(/kontrolle|flashpoint|clash/i.test(mode))text+=' Priorität: schnell rotieren und das Objective gemeinsam kontrollieren.';
+  else if(/eskorte|hybrid|push/i.test(mode))text+=' Priorität: Deckung nutzen und den Winkel je nach Angriffs- oder Verteidigungsseite anpassen.';
+  if(!isCore)text+=' Situativer Ersatz, falls das gegnerische Team oder eure Komposition es verlangt.';
+  return text;
  }
- function updateFeaturedPick(){
-  const selectable=entries.filter(item=>roleFor(item.name)===activePickRole);
-  pickSelect.innerHTML='';
-  selectable.forEach(item=>{const opt=document.createElement('option');opt.value=item.name;opt.textContent=item.name+(item.good?' · empfohlen':' · situativ');pickSelect.appendChild(opt)});
-  if(!selectable.length){const opt=document.createElement('option');opt.value='';opt.textContent='Keine Picks für diese Rolle';pickSelect.appendChild(opt);pickSelect.disabled=true;featured.hidden=true;return}
-  pickSelect.disabled=false;featured.hidden=false;
-  const chosen=selectable.find(item=>item.name===pickSelect.value)||selectable[0];pickSelect.value=chosen.name;
-  const hero=heroes.find(x=>x.name===chosen.name);featuredName.textContent=chosen.name;featuredTag.textContent=chosen.good?'EMPFOHLEN':'SITUATIV';featuredNote.textContent=reasonForPick(chosen.name,key,chosen.good);
-  featuredImg.src=hero?hero.image:heroImage(chosen.name);featuredImg.onerror=()=>{featuredImg.style.visibility='hidden'};featuredImg.style.visibility='visible';
+ const all=[...good.map(name=>({name,core:true})),...situational.map(name=>({name,core:false}))].filter((item,i,arr)=>arr.findIndex(x=>x.name===item.name)===i);
+ const tank=all.filter(x=>roleFor(x.name)==='Tank');
+ const damage=all.filter(x=>roleFor(x.name)==='Damage');
+ const support=all.filter(x=>roleFor(x.name)==='Support');
+ const lineup=[...tank.slice(0,1),...damage.slice(0,2),...support.slice(0,2)];
+ function renderList(){
+  list.innerHTML='';
+  let visible=activeRole==='Alle'?lineup:all.filter(x=>roleFor(x.name)===activeRole).slice(0,5);
+  if(!visible.length){const empty=document.createElement('p');empty.style.cssText='font-size:12px;color:var(--muted)';empty.textContent='Für diese Map sind noch keine Picks hinterlegt.';list.appendChild(empty);return}
+  visible.forEach((item,index)=>{
+   const role=roleFor(item.name),hero=heroes.find(h=>h.name===item.name);
+   const card=document.createElement('article');card.style.cssText='display:flex;align-items:flex-start;gap:9px;padding:10px;border:1px solid var(--line);border-radius:9px;background:#202025';
+   const img=document.createElement('img');img.alt=item.name;img.loading='lazy';img.src=hero?hero.image:heroImage(item.name);img.style.cssText='width:50px;height:58px;object-fit:contain;flex:none';img.onerror=()=>img.style.visibility='hidden';
+   const info=document.createElement('div');info.style.cssText='min-width:0;flex:1';
+   const title=document.createElement('div');title.style.cssText='display:flex;justify-content:space-between;gap:5px;align-items:center;flex-wrap:wrap';
+   const name=document.createElement('strong');name.style.cssText='font-size:12px';name.textContent=item.name;
+   const pill=document.createElement('span');pill.style.cssText='font-size:9px;color:#ffbd91;border:1px solid #70411f;border-radius:20px;padding:2px 5px';pill.textContent=role;
+   title.append(name,pill);
+   const desc=document.createElement('p');desc.style.cssText='font-size:10px;line-height:1.45;color:#d4d4dc;margin:6px 0 0';desc.textContent=why(item.name,role,item.core);
+   info.append(title,desc);card.append(img,info);list.appendChild(card);
+  });
  }
- roleNames.forEach(roleName=>{const tab=document.createElement('button');tab.type='button';tab.textContent=roleName;tab.style.cssText='font-size:10px;padding:7px 3px;border:1px solid var(--line);border-radius:7px;background:'+(roleName===activePickRole?'#633c24':'#202025')+';color:var(--text);cursor:pointer';tab.addEventListener('click',()=>{activePickRole=roleName;[...roleTabs.children].forEach((b,i)=>b.style.background=roleNames[i]===activePickRole?'#633c24':'#202025');updateFeaturedPick()});roleTabs.appendChild(tab)});
- pickSelect.addEventListener('change',updateFeaturedPick);players.append(roleTabs,pickSelect,featured);updateFeaturedPick();
+ roleNames.forEach(roleName=>{
+  const button=document.createElement('button');button.type='button';button.textContent=roleName;
+  button.style.cssText='font-size:10px;padding:7px 2px;border:1px solid var(--line);border-radius:7px;background:'+(roleName===activeRole?'#633c24':'#202025')+';color:var(--text);cursor:pointer';
+  button.addEventListener('click',()=>{activeRole=roleName;[...tabs.children].forEach((b,i)=>b.style.background=roleNames[i]===activeRole?'#633c24':'#202025');renderList()});tabs.appendChild(button);
+ });
+ players.append(tabs,list);renderList();
 }
 document.getElementById('owMapSelect').addEventListener('change',()=>{renderMapPreview();renderMapPicks()});
-document.getElementById('mapRoleSelect').addEventListener('change',renderMapPicks);
+
 document.getElementById('toggleCallouts').addEventListener('click',()=>{const overlay=document.getElementById('mapOverlay'),btn=document.getElementById('toggleCallouts'),visible=btn.dataset.visible!=='false';btn.dataset.visible=visible?'false':'true';btn.setAttribute('aria-pressed',String(!visible));btn.textContent=visible?'Callouts einblenden':'Callouts ausblenden';overlay.classList.toggle('hidden',visible)});
 
 async function loadHeroes(){
