@@ -17,3 +17,16 @@
 .ws-search-button[data-search-engine="google"] .ws-search-mark{color:#8ebaff}
 .ws-search-hint{display:block;color:#8e8993;font-size:11px;margin-top:10px}
 @media(max-width:600px){.ws-search-panel{padding:12px;margin:16px 0 18px}.ws-search-button-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}.ws-search-button{padding:9px 5px;font-size:12px}.ws-search-input{width:100%}}
+
+/* Side-by-side start tools: generous search field + PhotoCraft shortcut */
+.ws-home-tools{width:100%;display:grid;grid-template-columns:minmax(0,1fr) 3cm;align-items:stretch;gap:16px;margin:20px 0 24px}
+.ws-home-tools .ws-search-panel{width:100%;max-width:none;min-width:0;margin:0;display:flex;flex-direction:column;justify-content:center}
+.ws-home-tools .ws-search-input{display:block;width:100%;max-width:none;min-width:0;min-height:54px;padding:14px 16px;font-size:15px}
+.ws-photocraft-wrap{display:flex;align-items:stretch;justify-content:center;min-width:0}
+.ws-photocraft-wrap .photocraft-button{width:100%;min-width:0;height:auto;min-height:100%;aspect-ratio:auto;margin:0}
+@media(max-width:760px){
+ .ws-home-tools{grid-template-columns:1fr;gap:11px;margin:16px 0 22px}
+ .ws-home-tools .ws-search-panel{margin:0}
+ .ws-photocraft-wrap{justify-content:stretch}
+ .ws-photocraft-wrap .photocraft-button{height:60px;min-height:60px;width:100%;border-radius:11px}
+}
