@@ -1,14 +1,12 @@
 (()=>{'use strict';
 const grid=document.getElementById('owMapGrid');if(!grid)return;
+const annotatedOverlays={"Blizzard World":"1cS_lsov7DDUTs-9nSmvswGVF8UHy9cBB","Busan":"1yw_kd6vKjX1GLsCSsDoxQBWlw_7wz9OW","Dorado":"1Bvm5o0HgTMlSj1owbHnl_zKiLfFzfbt8","Eichenwalde":"1A4OmlwHcUDgkxSSu8T3NWYpn2WnaKnMt","Hanamura":"1SYJ27oSEFQAJMRIsvYO0Cl5lmqn34OZp","Hollywood":"1HnxJwohJDNIBrzKHl1rg3w_hNhutJN1B","Horizon Lunar Colony":"1E8vvo5ieeCEkbCHIu3EhNiWwVm9qobGw","Ilios":"1uVCt2Ca1jN66fxPLFepB1uiZyHDCph-4","Junkertown":"1e8YQs_xvw-vd7Hqb31C0_u-j0u8-Po0r","King’s Row":"1qPwiAqEIASVYw_IYFvQQVh3V4SY5kFSi","Lijiang Tower":"1CTyxkuRunbTaZdIoZDrsvIvy-fV9Gu2s","Nepal":"1IWsiUNOosuzSzykxewR9xALDGL_W8b7d","Numbani":"1ijNOop_eg5rEfNI4XVpFfpDTQ8BvzaMf","Oasis":"1UhY0KZnOtFohma4waOxlQ71L93hCx-Pm","Paris":"1aC_3IXKel5pmrpvCSM8xdmIzNa4wTXD-","Rialto":"1VXgJ6CIVT7WM8HCxoajXLWHo_Bs37UJP","Route 66":"1QkWzk6St0u9IBl58Z5bGm7-poVIaBFkq","Temple of Anubis":"11TQDaVuBdOchR_jTvEW3tpW254-oGCVN","Volskaya Industries":"1qhKYXPb1WoKNpZ1uw4d0oQiRFE_Rdt-4","Watchpoint: Gibraltar":"17mTCjFlJnsgevWDWMO0gxav3gEPc-Hng"};
 const el=document.createElement('div');el.className='ow-detail';el.hidden=true;
-el.innerHTML='<section class="ow-detail-box" role="dialog" aria-modal="true" aria-labelledby="ow-detail-title"><div class="ow-detail-head"><div><div class="eyebrow">OVERWATCH · MAP GUIDE</div><h2 id="ow-detail-title"></h2></div><button type="button" class="ow-detail-close" id="ow-detail-close" aria-label="Schließen">✕ Schließen</button></div><div class="ow-detail-inner"><div><div class="ow-detail-map" id="ow-detail-map" aria-label="Kartenbild mit selbst markierten Punkten"><img id="ow-detail-image" alt=""></div><p class="ow-detail-help" id="ow-detail-image-note"></p><div class="ow-detail-bar"><label class="ow-upload-label">Draufsicht auswählen<input type="file" id="ow-detail-upload" accept="image/*"></label><button id="ow-detail-callout" type="button">+ Callout setzen</button><button id="ow-detail-shortcut" type="button">+ Shortcut setzen</button><button id="ow-detail-clear" type="button">Markierungen löschen</button></div><p class="ow-detail-tip" id="ow-detail-status">Wähle „Callout setzen“ oder „Shortcut setzen“ und klicke dann auf die Draufsicht. Angelegte Punkte bleiben lokal in diesem Browser gespeichert.</p><div class="ow-detail-card"><h3>Callouts und Shortcuts</h3><ul class="ow-notes" id="ow-detail-annotations"></ul></div></div><div class="ow-detail-side"><section class="ow-detail-card"><h3>Team-Auswahl · 5v5</h3><label for="ow-detail-tier">Spielstil</label><select id="ow-detail-tier"><option value="casual">Casual · zugängliche Komposition</option><option value="pro">Pro · koordinierte Beispiel-Komposition</option></select><div class="ow-team" id="ow-detail-team"></div><p class="ow-map-statsnote">Strategische Beispiel-Picks, keine live geprüfte Patch-Meta oder Statistik.</p></section><section class="ow-detail-card"><h3>Strategie und Wege</h3><p id="ow-detail-tips"></p><p>Callouts und Abkürzungen brauchen genaue Ortsdaten. Markiere sie auf einer selbst hochgeladenen Draufsicht, statt auf einem Perspektivbild ungenaue Punkte zu setzen.</p></section><section class="ow-detail-card"><h3>Externe Draufsichten</h3><p>Für ausgewählte klassische Maps gibt es Draufsicht-Bilder und annotierte Varianten bei StatBanana.</p><a href="https://overwatch.statbanana.com/images" target="_blank" rel="noopener noreferrer">Draufsicht-Archiv öffnen ↗</a></section></div></div></section>';
+el.innerHTML='<section class="ow-detail-box" role="dialog" aria-modal="true" aria-labelledby="ow-detail-title"><div class="ow-detail-head"><div><div class="eyebrow">OVERWATCH · MAP GUIDE</div><h2 id="ow-detail-title"></h2></div><button type="button" class="ow-detail-close" id="ow-detail-close" aria-label="Schließen">✕ Schließen</button></div><div class="ow-detail-inner"><div><div class="ow-detail-map" id="ow-detail-map" aria-label="Draufsicht mit eingezeichneten Kartenpunkten"><img id="ow-detail-image" alt="" hidden><iframe id="ow-detail-frame" title="Annotierte Overwatch-Kartendraufsicht" loading="lazy" referrerpolicy="no-referrer" allowfullscreen hidden></iframe><div id="ow-detail-empty" class="ow-detail-empty" hidden></div></div><p class="ow-detail-help" id="ow-detail-image-note"></p><p class="ow-detail-credit" id="ow-detail-credit"></p><div class="ow-detail-bar"><a id="ow-detail-fullmap" target="_blank" rel="noopener noreferrer" hidden>Overlay in voller Größe ansehen ↗</a></div></div><div class="ow-detail-side"><section class="ow-detail-card"><h3>Team-Auswahl · 5v5</h3><label for="ow-detail-tier">Spielstil</label><select id="ow-detail-tier"><option value="casual">Casual · zugängliche Komposition</option><option value="pro">Pro · koordinierte Beispiel-Komposition</option></select><div class="ow-team" id="ow-detail-team"></div><p class="ow-map-statsnote">Strategische Beispiel-Picks – keine verifizierte Live-Meta.</p></section><section class="ow-detail-card"><h3>Spielweise und Kartenwege</h3><p id="ow-detail-tips"></p><p>Die verfügbaren annotierten Draufsichten zeigen bereits wichtige Ziele und Kartenpunkte. Zusätzliche Team-Callouts können von Szene zu Szene abweichen.</p></section></div></div></section>';
 document.body.append(el);
 const $=id=>document.getElementById(id);
-const modalTitle=$('ow-detail-title'), mapImage=$('ow-detail-image'), board=$('ow-detail-map'), help=$('ow-detail-image-note'), status=$('ow-detail-status'), notes=$('ow-detail-annotations');
-let current=null,adding='',returnFocus=null;
-const localImages=new Map();
-function readMarkers(name){try{const data=JSON.parse(localStorage.getItem('ow-annotations-v1:'+name)||'[]');return Array.isArray(data)?data.filter(x=>x&&typeof x.label==='string'&&Number.isFinite(x.x)&&Number.isFinite(x.y)).slice(0,100):[]}catch{return[]}}
-function saveMarkers(name,items){try{localStorage.setItem('ow-annotations-v1:'+name,JSON.stringify(items))}catch{status.textContent='Speichern im Browser nicht möglich (Speicherzugriff oder Kapazität).'}}
+const modalTitle=$('ow-detail-title'), board=$('ow-detail-map'), mapImage=$('ow-detail-image'), frame=$('ow-detail-frame'), empty=$('ow-detail-empty'), help=$('ow-detail-image-note'), credit=$('ow-detail-credit'), fullmap=$('ow-detail-fullmap');
+let current=null,returnFocus=null;
 const compositions={
 control:{casual:['Reinhardt','Soldier: 76','Mei','Moira','Lúcio'],pro:['Winston','Tracer','Genji','Ana','Lúcio'],tips:'Punktzugang, Rotationen und Kontrolle von Highground priorisieren. Die Unterkarten können sehr unterschiedliche Wege besitzen.'},
 escort:{casual:['Sigma','Soldier: 76','Ashe','Mercy','Baptiste'],pro:['Winston','Tracer','Sojourn','Ana','Brigitte'],tips:'Payload-Ecken, Highground und sichere Rotationen beachten. Angreifer und Verteidiger können andere Picks benötigen.'},
@@ -44,46 +42,41 @@ function drawMarkers(){
 function openMap(name,focus){
  const data=window.owMapData?.find(m=>m.name===name);
  if(!data)return;
- current=data;adding='';returnFocus=focus;
- modalTitle.textContent=data.name+' · '+data.mode;
- const custom=localImages.get(name);
- const slug=typeof window.owMapSlug==='function'?window.owMapSlug(name):name.toLowerCase().replace(/[^a-z0-9]+/g,'_');
- board.style.aspectRatio=custom?'auto':'16/9';mapImage.src=custom||data.image||'https://overfast-api.tekrop.fr/static/maps/'+slug+'.jpg';
- mapImage.alt=(custom?'Eigene Draufsicht für ':'Perspektiv-Vorschaubild für ')+name;
- help.textContent=custom?'Eigene Draufsicht geladen (nur für diese Browsersitzung). Markierungen liegen relativ zu diesem Bild.':'Das Bild ist eine perspektivische Vorschau, KEIN geografisch korrektes Kartenoverlay. Lade für exakte Callouts eine Draufsicht hoch.';
- status.textContent='Zum Markieren zunächst Callout oder Shortcut wählen. Punkte werden lokal im Browser gespeichert.';
- mapImage.onerror=()=>{mapImage.removeAttribute('src');help.textContent='Vorschaubild nicht erreichbar. Bitte eine passende Draufsicht hochladen.'};
- $('ow-detail-tier').value='casual';el.hidden=false;document.body.style.overflow='hidden';teamRender();drawMarkers();$('ow-detail-close').focus();
+ current=data;returnFocus=focus;modalTitle.textContent=data.name+' · '+data.mode;
+ const id=annotatedOverlays[data.name];
+ mapImage.hidden=true;mapImage.removeAttribute('src');
+ frame.hidden=true;frame.removeAttribute('src');
+ empty.hidden=true;fullmap.hidden=true;
+ if(id){
+  board.style.aspectRatio='1 / 1';
+  frame.src='https://drive.google.com/file/d/'+encodeURIComponent(id)+'/preview';
+  frame.hidden=false;
+  fullmap.href='https://drive.google.com/file/d/'+encodeURIComponent(id)+'/view';
+  fullmap.hidden=false;fullmap.textContent='Annotiertes Overlay in voller Größe öffnen ↗';
+  help.textContent='Original-Draufsicht mit eingezeichneten Bereichen, Zielen und weiteren Kartenmarkierungen. Je nach Karte umfasst das Bild mehrere Teilkarten.';
+  credit.textContent='Overhead map courtesy of StatBanana / Coggle · ältere Overwatch-Kartenstände. Externe Anzeige über Google Drive.';
+ }else{
+  board.style.aspectRatio='16 / 9';
+  empty.hidden=false;
+  empty.textContent='Für '+data.name+' ist aktuell keine überprüfte, bereits beschriftete Draufsicht verfügbar.';
+  help.textContent='Hier wird bewusst kein normales Vorschaubild als Overlay angezeigt. Die Karte bleibt in der Übersicht verfügbar.';
+  credit.textContent='Weitere Kartenoverlays werden ergänzt, sobald eine passende Quelle geprüft ist.';
+ }
+ $('ow-detail-tier').value='casual';
+ el.hidden=false;document.body.style.overflow='hidden';
+ teamRender();$('ow-detail-close').focus();
 }
-function close(){adding='';el.hidden=true;current=null;document.body.style.overflow='';if(returnFocus&&returnFocus.isConnected)returnFocus.focus();}
+function close(){
+ el.hidden=true;current=null;document.body.style.overflow='';
+ frame.removeAttribute('src');
+ if(returnFocus&&returnFocus.isConnected)returnFocus.focus();
+}
 grid.addEventListener('click',e=>{const card=e.target.closest('.ow-map-card');if(!card)return;const name=card.querySelector('h3')?.textContent;if(name)openMap(name,card)});
 grid.addEventListener('keydown',e=>{if(e.key!=='Enter'&&e.key!==' ')return;const card=e.target.closest('.ow-map-card');if(!card)return;e.preventDefault();const name=card.querySelector('h3')?.textContent;if(name)openMap(name,card)});
-/* New cards created by filtering remain keyboard accessible. */
 const obs=new MutationObserver(()=>grid.querySelectorAll('.ow-map-card').forEach(card=>{card.tabIndex=0;card.setAttribute('role','button');card.setAttribute('aria-label','Details zu '+(card.querySelector('h3')?.textContent||'Karte')+' öffnen')}));
 obs.observe(grid,{childList:true});
 $('ow-detail-close').addEventListener('click',close);
 el.addEventListener('click',e=>{if(e.target===el)close()});
 document.addEventListener('keydown',e=>{if(el.hidden)return;if(e.key==='Escape')close()});
 $('ow-detail-tier').addEventListener('change',teamRender);
-$('ow-detail-callout').addEventListener('click',()=>{adding='callout';status.textContent='Klicke auf die exakte Position des Callouts im Kartenbild.'});
-$('ow-detail-shortcut').addEventListener('click',()=>{adding='shortcut';status.textContent='Klicke auf die Shortcut-Position im Kartenbild.'});
-board.addEventListener('click',e=>{
- if(!adding||!current||e.target.closest('.ow-pin'))return;
- if(!localImages.has(current.name)){status.textContent='Bitte zuerst eine echte Draufsicht hochladen. Auf einem Perspektivbild werden keine falschen Positionen gesetzt.';return;}
- const bounds=board.getBoundingClientRect(),x=Math.max(0,Math.min(100,(e.clientX-bounds.left)/bounds.width*100)),y=Math.max(0,Math.min(100,(e.clientY-bounds.top)/bounds.height*100));
- const type=adding;adding='';
- const label=prompt(type==='shortcut'?'Bezeichnung des Shortcuts:':'Name des Callouts:');
- if(!label||!label.trim())return;
- const arr=readMarkers(current.name);if(arr.length>=100){status.textContent='Maximal 100 Punkte pro Map.';return;}
- arr.push({type,label:label.trim().slice(0,70),x:+x.toFixed(2),y:+y.toFixed(2)});saveMarkers(current.name,arr);drawMarkers();status.textContent='Markierung gespeichert. Zum Löschen auf die Markierung klicken.';
-});
-$('ow-detail-upload').addEventListener('change',e=>{
- const file=e.target.files?.[0];if(!file||!current)return;
- if(!file.type.startsWith('image/')){status.textContent='Bitte eine Bilddatei wählen.';return;}
- if(file.size>15*1024*1024){status.textContent='Bitte ein Bild unter 15 MB wählen.';return;}
- const reader=new FileReader();const name=current.name;
- reader.onload=()=>{const value=reader.result;if(typeof value!=='string')return;localImages.set(name,value);if(current?.name===name){mapImage.src=value;const measure=new Image();measure.onload=()=>{if(current?.name===name)board.style.aspectRatio=measure.naturalWidth+' / '+measure.naturalHeight};measure.src=value;help.textContent='Eigene Draufsicht aktiv. Du kannst jetzt Callouts und Shortcuts positionsgenau setzen.';status.textContent='Draufsicht geladen – für diese Sitzung. Markierungen werden lokal gespeichert.';}};
- reader.readAsDataURL(file);e.target.value='';
-});
-$('ow-detail-clear').addEventListener('click',()=>{if(!current||!confirm('Alle eigenen Markierungen für '+current.name+' löschen?'))return;saveMarkers(current.name,[]);drawMarkers()});
 })();
