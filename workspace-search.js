@@ -12,8 +12,7 @@ function openSearch(engine){
  if(!destination)return;
  const term=input.value.trim();
  const url=term?destination.search+encodeURIComponent(term):destination.home;
- const tab=window.open(url,'_blank','noopener,noreferrer');
- if(!tab){window.location.href=url;}
+ const link=document.createElement('a');link.href=url;link.target='_blank';link.rel='noopener noreferrer';link.click();
 }
 root.querySelectorAll('[data-search-engine]').forEach(btn=>btn.addEventListener('click',()=>openSearch(btn.dataset.searchEngine)));
 input.addEventListener('keydown',event=>{if(event.key==='Enter'){event.preventDefault();openSearch('google')}});
