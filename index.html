@@ -465,14 +465,14 @@ function renderMapPicks(){
   visible.forEach((item,index)=>{
    const role=roleFor(item.name),hero=heroes.find(h=>h.name===item.name);
    const card=document.createElement('article');card.style.cssText='display:flex;align-items:flex-start;gap:9px;padding:10px;border:1px solid var(--line);border-radius:9px;background:#202025';
-   const img=document.createElement('img');img.alt=item.name+' Porträt';img.loading='lazy';img.style.cssText='width:50px;height:58px;object-fit:contain;flex:none';setHeroImageWithFallback(img,hero||{name:item.name,image:heroImage(item.name)},img.parentElement||card);
+   const imgBox=document.createElement('div');imgBox.style.cssText='width:50px;height:58px;flex:none;display:flex;align-items:center;justify-content:center';const img=document.createElement('img');img.alt=item.name+' Porträt';img.loading='lazy';img.style.cssText='width:50px;height:58px;object-fit:contain';imgBox.appendChild(img);setHeroImageWithFallback(img,hero||{name:item.name,image:heroImage(item.name)},imgBox);
    const info=document.createElement('div');info.style.cssText='min-width:0;flex:1';
    const title=document.createElement('div');title.style.cssText='display:flex;justify-content:space-between;gap:5px;align-items:center;flex-wrap:wrap';
    const name=document.createElement('strong');name.style.cssText='font-size:12px';name.textContent=item.name;
    const pill=document.createElement('span');pill.style.cssText='font-size:9px;color:#ffbd91;border:1px solid #70411f;border-radius:20px;padding:2px 5px';pill.textContent=role;
    title.append(name,pill);
    const desc=document.createElement('p');desc.style.cssText='font-size:10px;line-height:1.45;color:#d4d4dc;margin:6px 0 0';desc.textContent=why(item.name,role,item.core);
-   info.append(title,desc);card.append(img,info);list.appendChild(card);
+   info.append(title,desc);card.append(imgBox,info);list.appendChild(card);
   });
  }
  ['Empfohlen','Pro','Meta'].forEach(buildName=>{
