@@ -149,10 +149,26 @@ document.querySelectorAll('[data-category]').forEach(b=>b.addEventListener('clic
   gameNav.querySelectorAll('[data-category]').forEach(item=>item.classList.toggle('active',item===b));
   if(b.dataset.category.startsWith('ow-')){
     const section=b.dataset.category;
-    ['owHeroesContent','owMapsContent','owGuidesContent'].forEach(id=>document.getElementById(id).classList.toggle('hidden',id!==({'ow-heroes':'owHeroesContent','ow-maps':'owMapsContent','ow-guides':'owGuidesContent'}[section]||'owHeroesContent')));
-    if(section==='ow-maps')renderMapPicks();
-    if(section==='ow-guides')renderGuideMaps();
-    if(section==='ow-team'){const toast=document.getElementById('toast');toast.textContent='Team & Taktiken wird später ausgebaut.';toast.classList.remove('hidden');setTimeout(()=>toast.classList.add('hidden'),2200);}
+    const target={'ow-heroes':'owHeroesContent','ow-maps':'owMapsContent','ow-guides':'owGuidesContent'}[section];
+    const panels=['owHeroesContent','owMapsContent','owGuidesContent'];
+    panels.forEach(id=>{
+      const panel=document.getElementById(id);
+      if(panel)panel.classList.toggle('hidden',id!==target);
+    });
+    if(section==='ow-heroes'){
+      renderHeroes();
+    }else if(section==='ow-maps'){
+      renderMapPreview();
+      renderMapPicks();
+    }else if(section==='ow-guides'){
+      renderGuideMaps();
+    }else if(section==='ow-team'){
+      const toast=document.getElementById('toast');
+      toast.textContent='Team & Taktiken wird später ausgebaut.';
+      toast.classList.remove('hidden');
+      setTimeout(()=>toast.classList.add('hidden'),2200);
+      document.getElementById('owHeroesContent').classList.remove('hidden');
+    }
     return;
   }
   const toast=document.getElementById('toast');
