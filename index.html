@@ -174,6 +174,55 @@ function renderOwHeroes(){
 ['owHeroSearch','owHeroRole','owHeroSort'].forEach(id=>document.getElementById(id).addEventListener(id==='owHeroSearch'?'input':'change',renderOwHeroes));
 renderOwHeroes();
 
+
+const owMapData=[
+['Aatlis','Flashpoint'],['Antarctic Peninsula','Control'],['Busan','Control'],['Ilios','Control'],['Lijiang Tower','Control'],['Nepal','Control'],['Oasis','Control'],['Samoa','Control'],
+['Circuit Royal','Escort'],['Dorado','Escort'],['Havana','Escort'],['Junkertown','Escort'],['Rialto','Escort'],['Route 66','Escort'],['Shambali Monastery','Escort'],['Watchpoint: Gibraltar','Escort'],
+['Blizzard World','Hybrid'],['Eichenwalde','Hybrid'],['Hollywood','Hybrid'],["King’s Row",'Hybrid'],['Midtown','Hybrid'],['Numbani','Hybrid'],['Paraíso','Hybrid'],
+['Colosseo','Push'],['Esperança','Push'],['New Queen Street','Push'],['Runasapi','Push'],
+['New Junk City','Flashpoint'],['Suravasa','Flashpoint'],['Hanaoka','Clash'],['Throne of Anubis','Clash'],
+['Hanamura','Assault'],['Temple of Anubis','Assault'],['Volskaya Industries','Assault'],['Horizon Lunar Colony','Assault'],['Paris','Assault'],
+['Château Guillard','Deathmatch'],['Kanezaka','Deathmatch'],['Malevento','Deathmatch'],['Petra','Deathmatch'],
+['Black Forest','Elimination'],['Castillo','Elimination'],['Ecopoint: Antarctica','Elimination'],['Necropolis','Elimination'],
+['Ayutthaya','Capture the Flag'],['Arena Victoriae','Stadium'],['Gogadoro','Stadium'],['Place Lacroix','Stadium'],['Redwood Dam','Stadium'],['Wuxing University','Stadium'],['Powder Keg Mine','Stadium'],['Thames District','Stadium']
+].map(([name,mode])=>({name,mode}));
+const owMapSlug=name=>({"King’s Row":"kings_row","Watchpoint: Gibraltar":"watchpoint_gibraltar","Ecopoint: Antarctica":"ecopoint_antarctica"}[name]||name.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'_').replace(/^_|_$/g,''));
+function renderOwMaps(){
+ const grid=document.getElementById('owMapGrid');
+ const input=document.getElementById('owMapSearch').value.toLowerCase();
+ const chosen=document.getElementById('owMapMode').value;
+ const results=owMapData.filter(m=>m.name.toLowerCase().includes(input)&&(chosen==='all'||m.mode===chosen)).sort((a,b)=>a.name.localeCompare(b.name));
+ document.getElementById('owMapCount').textContent=results.length+' von '+owMapData.length+' Karten';
+ grid.replaceChildren();
+ for(const m of results){
+  const card=document.createElement('article');card.className='ow-map-card';
+  const pic=document.createElement('div');pic.className='ow-map-image';pic.textContent='▧';
+  const img=document.createElement('img');img.alt='Vorschaubild '+m.name;img.loading='lazy';img.decoding='async';img.src=m.image||'https://overfast-api.tekrop.fr/static/maps/'+owMapSlug(m.name)+'.jpg';img.onerror=()=>img.remove();pic.append(img);
+  const body=document.createElement('div');body.className='ow-map-body';
+  const title=document.createElement('h3');title.textContent=m.name;
+  const mode=document.createElement('small');mode.textContent=m.mode;
+  body.append(title,mode);card.append(pic,body);grid.append(card);
+ }
+}
+const owMapModeSelect=document.getElementById('owMapMode');
+[...new Set(owMapData.map(m=>m.mode))].sort().forEach(mode=>{const option=document.createElement('option');option.value=mode;option.textContent=mode;owMapModeSelect.append(option);});
+document.getElementById('owMapSearch').addEventListener('input',renderOwMaps);
+owMapModeSelect.addEventListener('change',renderOwMaps);
+renderOwMaps();
+fetch('https://overfast-api.tekrop.fr/maps').then(r=>r.ok?r.json():[]).then(list=>{
+ if(!Array.isArray(list))return;
+ list.forEach(m=>{
+  if(!m||typeof m.name!=='string')return;
+  const match=owMapData.find(x=>x.name.toLowerCase()===m.name.toLowerCase());
+  if(match){if(typeof m.screenshot==='string'&&m.screenshot.startsWith('https://'))match.image=m.screenshot;}
+  else{
+   const mode=Array.isArray(m.gamemodes)&&m.gamemodes.length?String(m.gamemodes[0]):'Other';
+   owMapData.push({name:m.name,mode:mode.charAt(0).toUpperCase()+mode.slice(1),image:m.screenshot||''});
+  }
+ });
+ renderOwMaps();
+}).catch(()=>{});
+
 page('start');
 })();
 </script>
