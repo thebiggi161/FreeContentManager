@@ -71,10 +71,43 @@ const heroSkill={
 'Moira':1,'Mercy':1,'Baptiste':3,'Lúcio':4,'Ana':5,'Kiriko':4,'Juno':3
 };
 const skillLabels=['','Einsteigerfreundlich','Grundlagen','Mittel','Fortgeschritten','Anspruchsvoll','Sehr anspruchsvoll','Hohe Mechanik / Timing'];
-const mapSelector=document.getElementById('owRankMapSelect');
+const mapDrawer=document.getElementById('owRankMapDrawer');
+const mapSearch=document.getElementById('owRankMapSearch');
+const mapGallery=document.getElementById('owRankMapGallery');
+let selectedMapName='';
 rankedMapPool.sort((a,b)=>a.mode.localeCompare(b.mode)||a.name.localeCompare(b.name));
-rankedMapPool.forEach(map=>{const item=document.createElement('option');item.value=map.name;item.textContent=map.name+' · '+map.mode;mapSelector.append(item)});
-mapSelector.addEventListener('change',render);
+function mapImageUrl(map){
+ const fromGallery=window.owMapData?.find(item=>item.name===map.name);
+ if(fromGallery?.image&&/^https:\/\//.test(fromGallery.image))return fromGallery.image;
+ const slug=window.owMapSlug?.(map.name)||map.name.toLowerCase().normalize('NFD').replace(/[\\u0300-\\u036f]/g,'').replace(/[^a-z0-9]+/g,'_').replace(/^_|_$/g,'');
+ return 'https://overfast-api.tekrop.fr/static/maps/'+slug+'.jpg';
+}
+function renderMapGallery(){
+ const query=mapSearch.value.trim().toLocaleLowerCase('de');
+ const matches=rankedMapPool.filter(map=>map.name.toLocaleLowerCase('de').includes(query));
+ document.getElementById('owRankMapCount').textContent=matches.length+' von '+rankedMapPool.length+' Maps';
+ mapGallery.replaceChildren();
+ const createCard=(name,mode,image,selected)=>{
+  const btn=document.createElement('button');btn.type='button';btn.className='ow-rank-map-item';btn.setAttribute('aria-pressed',String(selected));
+  const pic=document.createElement('div');pic.className='ow-rank-map-thumb';
+  const fallback=document.createElement('span');fallback.textContent='▧';fallback.className='ow-rank-map-fallback';pic.append(fallback);
+  if(image){
+   const img=document.createElement('img');img.src=image;img.alt='Vorschaubild '+name;img.loading='lazy';img.decoding='async';img.onerror=()=>img.remove();pic.append(img);
+  }
+  const info=document.createElement('div');info.className='ow-rank-map-item-info';
+  const label=document.createElement('strong');label.textContent=name;
+  const subtitle=document.createElement('span');subtitle.textContent=mode;
+  info.append(label,subtitle);btn.append(pic,info);
+  btn.addEventListener('click',()=>{selectedMapName=name==='Alle Maps'?'':name;document.getElementById('owRankChosenMap').textContent=selectedMapName||'Alle Maps · allgemeine Picks';mapDrawer.open=false;mapSearch.value='';renderMapGallery();render();document.querySelector('.ow-rank-map-toggle')?.focus()});
+  return btn;
+ };
+ if(!query)mapGallery.append(createCard('Alle Maps','Allgemeine Elo-Picks','',!selectedMapName));
+ matches.forEach(map=>mapGallery.append(createCard(map.name,map.mode,mapImageUrl(map),map.name===selectedMapName)));
+ if(!matches.length){const empty=document.createElement('p');empty.className='ow-rank-map-none';empty.textContent='Keine Map gefunden. Versuche einen anderen Namen.';mapGallery.append(empty)}
+}
+mapSearch.addEventListener('input',renderMapGallery);
+mapDrawer.addEventListener('toggle',()=>{if(mapDrawer.open){renderMapGallery()}});
+renderMapGallery();
 
 function render(){
  const step=Number(rankSlider.value),rankIndex=Math.floor(step/5),division=5-step%5,rank=ranks[rankIndex];
@@ -84,7 +117,7 @@ function render(){
  document.getElementById('owRankSubtitle').textContent='Division '+division+' von 5 · '+(step+1)+' / 45';
  rankSlider.setAttribute('aria-valuetext',rank.name+' Division '+division);
  rankButtons.querySelectorAll('button').forEach((b,i)=>b.setAttribute('aria-pressed',String(i===rankIndex)));
- const selectedMap=rankedMapPool.find(m=>m.name===mapSelector.value);
+ const selectedMap=rankedMapPool.find(m=>m.name===selectedMapName);
  const style=selectedMap?mapStyles[selectedMap.style]:null;
  document.getElementById('owRankMapMode').textContent=selectedMap?selectedMap.mode:'Alle Modi';
  document.getElementById('owRankMapStyle').textContent=style?style.label:'Elo-basierte Empfehlungen';
