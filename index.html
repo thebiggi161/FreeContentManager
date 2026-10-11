@@ -347,7 +347,6 @@ async function refreshMapAssets(){
    const found=data.find(item=>wanted.includes(normalizeMapName(item.name))&&(item.image||item.screenshot));
    if(found)annotatedMaps[key]=found.image||found.screenshot;
   });
-  renderMapPreview();
  };
  try{
   const local=await fetch('./assets/overwatch/maps.json',{cache:'no-cache'});
