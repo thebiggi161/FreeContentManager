@@ -496,6 +496,7 @@ heroSearch.addEventListener('input',renderHeroes);heroRole.addEventListener('cha
 heroDetail.addEventListener('click',e=>{if(e.target===heroDetail)heroDetail.classList.add('hidden')});
 document.addEventListener('keydown',e=>{if(e.key==='Escape')heroDetail.classList.add('hidden')});
 loadHeroes();
+refreshHeroAssets();
 document.querySelectorAll('[data-template]').forEach(b=>b.addEventListener('click',()=>{
   const toast=document.getElementById('toast');
   toast.textContent='Der neue Workspace kommt als nächster Schritt.';
