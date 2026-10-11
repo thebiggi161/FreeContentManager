@@ -476,5 +476,77 @@ document.querySelectorAll('[data-template]').forEach(b=>b.addEventListener('clic
 page('start');
 })();
 </script>
+
+<script>
+/* Resilient Overwatch hero-list fallback: keeps the roster visible if the main app script fails. */
+(function () {
+  const roster = [
+    ["Ana","Support"],["Anran","Damage"],["Ashe","Damage"],["Baptiste","Support"],["Bastion","Damage"],["Brigitte","Support"],
+    ["Cassidy","Damage"],["D.Va","Tank"],["Domina","Tank"],["Doomfist","Tank"],["Echo","Damage"],["Emre","Damage"],
+    ["Freja","Damage"],["Genji","Damage"],["Hanzo","Damage"],["Hazard","Tank"],["Illari","Support"],["Jetpack Cat","Support"],
+    ["Junker Queen","Tank"],["Junkrat","Damage"],["Juno","Support"],["Kiriko","Support"],["Lifeweaver","Support"],["Lúcio","Support"],
+    ["Mauga","Tank"],["Mei","Damage"],["Mercy","Support"],["Mizuki","Support"],["Moira","Support"],["Orisa","Tank"],
+    ["Pharah","Damage"],["Ramattra","Tank"],["Reaper","Damage"],["Reinhardt","Tank"],["Roadhog","Tank"],["Sierra","Damage"],
+    ["Sigma","Tank"],["Sojourn","Damage"],["Soldier: 76","Damage"],["Sombra","Damage"],["Symmetra","Damage"],["Torbjörn","Damage"],
+    ["Tracer","Damage"],["Vendetta","Damage"],["Venture","Damage"],["Widowmaker","Damage"],["Winston","Tank"],
+    ["Wrecking Ball","Tank"],["Wuyang","Support"],["Zarya","Tank"],["Zenyatta","Support"]
+  ];
+  function bootFallback() {
+    const grid = document.getElementById("heroGrid");
+    if (!grid || grid.querySelector(".hero-card")) return;
+    const search = document.getElementById("heroSearch");
+    const role = document.getElementById("heroRole");
+    const count = document.getElementById("heroCount");
+    const slug = s => s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
+    function render() {
+      const q = (search && search.value || "").trim().toLowerCase();
+      const r = role && role.value || "all";
+      const shown = roster.filter(h => (!q || h[0].toLowerCase().includes(q)) && (r === "all" || h[1] === r));
+      grid.innerHTML = "";
+      if (count) count.textContent = shown.length + " von " + roster.length + " Helden";
+      shown.forEach(([name, heroRole]) => {
+        const card = document.createElement("button");
+        card.type = "button";
+        card.className = "hero-card";
+        const portrait = document.createElement("div");
+        portrait.className = "hero-portrait";
+        const img = document.createElement("img");
+        img.loading = "lazy";
+        img.alt = name + " Porträt";
+        img.src = "https://d1u1mce87gyfbn.cloudfront.net/hero/" + slug(name) + "/hero-select-portrait.png";
+        img.onerror = function () {
+          const fallback = document.createElement("span");
+          fallback.className = "hero-fallback";
+          fallback.textContent = name.slice(0, 1);
+          portrait.replaceChildren(fallback);
+        };
+        portrait.appendChild(img);
+        const body = document.createElement("div");
+        body.className = "hero-card-body";
+        const top = document.createElement("div");
+        top.className = "hero-card-top";
+        const title = document.createElement("h3");
+        title.textContent = name;
+        const pill = document.createElement("span");
+        pill.className = "role-pill";
+        pill.textContent = heroRole;
+        top.append(title, pill);
+        const note = document.createElement("div");
+        note.className = "hero-footnote";
+        note.textContent = "Heldenübersicht";
+        body.append(top, note);
+        card.append(portrait, body);
+        grid.appendChild(card);
+      });
+    }
+    if (search) search.addEventListener("input", render);
+    if (role) role.addEventListener("change", render);
+    render();
+  }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", () => setTimeout(bootFallback, 1200));
+  else setTimeout(bootFallback, 1200);
+})();
+</script>
+
 </body>
 </html>
