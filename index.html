@@ -21,13 +21,9 @@ button.btn{border:1px solid #3a3a42;border-radius:9px;padding:9px 13px;backgroun
 @media(max-width:980px){.shell{grid-template-columns:68px minmax(0,1fr)}aside{padding:20px 7px}.side-caption,.side button .label,.privacy{display:none}.side button{justify-content:center;padding:12px 0}.editor{grid-template-columns:1fr}.controls{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 18px;border-left:0;border-top:1px solid var(--line)}.controls h3,.hint{grid-column:1/-1}.templates{grid-template-columns:repeat(2,minmax(0,1fr))}.header-right .status{display:none}}
 @media(max-width:600px){header{height:auto;min-height:60px;flex-wrap:wrap;gap:3px;padding:8px 12px}.brand{font-size:13px}.logo{width:30px;height:30px}.header-right{margin-left:auto}.nav{order:3;flex-basis:100%;height:36px}.nav button{padding:0 10px;font-size:12px}.shell{grid-template-columns:1fr}.shell aside{display:none}main{padding:24px 13px}.heading{align-items:flex-start;flex-direction:column}.tiles{grid-template-columns:1fr 1fr;gap:8px}.tile{padding:13px;min-height:140px}.editor .stage{min-height:270px;padding:12px}.drop{min-height:230px}.canvas-box{min-height:220px}.controls{padding:14px;gap:0 12px}.templates{grid-template-columns:1fr 1fr;gap:9px}.template-meta{padding:10px}.template-meta p{min-height:30px}.export-row{align-items:flex-start;flex-direction:column}.panel-head{padding:14px}.stage{min-height:260px}}
 
-.guide-map-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,360px),1fr));gap:14px}
-.guide-map-card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px;min-width:0}
-.guide-map-card h3{margin:0 0 4px;font-size:16px}.guide-map-meta{font-size:11px;color:var(--muted);margin-bottom:10px}
+.guide-map-meta{font-size:11px;color:var(--muted);margin-bottom:10px}
 .guide-video{width:100%;aspect-ratio:16/9;border:0;border-radius:9px;background:#080809}
-.guide-links{display:flex;flex-wrap:wrap;gap:8px;margin-top:11px}
-.guide-links a{color:#ffb17d;border:1px solid #56351f;background:#211810;border-radius:8px;padding:7px 9px;text-decoration:none;font-size:12px}
-.guide-links a:hover{background:#332116}.guide-map-card p{font-size:12px;color:#c8c8d0;margin:10px 0 0}
+.guide-map-card p{font-size:12px;color:#c8c8d0;margin:10px 0 0}
 </style>
 </head>
 <body>
@@ -37,21 +33,10 @@ button.btn{border:1px solid #3a3a42;border-radius:9px;padding:9px 13px;backgroun
   <div class="header-right"><span class="status"><i class="dot"></i>Kostenlos · lokal</span><button class="btn" id="newProject">Neu starten</button></div>
 </header>
 <div class="shell">
-<aside><div class="side-track"><div class="side side-main"><p class="side-caption">Workspace</p><button class="active" data-page="start"><span class="ico">⌂</span><span class="label">Startseite</span></button><button data-page="home"><span class="ico">▦</span><span class="label">Übersicht</span></button><button data-page="templates"><span class="ico">▤</span><span class="label">Vorlagen</span></button></div><div class="side game-subnav" id="counterstrikeSubnav"><p class="side-caption"><span>COUNTER-STRIKE</span></p><button class="back-link" data-page="start"><span class="ico">←</span><span class="label">Zur Startseite</span></button><button class="active" data-category="cs-overview" style="--i:0"><span class="ico">⌂</span><span class="label">Übersicht</span></button><button data-category="cs-loadouts" style="--i:1"><span class="ico">⚒</span><span class="label">Loadouts</span></button><button data-category="cs-maps" style="--i:2"><span class="ico">▧</span><span class="label">Maps & Smokes</span></button><button data-category="cs-clips" style="--i:3"><span class="ico">▷</span><span class="label">Clips</span></button><button data-category="cs-strats" style="--i:4"><span class="ico">☷</span><span class="label">Strategien</span></button></div><div class="side game-subnav" id="overwatchSubnav"><p class="side-caption"><span>OVERWATCH</span></p><button class="back-link" data-page="start"><span class="ico">←</span><span class="label">Zur Startseite</span></button><button data-category="ow-guides" style="--i:3"><span class="ico">▷</span><span class="label">Guides</span></button><button data-category="ow-team" style="--i:4"><span class="ico">☷</span><span class="label">Team & Taktiken</span></button></div></div></aside>
+<aside><div class="side-track"><div class="side side-main"><p class="side-caption">Workspace</p><button class="active" data-page="start"><span class="ico">⌂</span><span class="label">Startseite</span></button><button data-page="home"><span class="ico">▦</span><span class="label">Übersicht</span></button><button data-page="templates"><span class="ico">▤</span><span class="label">Vorlagen</span></button></div><div class="side game-subnav" id="counterstrikeSubnav"><p class="side-caption"><span>COUNTER-STRIKE</span></p><button class="back-link" data-page="start"><span class="ico">←</span><span class="label">Zur Startseite</span></button><button class="active" data-category="cs-overview" style="--i:0"><span class="ico">⌂</span><span class="label">Übersicht</span></button><button data-category="cs-loadouts" style="--i:1"><span class="ico">⚒</span><span class="label">Loadouts</span></button><button data-category="cs-maps" style="--i:2"><span class="ico">▧</span><span class="label">Maps & Smokes</span></button><button data-category="cs-clips" style="--i:3"><span class="ico">▷</span><span class="label">Clips</span></button><button data-category="cs-strats" style="--i:4"><span class="ico">☷</span><span class="label">Strategien</span></button></div><div class="side game-subnav" id="overwatchSubnav"><p class="side-caption"><span>OVERWATCH</span></p><button class="back-link" data-page="start"><span class="ico">←</span><span class="label">Zur Startseite</span></button></div></div></aside>
 <main>
 <section class="page hidden" id="overwatchPage">
   <div class="heading"><div><div class="eyebrow">Overwatch</div><h1>Overwatch Hub</h1></div></div>
-  <div id="owGuidesContent" class="ow-content-panel hidden">
-    <div class="heading"><div><div class="eyebrow">Overwatch Lernbereich</div><h1>Map Guides</h1><p class="intro">Videos, Lineups, Shortcuts und Callouts nach Map und Modus filtern.</p></div></div>
-    <div class="hero-tools" style="margin-bottom:16px">
-      <input id="guideMapSearch" type="search" placeholder="Map suchen …" aria-label="Map in Guides suchen">
-      <select id="guideModeFilter" aria-label="Spielmodus filtern"><option value="all">Alle Modi</option><option value="Kontrolle">Kontrolle</option><option value="Eskorte">Eskorte</option><option value="Hybrid">Hybrid</option><option value="Push">Push</option><option value="Flashpoint">Flashpoint</option><option value="Clash / Stadium">Clash / Stadium</option></select>
-      <select id="guideMapFilter" aria-label="Map auswählen"><option value="all">Alle Maps</option></select>
-    </div>
-    <div id="guideMapResults" class="guide-map-grid" aria-live="polite"></div>
-    <p class="map-data-note">Video-Einbettungen nutzen YouTube-Suchergebnisse für die gewählte Map und den Modus. Prüfe vor dem Match Patch-Version und Aktualität des jeweiligen Guides.</p>
-  </div>
-
 </section>
 <section class="page hidden" id="counterstrikePage">
   <div class="heading"><div><div class="eyebrow">Counter-Strike</div><h1>Counter-Strike Hub</h1><p class="intro">Ein leerer Bereich für neue Ideen. Hier sammeln und planen wir später gemeinsam, was in den Hub gehört.</p></div></div>
@@ -146,27 +131,6 @@ document.querySelectorAll('[data-category]').forEach(b=>b.addEventListener('clic
   toast.classList.remove('hidden');
   setTimeout(()=>toast.classList.add('hidden'),2200);
 }));
-function renderGuideMaps(){
- if(!guideMapResults)return;
- const query=(guideMapSearch.value||'').trim().toLowerCase(),mode=guideModeFilter.value,selected=guideMapFilter.value;
- const visible=guideMaps.filter(m=>(!query||m.name.toLowerCase().includes(query)||m.key.includes(query))&&(mode==='all'||m.mode===mode)&&(selected==='all'||m.key===selected));
- guideMapResults.innerHTML='';
- if(!visible.length){guideMapResults.innerHTML='<div class="panel" style="padding:16px">Keine Maps für diese Suche gefunden.</div>';return}
- visible.forEach(m=>{
-  const card=document.createElement('article');card.className='guide-map-card';
-  const title=document.createElement('h3');title.textContent=m.name;
-  const meta=document.createElement('div');meta.className='guide-map-meta';meta.textContent='Modus: '+m.mode;
-  const frame=document.createElement('iframe');frame.className='guide-video';frame.loading='lazy';frame.title='Overwatch '+m.name+' Map Guide, Lineups und Shortcuts';frame.referrerPolicy='strict-origin-when-cross-origin';frame.allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';frame.allowFullscreen=true;
-  const searchTerm='Overwatch 2 '+m.name+' '+m.mode+' map guide lineups shortcuts callouts';
-  frame.src='https://www.youtube.com/embed?listType=search&list='+encodeURIComponent(searchTerm);
-  const desc=document.createElement('p');desc.textContent='Fokus: Rotationen, starke Positionen, Shortcuts, Callouts und map-spezifische Teamfights.';
-  const links=document.createElement('div');links.className='guide-links';
-  [['Guides','guide'],['Lineups','lineups'],['Shortcuts & Callouts','shortcuts callouts']].forEach(([label,term])=>{const a=document.createElement('a');a.href='https://www.youtube.com/results?search_query='+encodeURIComponent('Overwatch 2 '+m.name+' '+m.mode+' '+term);a.target='_blank';a.rel='noopener noreferrer';a.textContent=label+' ↗';links.appendChild(a)});
-  card.append(title,meta,frame,desc,links);guideMapResults.appendChild(card);
- });
-}
-[guideMapSearch,guideModeFilter,guideMapFilter].forEach(el=>el.addEventListener('input',renderGuideMaps));
-[guideModeFilter,guideMapFilter].forEach(el=>el.addEventListener('change',renderGuideMaps));
 const heroGrid=document.getElementById('heroGrid');
 const heroSearch=document.getElementById('heroSearch');
 const heroRole=document.getElementById('heroRole');
@@ -274,12 +238,6 @@ function openHero(h){
 }
 const mapNames={'antarctic-peninsula':'Antarctic Peninsula','busan':'Busan','ilios':'Ilios','lijiang-tower':'Lijiang Tower','nepal':'Nepal','oasis':'Oasis','samoa':'Samoa','circuit-royal':'Circuit Royal','dorado':'Dorado','havana':'Havana','junkertown':'Junkertown','rialto':'Rialto','route-66':'Route 66','shambali-monastery':'Shambali Monastery','watchpoint-gibraltar':'Watchpoint: Gibraltar','paraiso-escort':'Paraíso','blizzard-world':'Blizzard World','eichenwalde':'Eichenwalde','hollywood':'Hollywood','kings-row':"King's Row",'midtown':'Midtown','numbani':'Numbani','paraiso':'Paraíso','redwood':'Redwood','colosseo':'Colosseo','esperanca':'Esperança','new-queen-street':'New Queen Street','runasapi':'Runasapi','new-junk-city':'New Junk City','suravasa':'Suravasa','aatlis':'Aatlis','hanaoka':'Hanaoka','throne-of-anubis':'Throne of Anubis','grims-votn':'Grímsvötn'};
 const mapModes={'antarctic-peninsula':'Kontrolle','busan':'Kontrolle','ilios':'Kontrolle','lijiang-tower':'Kontrolle','nepal':'Kontrolle','oasis':'Kontrolle','samoa':'Kontrolle','circuit-royal':'Eskorte','dorado':'Eskorte','havana':'Eskorte','junkertown':'Eskorte','rialto':'Eskorte','route-66':'Eskorte','shambali-monastery':'Eskorte','watchpoint-gibraltar':'Eskorte','paraiso-escort':'Eskorte','blizzard-world':'Hybrid','eichenwalde':'Hybrid','hollywood':'Hybrid','kings-row':'Hybrid','midtown':'Hybrid','numbani':'Hybrid','paraiso':'Hybrid','redwood':'Hybrid','colosseo':'Push','esperanca':'Push','new-queen-street':'Push','runasapi':'Push','new-junk-city':'Flashpoint','suravasa':'Flashpoint','aatlis':'Clash / Stadium','hanaoka':'Clash / Stadium','throne-of-anubis':'Clash / Stadium','grims-votn':'Clash / Stadium'};
-const guideMapSearch=document.getElementById('guideMapSearch');
-const guideModeFilter=document.getElementById('guideModeFilter');
-const guideMapFilter=document.getElementById('guideMapFilter');
-const guideMapResults=document.getElementById('guideMapResults');
-const guideMaps=Object.keys(mapNames).map(key=>({key,name:mapNames[key],mode:mapModes[key]||'Weitere Modi'}));
-guideMaps.forEach(m=>{const option=document.createElement('option');option.value=m.key;option.textContent=m.name;guideMapFilter.appendChild(option)});
 
 
 const mapCallouts={
