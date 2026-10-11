@@ -26,12 +26,12 @@ main{width:100%;max-width:1500px;margin:auto;padding:34px clamp(16px,4vw,52px) 2
 <header>
   <div class="brand"><div class="logo">F</div><span>FreeContentManager</span></div>
   <nav class="nav" aria-label="Hauptnavigation">
-    <button class="active" data-page="home">Übersicht</button><button data-page="templates">Vorlagen</button><button data-page="export">Export</button>
+    <button class="active" data-page="home">Übersicht</button><button data-page="templates">Vorlagen</button>
   </nav>
   <div class="header-right"><span class="status"><i class="dot"></i>Kostenlos · lokal</span><button class="btn" id="newProject">Neu starten</button></div>
 </header>
 <div class="shell">
-<aside><div class="side"><p class="side-caption">Workspace</p><button class="active" data-page="home"><span class="ico">▦</span><span class="label">Übersicht</span></button><button data-page="templates"><span class="ico">▤</span><span class="label">Vorlagen</span></button><button data-page="export"><span class="ico">⇧</span><span class="label">Exportieren</span></button></div><div class="privacy"><b>Deine Dateien bleiben privat.</b><p>Bilder werden nur in deinem Browser verarbeitet und nicht hochgeladen.</p></div></aside>
+<aside><div class="side"><p class="side-caption">Workspace</p><button class="active" data-page="home"><span class="ico">▦</span><span class="label">Übersicht</span></button><button data-page="templates"><span class="ico">▤</span><span class="label">Vorlagen</span></button></div><div class="privacy"><b>Deine Dateien bleiben privat.</b><p>Bilder werden nur in deinem Browser verarbeitet und nicht hochgeladen.</p></div></aside>
 <main>
 <section class="page" id="homePage">
   <div class="heading">
@@ -44,7 +44,7 @@ main{width:100%;max-width:1500px;margin:auto;padding:34px clamp(16px,4vw,52px) 2
   <h2 class="section-title">Bereiche</h2>
   <div class="tiles">
     <button class="tile" data-page="templates"><div class="icon">▤</div><b>Vorlagen</b><span>Starte mit einem passenden Format und Design.</span></button>
-    <button class="tile" data-page="export"><div class="icon">⇧</div><b>Export</b><span>Der Export-Bereich bleibt als Struktur erhalten.</span></button>
+    
     <div class="tile" style="opacity:.55;cursor:default"><div class="icon">✦</div><b>Neuer Workspace</b><span>Wird komplett neu entwickelt.</span></div>
   </div>
   <div class="panel">
@@ -64,15 +64,14 @@ main{width:100%;max-width:1500px;margin:auto;padding:34px clamp(16px,4vw,52px) 2
 <article class="template"><div class="art square"><small>CREATOR POST</small><strong>LEVEL<br>UP.</strong><em>GAMING COMMUNITY</em></div><div class="template-meta"><b>Quadratischer Post</b><p>1:1 · 1080 × 1080 px</p><button class="btn" data-template="square">Vorlage verwenden</button></div></article>
 <article class="template"><div class="art vertical"><small>SHORTS · REELS</small><strong>TOP<br>PLAY!</strong><em>SWIPE FÜR MEHR</em></div><div class="template-meta"><b>Story & Shorts</b><p>9:16 · 1080 × 1920 px</p><button class="btn" data-template="vertical">Vorlage verwenden</button></div></article></div>
 <div class="panel" style="margin-top:18px"><div class="panel-head"><div><b>In wenigen Schritten fertig</b><p>Keine Anmeldung nötig.</p></div></div><div style="padding:18px;color:var(--muted)">1. Format auswählen. 2. Bild laden. 3. Farben und Titel bearbeiten. 4. Als PNG speichern.</div></div></section>
-<section class="page hidden" id="exportPage"><div class="heading"><div><div class="eyebrow">Fertigstellen</div><h1>Export</h1><p class="intro">Speichere dein Design auf deinem Gerät. Die Exporte enthalten deine aktuellen Bildanpassungen und den Titel.</p></div></div><div class="panel"><div class="panel-head"><div><b>Dein Design</b><p id="exportStatus">Noch kein Bild geladen.</p></div><span class="badge">PNG</span></div><div class="export-list"><div class="export-row"><div><b>Originalgröße</b><p>Behält die Größe des geladenen Bildes bei.</p></div><button class="btn primary" data-export="original">PNG speichern</button></div><div class="export-row"><div><b>YouTube Thumbnail</b><p>1280 × 720 · 16:9</p></div><button class="btn" data-export="thumbnail">Thumbnail speichern</button></div><div class="export-row"><div><b>Quadrat</b><p>1080 × 1080 · 1:1</p></div><button class="btn" data-export="square">Quadrat speichern</button></div><div class="export-row"><div><b>Story / Shorts</b><p>1080 × 1920 · 9:16</p></div><button class="btn" data-export="vertical">Story speichern</button></div></div></div></section>
 <footer><span>FreeContentManager · Kostenloser Browser-Editor</span><span>Einfach. Lokal. Privat.</span></footer>
 </main></div>
 <input id="fileInput" type="file" accept="image/*" hidden>
 <div class="toast hidden" id="toast" role="status" aria-live="polite"></div>
 <script>
 (()=>{'use strict';
-const pageNames=['home','templates','export'];
-const pageElements={home:document.getElementById('homePage'),templates:document.getElementById('templatesPage'),export:document.getElementById('exportPage')};
+const pageNames=['home','templates'];
+const pageElements={home:document.getElementById('homePage'),templates:document.getElementById('templatesPage')};
 function page(name){
   if(!pageElements[name])return;
   pageNames.forEach(n=>pageElements[n].classList.toggle('hidden',n!==name));
