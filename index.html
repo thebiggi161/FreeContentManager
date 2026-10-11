@@ -107,6 +107,7 @@ button.btn{border:1px solid #3a3a42;border-radius:9px;padding:9px 13px;backgroun
 <link rel="stylesheet" href="overwatch-counter.css?v=1">
 <link rel="stylesheet" href="workspace-clock.css?v=1">
 <link rel="stylesheet" href="workspace-search.css?v=2">
+<link rel="stylesheet" href="workspace-shisha.css?v=1">
 </head>
 <body>
 <header>
@@ -212,6 +213,18 @@ button.btn{border:1px solid #3a3a42;border-radius:9px;padding:9px 13px;backgroun
       <p class="ws-clock-date" id="wsClockDate">Datum wird geladen …</p>
       <div class="ws-clock-zone"><span class="ws-clock-led" aria-hidden="true"></span><span id="wsClockZone">Lokale Zeitzone wird erkannt …</span></div>
       <p class="ws-clock-hint">Automatisch nach der eingestellten Zeitzone deines Geräts · 24-Stunden-Anzeige</p>
+      <div class="ws-shisha" id="wsShishaTimer">
+        <div class="ws-shisha-header"><h3>Shisha Countdown</h3><span class="ws-shisha-status" id="wsShishaStatus" role="status" aria-live="polite">Bereit</span></div>
+        <div class="ws-shisha-presets" role="group" aria-label="Countdown-Dauer auswählen">
+          <button type="button" class="ws-shisha-preset" data-shisha-minutes="12" aria-pressed="true">12 Min.</button>
+          <button type="button" class="ws-shisha-preset" data-shisha-minutes="20" aria-pressed="false">20 Min.</button>
+          <button type="button" class="ws-shisha-preset" data-shisha-minutes="60" aria-pressed="false">60 Min.</button>
+          <button type="button" class="ws-shisha-preset" data-shisha-minutes="90" aria-pressed="false">90 Min.</button>
+        </div>
+        <div class="ws-shisha-display" id="wsShishaRemaining" role="timer" aria-label="Verbleibende Countdown-Zeit">12:00</div>
+        <div class="ws-shisha-progress" aria-hidden="true"><div class="ws-shisha-progress-bar" id="wsShishaProgress"></div></div>
+        <div class="ws-shisha-actions"><button type="button" class="ws-shisha-action ws-shisha-action-primary" id="wsShishaStart">Start</button><button type="button" class="ws-shisha-action" id="wsShishaReset">Reset</button></div>
+      </div>
     </section>
     <section class="ws-time-card" aria-label="Monatskalender">
       <div class="ws-calendar-head">
@@ -353,5 +366,6 @@ page('start');
 <script src="overwatch-counter.js?v=1" defer></script>
 <script src="workspace-clock.js?v=1" defer></script>
 <script src="workspace-search.js?v=1" defer></script>
+<script src="workspace-shisha.js?v=1" defer></script>
 </body>
 </html>
