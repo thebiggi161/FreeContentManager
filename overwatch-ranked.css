@@ -29,3 +29,16 @@
 .ow-rank-disclaimer{color:#8f8c99;font-size:11px;margin-top:16px;line-height:1.6}
 @media(max-width:1100px){.ow-rank-grid{grid-template-columns:repeat(5,minmax(0,1fr))}}
 @media(max-width:680px){.ow-rank-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.ow-rank-recos{grid-template-columns:1fr}.ow-rank-panel{padding:14px}.ow-rank-emblem{width:62px;height:62px;font-size:24px}.ow-rank-scope{text-align:left}.ow-rank-role{flex:1;min-width:85px;padding:9px}}
+
+/* Ranked map dropdown and skill-specific hero initial badges */
+.ow-rank-map-panel{margin:2px 0 22px;padding:15px 17px;border:1px solid #39343a;background:linear-gradient(140deg,#211d23,#141418);border-radius:12px}
+.ow-rank-map-controls{display:flex;justify-content:space-between;align-items:end;gap:16px;flex-wrap:wrap}
+.ow-rank-map-controls>div:first-child{flex:1;min-width:220px}
+.ow-rank-map-controls label{display:block;font-size:12px;font-weight:700;color:#e9d7c9;margin-bottom:8px}
+.ow-rank-map-controls select{width:100%;border:1px solid #594437;border-radius:9px;color:#fff;background:#19191e;padding:12px 14px;min-height:46px}
+.ow-rank-map-tags{display:flex;gap:7px;flex-wrap:wrap}
+.ow-rank-map-tags span{font-size:11px;border:1px solid #665044;border-radius:99px;padding:6px 9px;color:#ffc092}
+.ow-rank-map-explain{margin:11px 0 0;color:#aaa8b4;font-size:12px;line-height:1.6}
+.ow-rank-hero-index{border:1px solid #f3924c;width:40px;height:40px;font-size:17px;font-weight:900;box-shadow:inset 0 0 12px #ff7a1a25}
+.ow-rank-hero small{display:block;margin-top:4px;font-size:10px;line-height:1.45;color:#ffb679}
+@media(max-width:680px){.ow-rank-map-panel{padding:12px}.ow-rank-map-controls>div:first-child{min-width:0;width:100%}.ow-rank-map-tags{width:100%}}
