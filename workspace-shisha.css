@@ -1,0 +1,18 @@
+/* Shisha timer integrated into the clock card */
+.ws-shisha{margin-top:22px;padding-top:18px;border-top:1px solid #494048}
+.ws-shisha-header{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
+.ws-shisha-header h3{margin:0;font-size:16px}
+.ws-shisha-status{font-size:11px;color:#c7a690}
+.ws-shisha-presets{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+.ws-shisha-preset{min-height:39px;border:1px solid #54433a;border-radius:8px;background:#282127;color:#e5d5cb;font-size:12px;font-weight:700;padding:7px 4px}
+.ws-shisha-preset[aria-pressed=true]{border-color:#ff8c3a;background:#ff7a1a26;color:#ffbf8c}
+.ws-shisha-preset:focus-visible,.ws-shisha-action:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.ws-shisha-display{font:800 clamp(30px,4vw,43px)/1.15 ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",monospace;letter-spacing:2px;font-variant-numeric:tabular-nums;text-align:center;margin:15px 0 10px;color:#f5eff1}
+.ws-shisha-progress{height:5px;background:#3c3239;border-radius:99px;overflow:hidden}
+.ws-shisha-progress-bar{height:100%;width:100%;background:linear-gradient(90deg,#ff9b4c,#ff6e20);border-radius:inherit;transition:width .2s linear}
+.ws-shisha-actions{display:flex;gap:8px;margin-top:13px}
+.ws-shisha-action{flex:1;min-height:42px;border:1px solid #58463f;background:#2c2429;color:#fff;border-radius:9px;font-size:12px;font-weight:700}
+.ws-shisha-action-primary{background:#ff7a1a;color:#18100a;border-color:#ff7a1a}
+.ws-shisha-action:disabled{opacity:.45;cursor:not-allowed}
+.ws-shisha-finished .ws-shisha-display{color:#ffb27c}
+@media(max-width:420px){.ws-shisha-presets{gap:4px}.ws-shisha-preset{font-size:11px;padding:7px 2px}.ws-shisha-display{font-size:34px}}
