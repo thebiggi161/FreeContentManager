@@ -8,7 +8,7 @@ let width=0,height=0,ratio=1,frame=0,last=0,start=0;
 let sparks=[],flames=[];
 const noise=(t,p)=>Math.sin(t*1.3+p)*.5+Math.sin(t*2.7+p*1.7)*.3+Math.sin(t*4.1+p*.7)*.2;
 function seedSpark(initial){
- return {x:Math.random()*width,y:initial?Math.random()*height:Math.random()*height,
+ return {x:Math.random()*width,y:initial?height-Math.random()*Math.min(height*.5,320):height+5,
  speed:16+Math.random()*30,drift:Math.random()*24-12,size:.7+Math.random()*1.3,
  life:0,maxLife:5+Math.random()*5,phase:Math.random()*Math.PI*2};
 }
@@ -17,29 +17,33 @@ function resize(){
  canvas.width=Math.round(width*ratio);canvas.height=Math.round(height*ratio);
  ctx.setTransform(ratio,0,0,ratio,0,0);
  sparks=Array.from({length:width<600?22:42},()=>seedSpark(true));
- flames=Array.from({length:width<600?30:66},()=>({
- x:Math.random()*width,y:Math.random()*(height+150),w:12+Math.random()*28,
- h:65+Math.random()*150,phase:Math.random()*40,speed:.45+Math.random()*.5
+ flames=Array.from({length:Math.max(28,Math.min(110,Math.ceil(width/13)))},()=>({
+ x:Math.random()*width,y:height+14,w:26+Math.random()*52,
+ h:35+Math.random()*Math.min(155,height*.23),phase:Math.random()*40,speed:.75+Math.random()*.7
  }));
  if(reduce.matches)paint(0,0,false);
 }
 function paint(t,dt,moving){
  ctx.clearRect(0,0,width,height);
- const ambient=ctx.createRadialGradient(width*.5,height*.7,0,width*.5,height*.7,Math.max(width,height)*.8);
- ambient.addColorStop(0,'rgba(190,48,6,.045)');ambient.addColorStop(1,'rgba(140,30,0,0)');
- ctx.fillStyle=ambient;ctx.fillRect(0,0,width,height);
+ const groundHeight=Math.min(240,height*.34);
+ const ambient=ctx.createLinearGradient(0,height+10,0,height-groundHeight);
+ ambient.addColorStop(0,'rgba(255,72,5,.19)');
+ ambient.addColorStop(.24,'rgba(220,57,4,.08)');
+ ambient.addColorStop(.65,'rgba(170,38,3,.025)');
+ ambient.addColorStop(1,'rgba(140,30,0,0)');
+ ctx.fillStyle=ambient;ctx.fillRect(0,height-groundHeight,width,groundHeight);
  if(!moving){maskBanners();return;}
  ctx.globalCompositeOperation='screen';
  for(const flame of flames){
   const time=t*flame.speed,phase=flame.phase;
   const pulse=.8+noise(time,phase)*.18;
   const h=flame.h*pulse,w=flame.w*(.85+noise(time*.8,phase+8)*.15);
-  const bend=noise(time,phase+3)*w*.9,tip=noise(time*1.15,phase+5)*w*.65;
+  const bend=noise(time,phase+3)*w*.85,tip=noise(time*1.15,phase+5)*w*.95;
   // Each tongue tapers independently, with a soft root and a wandering tip.
   const gradient=ctx.createLinearGradient(flame.x,flame.y+16,flame.x,flame.y-h);
   gradient.addColorStop(0,'rgba(185,32,2,0)');
-  gradient.addColorStop(.16,'rgba(245,66,6,.055)');
-  gradient.addColorStop(.42,'rgba(255,119,23,.065)');
+  gradient.addColorStop(.16,'rgba(245,66,6,.11)');
+  gradient.addColorStop(.42,'rgba(255,119,23,.08)');
   gradient.addColorStop(.68,'rgba(255,159,52,.045)');
   gradient.addColorStop(1,'rgba(255,103,12,0)');
   ctx.fillStyle=gradient;
