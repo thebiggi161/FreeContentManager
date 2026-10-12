@@ -5,7 +5,8 @@ document.body.prepend(canvas);
 const ctx=canvas.getContext('2d');if(!ctx)return;
 const reduce=window.matchMedia('(prefers-reduced-motion: reduce)');
 let width=0,height=0,ratio=1,frame=0,last=0,start=0;
-let sparks=[];
+let sparks=[],flames=[];
+const noise=(t,p)=>Math.sin(t*1.3+p)*.5+Math.sin(t*2.7+p*1.7)*.3+Math.sin(t*4.1+p*.7)*.2;
 function seedSpark(initial){
  return {x:Math.random()*width,y:initial?Math.random()*height:Math.random()*height,
  speed:16+Math.random()*30,drift:Math.random()*24-12,size:.7+Math.random()*1.3,
@@ -16,34 +17,45 @@ function resize(){
  canvas.width=Math.round(width*ratio);canvas.height=Math.round(height*ratio);
  ctx.setTransform(ratio,0,0,ratio,0,0);
  sparks=Array.from({length:width<600?22:42},()=>seedSpark(true));
+ flames=Array.from({length:width<600?30:66},()=>({
+ x:Math.random()*width,y:Math.random()*(height+150),w:12+Math.random()*28,
+ h:65+Math.random()*150,phase:Math.random()*40,speed:.45+Math.random()*.5
+ }));
  if(reduce.matches)paint(0,0,false);
 }
 function paint(t,dt,moving){
  ctx.clearRect(0,0,width,height);
- const bandHeight=Math.max(180,height*.38);
- for(let band=0;band<4;band++){
-  const baseline=height*(band+1)/4+bandHeight*.22;
-  const cx=width*(.25+.5*((Math.sin(t*.12+band*2)+1)/2));
-  const glow=ctx.createRadialGradient(cx,baseline-bandHeight*.4,0,cx,baseline-bandHeight*.4,Math.max(width*.55,bandHeight));
-  glow.addColorStop(0,'rgba(255,94,15,.055)');glow.addColorStop(.5,'rgba(200,50,5,.025)');glow.addColorStop(1,'rgba(100,20,0,0)');
-  ctx.fillStyle=glow;ctx.fillRect(0,0,width,height);
-  if(!moving)continue;
-  for(let layer=0;layer<2;layer++){
-   const gradient=ctx.createLinearGradient(0,baseline+bandHeight*.15,0,baseline-bandHeight);
-   gradient.addColorStop(0,'rgba(255,95,15,0)');
-   gradient.addColorStop(.28,'rgba(255,105,20,'+(.085-layer*.025)+')');
-   gradient.addColorStop(.62,'rgba(220,57,8,.035)');
-   gradient.addColorStop(1,'rgba(255,130,35,0)');
-   ctx.fillStyle=gradient;ctx.beginPath();ctx.moveTo(-20,baseline+bandHeight*.15);
-   for(let x=-20;x<=width+30;x+=8){
-    const wave=(Math.sin(x*.017+t*.65+layer*1.7+band)+Math.sin(x*.039-t*.85+layer+band)*.45)/1.45;
-    const tongues=Math.pow((Math.sin(x*.027+t*.52+layer*2+band*1.8)+1)/2,3);
-    ctx.lineTo(x,baseline-bandHeight*(.25+wave*.11+tongues*.65));
-   }
-   ctx.lineTo(width+30,baseline+bandHeight*.15);ctx.closePath();ctx.fill();
-  }
- }
+ const ambient=ctx.createRadialGradient(width*.5,height*.7,0,width*.5,height*.7,Math.max(width,height)*.8);
+ ambient.addColorStop(0,'rgba(190,48,6,.045)');ambient.addColorStop(1,'rgba(140,30,0,0)');
+ ctx.fillStyle=ambient;ctx.fillRect(0,0,width,height);
  if(!moving){maskBanners();return;}
+ ctx.globalCompositeOperation='screen';
+ for(const flame of flames){
+  const time=t*flame.speed,phase=flame.phase;
+  const pulse=.8+noise(time,phase)*.18;
+  const h=flame.h*pulse,w=flame.w*(.85+noise(time*.8,phase+8)*.15);
+  const bend=noise(time,phase+3)*w*.9,tip=noise(time*1.15,phase+5)*w*.65;
+  // Each tongue tapers independently, with a soft root and a wandering tip.
+  const gradient=ctx.createLinearGradient(flame.x,flame.y+16,flame.x,flame.y-h);
+  gradient.addColorStop(0,'rgba(185,32,2,0)');
+  gradient.addColorStop(.16,'rgba(245,66,6,.055)');
+  gradient.addColorStop(.42,'rgba(255,119,23,.065)');
+  gradient.addColorStop(.68,'rgba(255,159,52,.045)');
+  gradient.addColorStop(1,'rgba(255,103,12,0)');
+  ctx.fillStyle=gradient;
+  ctx.beginPath();ctx.moveTo(flame.x-w*.55,flame.y+12);
+  ctx.bezierCurveTo(flame.x-w*.9,flame.y-h*.28,flame.x+bend-w*.5,flame.y-h*.65,flame.x+tip,flame.y-h);
+  ctx.bezierCurveTo(flame.x+bend+w*.1,flame.y-h*.65,flame.x+w*.85,flame.y-h*.25,flame.x+w*.55,flame.y+12);
+  ctx.closePath();ctx.fill();
+  // A narrower warm core gives the flame depth without brightening the page.
+  const core=ctx.createLinearGradient(0,flame.y+8,0,flame.y-h*.72);
+  core.addColorStop(0,'rgba(255,120,20,0)');core.addColorStop(.3,'rgba(255,183,76,.035)');core.addColorStop(1,'rgba(255,214,128,0)');
+  ctx.fillStyle=core;ctx.beginPath();ctx.moveTo(flame.x-w*.2,flame.y+8);
+  ctx.bezierCurveTo(flame.x-w*.28,flame.y-h*.2,flame.x+bend*.4,flame.y-h*.4,flame.x+tip*.6,flame.y-h*.72);
+  ctx.bezierCurveTo(flame.x+w*.18,flame.y-h*.3,flame.x+w*.25,flame.y-h*.12,flame.x+w*.2,flame.y+8);
+  ctx.closePath();ctx.fill();
+ }
+ ctx.globalCompositeOperation='source-over';
  for(let i=0;i<sparks.length;i++){
   let p=sparks[i];p.life+=dt;p.y-=p.speed*dt;p.x+=(p.drift+Math.sin(t*1.5+p.phase)*10)*dt;
   if(p.life>p.maxLife||p.y<-10||p.x<-20||p.x>width+20){p=seedSpark(false);sparks[i]=p;}
