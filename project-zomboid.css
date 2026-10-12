@@ -1,0 +1,23 @@
+/* Project Zomboid hub */
+.pz-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:17px 0 25px}
+.pz-card{min-width:0;border:1px solid #3d463a;border-radius:14px;background:linear-gradient(155deg,#1d241d,#111513);padding:18px;color:#e4e9e0}
+.pz-card h2,.pz-card h3{font-size:16px;margin:0 0 10px;color:#d7e8bc}
+.pz-card p,.pz-card li{font-size:12px;color:#c0c8bb;line-height:1.65}
+.pz-card p:last-child{margin-bottom:0}
+.pz-card ul{padding-left:18px;margin:8px 0 0}
+.pz-kicker{font-size:10px;text-transform:uppercase;color:#a7c981;letter-spacing:1.1px;font-weight:800;margin-bottom:8px}
+.pz-number{display:inline-grid;place-items:center;width:34px;height:34px;border:1px solid #637a4b;border-radius:10px;background:#2b3824;color:#e6f5d2;font-weight:900;margin-bottom:12px}
+.pz-wide{grid-column:span 2}
+.pz-columns{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:16px 0}
+.pz-callout{padding:14px 17px;background:#273024;border:1px solid #586c48;border-radius:12px;color:#d8e5cb;font-size:12px;line-height:1.65;margin:15px 0}
+.pz-checklist{display:grid;gap:8px;margin-top:14px}
+.pz-check{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid #424e3c;background:#171c17;border-radius:9px;font-size:12px;color:#e3eade;cursor:pointer}
+.pz-check input{width:18px;height:18px;accent-color:#98bc70;flex:none}
+.pz-check:has(input:checked) span{text-decoration:line-through;color:#889782}
+.pz-progress{font-size:12px;color:#a7c981;margin-top:12px}
+.pz-tag{display:inline-block;margin:3px 5px 3px 0;padding:4px 9px;border:1px solid #52664b;border-radius:50px;color:#c5deb0;font-size:11px}
+.pz-link{color:#c1e19e;text-decoration:none;border-bottom:1px solid #79955f}
+.pz-link:hover{text-decoration:underline}
+.pz-note{font-size:11px;color:#939f90;line-height:1.6;margin-top:18px}
+@media(max-width:1100px){.pz-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.pz-wide{grid-column:span 2}}
+@media(max-width:650px){.pz-grid,.pz-columns{grid-template-columns:1fr}.pz-wide{grid-column:span 1}.pz-card{padding:14px}}
