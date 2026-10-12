@@ -27,3 +27,30 @@
 .ws-calendar-foot-dot{width:7px;height:7px;background:#ff8b40;border-radius:50%}
 @media(max-width:850px){.ws-timeboard{grid-template-columns:1fr}.ws-clock-display{font-size:clamp(37px,9vw,60px)}}
 @media(max-width:480px){.ws-time-card{padding:13px}.ws-calendar-day{min-height:37px}.ws-calendar-weekdays,.ws-calendar-days{gap:3px}.ws-calendar-head h2{font-size:16px}.ws-calendar-nav button{min-width:34px;min-height:36px}}
+
+/* Appointment calendar: preserves the existing monthly grid and card. */
+button.ws-calendar-day{position:relative;background:transparent;font:inherit;font-size:13px;padding:4px;cursor:pointer;min-height:43px}
+button.ws-calendar-day:hover{background:#ff7a1a15;border-color:#76523a}
+button.ws-calendar-day.ws-calendar-selected{outline:2px solid #ffad70;outline-offset:-3px}
+.ws-calendar-event-count{position:absolute;right:3px;top:2px;font-size:9px;line-height:14px;min-width:14px;border-radius:7px;background:#ff7a1a;color:#151515;text-align:center}
+.ws-agenda{margin-top:18px;padding-top:16px;border-top:1px solid #39343a}
+.ws-agenda-head{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.ws-agenda-head h3{font-size:14px;margin:0;overflow-wrap:anywhere}
+.ws-agenda-hint,.ws-agenda-empty{color:#aaa5ad;font-size:11px}
+#wsEventStatus{font-size:12px;color:#ffb77c;overflow-wrap:anywhere}
+#wsEventStatus:empty{display:none}
+.ws-event{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid #39343a}
+.ws-event>div:first-child{min-width:0;flex:1;overflow-wrap:anywhere}
+.ws-event strong{display:block;font-size:13px}
+.ws-event-time{display:block;font-size:11px;color:#ffb77c;margin-bottom:3px}
+.ws-event p{font-size:12px;color:#bcb5bf;margin:5px 0 0;white-space:pre-wrap}
+.ws-event-actions{display:flex;gap:6px;flex-wrap:wrap}
+.ws-event-actions .btn,.ws-agenda-head .btn{font-size:11px;min-height:38px}
+#wsEventForm{padding:14px;margin-top:12px;border:1px solid #554237;border-radius:10px;background:#171518}
+#wsEventForm[hidden]{display:none}
+#wsEventForm h4{margin:0 0 12px}
+#wsEventForm label{display:block;font-size:12px;color:#c7bfc6;margin-bottom:12px;min-width:0}
+#wsEventForm input,#wsEventForm textarea{display:block;margin-top:5px;width:100%;min-width:0;max-width:100%;border:1px solid #504039;border-radius:7px;background:#101115;color:#f5f5f7;padding:9px;font:inherit;color-scheme:dark}
+#wsEventForm textarea{resize:vertical}
+.ws-event-fields{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:480px){.ws-event{flex-direction:column}.ws-event-fields{grid-template-columns:1fr}.ws-agenda-head{align-items:flex-start}.ws-agenda-head .btn{flex-shrink:0}}
